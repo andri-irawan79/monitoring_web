@@ -17,7 +17,6 @@ import {
 } from "../services/monitoringService";
 
 import {
-    getVarietas,
     getFase
 } from "../services/masterService";
 
@@ -29,15 +28,11 @@ import {
 
 const monitoring = ref(null);
 
-const varietas = ref([]);
-
 const fases = ref([]);
 
 const recommendation = ref(null);
 
 const history = ref([]);
-
-const selectedVarietas = ref(1);
 
 const selectedFase = ref(1);
 
@@ -54,9 +49,6 @@ const loadData = async () => {
 
     monitoring.value =
         await getLatestMonitoring();
-
-    varietas.value =
-        await getVarietas();
 
     fases.value =
         await getFase();
@@ -79,8 +71,6 @@ const generate = async () => {
             await generateRecommendation(
 
                 monitoring.value.id,
-
-                selectedVarietas.value,
 
                 selectedFase.value
 
@@ -143,11 +133,7 @@ onMounted(loadData);
         <div class="xl:col-span-1">
             <RecommendationForm
 
-              :varietas="varietas"
-
               :fases="fases"
-
-              v-model:selectedVarietas="selectedVarietas"
 
               v-model:selectedFase="selectedFase"
 
