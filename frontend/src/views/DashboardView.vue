@@ -75,7 +75,7 @@ onMounted(async () => {
 
   refreshInterval = setInterval(() => {
     checkLatestMonitoring();
-  }, 500);
+  }, 2000);
 });
 
 onBeforeUnmount(() => {
