@@ -20,15 +20,12 @@ export const getRecommendationHistory = async () => {
 
 export const generateRecommendation = async (
   monitoringId,
-  varietasId,
   faseId
 ) => {
-
   const response = await axios.post(
     `${API_URL}/recommendation/generate`,
     {
       monitoring_id: monitoringId,
-      varietas_id: varietasId,
       fase_id: faseId
     }
   );
@@ -37,13 +34,8 @@ export const generateRecommendation = async (
 };
 
 export const exportRecommendationCSV = () => {
-
-    window.open(
-
-        `${API_URL}/recommendation/export`,
-
-        "_blank"
-
-    );
-
+  window.open(
+    `${API_URL}/recommendation/export`,
+    "_blank"
+  );
 };
