@@ -19,15 +19,8 @@ router = APIRouter()
 def generate(payload: dict):
 
     return generate_recommendation(
-
-        monitoring_id=
-            payload["monitoring_id"],
-
-        varietas_id=
-            payload["varietas_id"],
-
-        fase_id=
-            payload["fase_id"]
+        monitoring_id=payload["monitoring_id"],
+        fase_id=payload["fase_id"]
     )
 
 # @router.get("/latest")
