@@ -3,11 +3,7 @@ from services.recommendation_service import (
 )
 
 hasil = generate_recommendation(
-
     monitoring_id=1,
-
-    varietas_id=1,
-
     fase_id=1
 )
 
