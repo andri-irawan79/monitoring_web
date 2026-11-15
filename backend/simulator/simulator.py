@@ -27,6 +27,7 @@ API_URL = os.getenv(
 API_URL = API_URL.rstrip("/") + "/"
 
 RECORD_LIMIT = 365
+SAMPLE_SEED = 42
 INTERVAL_SECONDS = float(os.getenv("SIMULATOR_INTERVAL_SECONDS", "2"))
 START_DATE = date.fromisoformat(
     os.getenv("SIMULATOR_START_DATE", "2026-01-01")
@@ -43,7 +44,75 @@ REQUIRED_COLUMNS = {
     "humidity",
     "ph",
     "rainfall",
+    "label",
 }
+
+
+def stratified_sample(
+    dataframe: pd.DataFrame,
+    sample_size: int,
+    label_column: str = "label",
+    random_seed: int = SAMPLE_SEED,
+) -> pd.DataFrame:
+    """
+    Memilih sampel proporsional berdasarkan label tanaman.
+
+    Kolom label hanya digunakan sebagai strata agar urutan data yang
+    berkelompok menurut tanaman tidak menyebabkan sampel hanya memuat
+    sebagian label. Label tidak dikirim ke backend dan tidak menjadi
+    variabel monitoring atau input Fuzzy Tsukamoto.
+    """
+    if label_column not in dataframe.columns:
+        raise ValueError(
+            f"Kolom strata '{label_column}' tidak ditemukan."
+        )
+    if sample_size <= 0 or sample_size > len(dataframe):
+        raise ValueError("Ukuran sampel harus antara 1 dan jumlah record.")
+
+    grouped = [
+        (str(label), group)
+        for label, group in dataframe.groupby(label_column, sort=True)
+    ]
+    if not grouped:
+        raise ValueError("Tidak ditemukan kelompok label untuk sampling.")
+
+    exact_quotas = {
+        label: sample_size * len(group) / len(dataframe)
+        for label, group in grouped
+    }
+    quotas = {
+        label: int(value)
+        for label, value in exact_quotas.items()
+    }
+
+    remainder = sample_size - sum(quotas.values())
+    order = sorted(
+        exact_quotas,
+        key=lambda label: (-(exact_quotas[label] - quotas[label]), label)
+    )
+    for label in order[:remainder]:
+        quotas[label] += 1
+
+    sampled_groups = []
+    for index, (label, group) in enumerate(grouped):
+        quota = quotas[label]
+        if quota > len(group):
+            raise ValueError(
+                f"Kuota sampel untuk label '{label}' melebihi jumlah record."
+            )
+        sampled_groups.append(
+            group.sample(
+                n=quota,
+                replace=False,
+                random_state=random_seed + index,
+            )
+        )
+
+    sampled = pd.concat(sampled_groups, ignore_index=True)
+    return (
+        sampled.sample(frac=1, random_state=random_seed)
+        .reset_index(drop=True)
+    )
 
 
 def send_record(payload: dict) -> dict:
@@ -139,7 +208,12 @@ def main() -> None:
             f"minimal {RECORD_LIMIT} record diperlukan."
         )
 
-    dataframe = dataframe.head(RECORD_LIMIT).copy()
+    dataframe = stratified_sample(
+        dataframe,
+        sample_size=RECORD_LIMIT,
+        label_column="label",
+        random_seed=SAMPLE_SEED,
+    )
 
     print("=" * 72)
     print("SIMULATOR MONITORING DURIAN - HTTP REST API")
@@ -147,9 +221,14 @@ def main() -> None:
     print(f"Dataset       : {DATASET_PATH}")
     print(f"Endpoint      : {API_URL}")
     print(f"Jumlah record : {len(dataframe)}")
+    print(f"Metode sampel : Stratified sampling berdasarkan label")
+    print(f"Random seed   : {SAMPLE_SEED}")
+    print("Distribusi sampel:")
+    print(dataframe["label"].value_counts().sort_index().to_string())
     print(f"Interval      : {INTERVAL_SECONDS} detik")
     print(f"Tanggal awal  : {START_DATE.isoformat()}")
     print("Metode        : HTTP POST dengan payload JSON")
+    print("Kolom label hanya untuk stratifikasi; tidak dikirim ke API.")
     print("=" * 72)
 
     success_count = 0
