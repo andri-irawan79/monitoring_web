@@ -264,9 +264,9 @@ def export_csv():
 
         writer.writerow([
             "Tanggal",
-            "Nitrogen (mg/kg)",
-            "Fosfor (mg/kg)",
-            "Kalium (mg/kg)",
+            "Nitrogen (ppm)",
+            "Fosfor (ppm)",
+            "Kalium (ppm)",
             "pH",
             "Temperatur (°C)",
             "Kelembapan (%)",
