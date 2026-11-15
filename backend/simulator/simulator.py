@@ -1,7 +1,7 @@
 """
 Simulator data monitoring durian melalui HTTP REST API.
 
-Program ini membaca 365 record pertama dari Crop_recommendation.csv,
+Program ini membaca 365 record pertama dari Crop_recommendationV2.csv,
 kemudian mengirimkannya langsung ke endpoint POST FastAPI. MQTT tidak
 digunakan dalam alur simulasi ini.
 """
@@ -18,7 +18,7 @@ import pandas as pd
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-DATASET_PATH = BASE_DIR / "Crop_recommendation.csv"
+DATASET_PATH = BASE_DIR / "Crop_recommendationV2.csv"
 
 API_URL = os.getenv(
     "MONITORING_API_URL",
