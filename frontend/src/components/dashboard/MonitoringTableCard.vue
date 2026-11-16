@@ -74,7 +74,7 @@ function status(item) {
 
 <BaseCard>
 
-    <div class="flex justify-between items-center mb-6">
+    <div class="mb-5 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
 
         <div>
 
@@ -92,14 +92,14 @@ function status(item) {
             v-model="search"
             type="text"
             placeholder="Cari tanggal..."
-            class="border rounded-xl px-4 py-2 text-sm w-56"
+            class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-green-500 focus:ring-2 focus:ring-green-100 sm:w-56"
         >
 
     </div>
 
     <div class="overflow-x-auto">
 
-        <table class="min-w-full">
+        <table class="min-w-full whitespace-nowrap text-sm">
 
             <thead>
 
