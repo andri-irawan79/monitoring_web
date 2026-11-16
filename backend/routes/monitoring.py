@@ -57,16 +57,32 @@ def _create_session(db, mode):
     active = (
         db.query(SimulationSession)
         .filter(SimulationSession.status.in_(("starting", "running")))
+        .with_for_update()
         .first()
     )
     if active is not None:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=(
-                "Masih ada sesi simulasi yang berjalan. "
-                "Hentikan atau selesaikan sesi tersebut terlebih dahulu."
-            ),
+        activity_at = active.last_received_at or active.started_at
+        age_seconds = (
+            (datetime.utcnow() - activity_at).total_seconds()
+            if activity_at
+            else SIMULATOR_STATUS_TIMEOUT_SECONDS + 1
         )
+        if age_seconds > SIMULATOR_STATUS_TIMEOUT_SECONDS:
+            active.status = "failed"
+            active.finished_at = datetime.utcnow()
+            active.error_message = (
+                "Sesi sebelumnya tidak menerima data baru dalam "
+                f"{SIMULATOR_STATUS_TIMEOUT_SECONDS:g} detik."
+            )
+            db.commit()
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=(
+                    "Masih ada sesi simulasi yang berjalan. "
+                    "Hentikan atau selesaikan sesi tersebut terlebih dahulu."
+                ),
+            )
 
     session = SimulationSession(
         id=str(uuid4()),
