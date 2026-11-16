@@ -3,7 +3,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from auth import create_access_token, get_current_user, hash_password, verify_password
 from database.session import SessionLocal
 from models.user import User
-from schemas.auth import LoginRequest, LoginResponse, RegisterRequest
+from schemas.auth import (
+    ChangePasswordRequest,
+    LoginRequest,
+    LoginResponse,
+    RegisterRequest
+)
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -61,7 +66,7 @@ def login(payload: LoginRequest):
                 detail="Email atau kata sandi tidak sesuai."
             )
         return {
-            "access_token": create_access_token(user.id),
+            "access_token": create_access_token(user.id, user.auth_version),
             "token_type": "bearer",
             "user": {
                 "id": user.id,
@@ -69,6 +74,59 @@ def login(payload: LoginRequest):
                 "email": user.email
             }
         }
+    finally:
+        db.close()
+
+
+@router.post("/change-password")
+def change_password(
+    payload: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user)
+):
+    db = SessionLocal()
+    try:
+        user = (
+            db.query(User)
+            .filter(User.id == current_user.id, User.is_active.is_(True))
+            .with_for_update()
+            .first()
+        )
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Akun tidak ditemukan atau tidak aktif."
+            )
+
+        if not verify_password(payload.current_password, user.password_hash):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Kata sandi saat ini tidak sesuai."
+            )
+
+        if verify_password(payload.new_password, user.password_hash):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Kata sandi baru harus berbeda dari kata sandi saat ini."
+            )
+
+        user.password_hash = hash_password(payload.new_password)
+        user.auth_version = int(user.auth_version or 0) + 1
+        db.commit()
+        db.refresh(user)
+
+        # Rotate this browser's token while invalidating tokens issued to
+        # other sessions/devices using the previous auth_version.
+        return {
+            "message": "Kata sandi berhasil diperbarui.",
+            "access_token": create_access_token(user.id, user.auth_version),
+            "token_type": "bearer"
+        }
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
 

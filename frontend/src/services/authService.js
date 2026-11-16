@@ -14,6 +14,15 @@ export async function loginAccount(payload) {
   return response.data.user;
 }
 
+export async function changePassword(payload) {
+  const response = await api.post("/auth/change-password", payload);
+  if (response.data?.access_token) {
+    // The backend rotates the current token and invalidates other sessions.
+    sessionStorage.setItem("access_token", response.data.access_token);
+  }
+  return response.data;
+}
+
 export async function getCurrentAccount() {
   const token = sessionStorage.getItem("access_token");
   if (!token) {

@@ -4,6 +4,7 @@ import DashboardView from "../views/DashboardView.vue";
 import RecommendationView from "../views/RecommendationView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
+import AccountSecurityView from "../views/AccountSecurityView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -35,6 +36,12 @@ const router = createRouter({
       path: "/recommendation",
       name: "recommendation",
       component: RecommendationView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/account/security",
+      name: "account-security",
+      component: AccountSecurityView,
       meta: { requiresAuth: true }
     }
   ]

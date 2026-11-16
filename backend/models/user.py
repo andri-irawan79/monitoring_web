@@ -11,6 +11,7 @@ class User(Base):
     full_name = Column(String(100), nullable=False)
     email = Column(String(255), nullable=False, unique=True, index=True)
     password_hash = Column(String(255), nullable=False)
+    auth_version = Column(Integer, nullable=False, default=0, server_default="0")
     is_active = Column(Boolean, nullable=False, default=True, server_default="true")
     created_at = Column(
         DateTime(timezone=True),
