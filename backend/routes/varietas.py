@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from auth import get_current_user
+from models.user import User
 from sqlalchemy import text
 
 from database.session import SessionLocal
@@ -10,7 +12,7 @@ router = APIRouter(
 
 
 @router.get("/")
-def get_varietas():
+def get_varietas(current_user: User = Depends(get_current_user)):
 
     db = SessionLocal()
 
