@@ -23,7 +23,7 @@ function badge(kategori) {
     <div class="mb-5 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2 class="text-xl font-bold">Riwayat Rekomendasi</h2>
-        <p class="text-slate-500 text-sm">10 rekomendasi terakhir untuk Durian Montong</p>
+        <p class="text-sm text-slate-500">10 rekomendasi terakhir untuk Durian Montong</p>
       </div>
       <button
         type="button"
@@ -54,7 +54,7 @@ function badge(kategori) {
           <tr
             v-for="item in recommendations"
             :key="item.id"
-            class="border-b hover:bg-slate-50 transition"
+            class="border-b transition hover:bg-slate-50"
           >
             <td class="px-4 py-3">{{ item.created_at }}</td>
             <td class="px-4 py-3">{{ item.nitrogen }}</td>
@@ -67,11 +67,19 @@ function badge(kategori) {
             <td class="px-4 py-3">{{ item.dosis }} kg</td>
             <td class="px-4 py-3">
               <span
-                class="px-3 py-1 rounded-full text-xs font-medium"
+                class="rounded-full px-3 py-1 text-xs font-medium"
                 :class="badge(item.kategori)"
               >
                 {{ item.kategori }}
               </span>
+            </td>
+          </tr>
+          <tr v-if="!recommendations.length">
+            <td colspan="10" class="px-4 py-10 text-center">
+              <p class="font-medium text-slate-700">Belum ada riwayat rekomendasi</p>
+              <p class="mt-1 whitespace-normal text-sm text-slate-500">
+                Rekomendasi yang berhasil dibuat akan tersimpan dan ditampilkan pada tabel ini.
+              </p>
             </td>
           </tr>
         </tbody>
