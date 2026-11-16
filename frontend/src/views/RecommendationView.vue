@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { CheckCircle2, CircleAlert, LoaderCircle, X } from "lucide-vue-next";
 
 import RecommendationHeader from "../components/recommendation/RecommendationHeader.vue";
@@ -29,6 +29,11 @@ const selectedFase = ref(1);
 const loading = ref(false);
 const pageLoading = ref(true);
 const successMessage = ref("");
+const successTitle = ref("Rekomendasi berhasil dibuat!");
+const successTimer = ref(null);
+const showDeleteConfirm = ref(false);
+const selectedDeleteItem = ref(null);
+const cancelDeleteButton = ref(null);
 const errorTitle = ref("");
 const errorMessage = ref("");
 const historyWarning = ref("");
@@ -182,19 +187,32 @@ const generate = async () => {
     // Notifikasi keberhasilan baru ditampilkan setelah animasi proses
     // benar-benar selesai dan overlay loading sudah ditutup.
     if (recommendationCreated) {
+        successTitle.value = "Rekomendasi berhasil dibuat!";
         successMessage.value =
             "Rekomendasi berhasil dihitung dan disimpan. Hasil terbaru sudah ditampilkan.";
+        if (successTimer.value) window.clearTimeout(successTimer.value);
+        successTimer.value = window.setTimeout(() => { successMessage.value = ""; }, 4500);
     }
 };
 
 
-const removeRecommendation = async (item) => {
+const requestDeleteRecommendation = async (item) => {
     if (!item?.id || deletingId.value !== null) return;
+    selectedDeleteItem.value = item;
+    showDeleteConfirm.value = true;
+    await nextTick();
+    cancelDeleteButton.value?.focus();
+};
 
-    const confirmed = window.confirm(
-        `Apakah Anda yakin ingin menghapus rekomendasi untuk fase "${item.fase || "-"}" dengan pupuk "${item.jenis_pupuk || "-"}"? Data yang dihapus tidak dapat dikembalikan.`
-    );
-    if (!confirmed) return;
+const closeDeleteConfirmation = () => {
+    showDeleteConfirm.value = false;
+    selectedDeleteItem.value = null;
+};
+
+const removeRecommendation = async () => {
+    const item = selectedDeleteItem.value;
+    if (!item?.id || deletingId.value !== null) return;
+    showDeleteConfirm.value = false;
 
     deletingId.value = item.id;
     historyWarning.value = "";
@@ -210,6 +228,11 @@ const removeRecommendation = async (item) => {
             defuzzification.value = {};
             hasGeneratedAnalysis.value = false;
         }
+
+        successTitle.value = "Data berhasil dihapus";
+        successMessage.value = "Data riwayat rekomendasi telah berhasil dihapus dari sistem.";
+        if (successTimer.value) window.clearTimeout(successTimer.value);
+        successTimer.value = window.setTimeout(() => { successMessage.value = ""; }, 4500);
     } catch (error) {
         console.error("Gagal menghapus rekomendasi:", error);
         errorTitle.value = "Rekomendasi gagal dihapus";
@@ -219,10 +242,14 @@ const removeRecommendation = async (item) => {
             "Terjadi kesalahan saat menghapus rekomendasi. Silakan coba kembali.";
     } finally {
         deletingId.value = null;
+        selectedDeleteItem.value = null;
     }
 };
 
 onMounted(loadData);
+onUnmounted(() => {
+    if (successTimer.value) window.clearTimeout(successTimer.value);
+});
 </script>
 
 <template>
@@ -250,7 +277,7 @@ onMounted(loadData);
             >
                 <CheckCircle2 class="mt-0.5 h-5 w-5 shrink-0 text-green-600" />
                 <div class="min-w-0 flex-1">
-                    <p class="text-sm font-semibold">Rekomendasi berhasil dibuat!</p>
+                    <p class="text-sm font-semibold">{{ successTitle }}</p>
                     <p class="mt-1 text-sm leading-relaxed text-green-700">
                         {{ successMessage }}
                     </p>
@@ -259,7 +286,7 @@ onMounted(loadData);
                     type="button"
                     class="rounded-lg p-1 text-green-700 transition hover:bg-green-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500"
                     aria-label="Tutup pesan keberhasilan"
-                    @click="successMessage = ''"
+                    @click="successMessage = ''; if (successTimer) window.clearTimeout(successTimer)"
                 >
                     <X class="h-4 w-4" />
                 </button>
@@ -420,10 +447,26 @@ onMounted(loadData);
             </div>
 
             <div v-if="!loading" class="xl:col-span-2">
-                <RecommendationHistoryTable :recommendations="history" :deleting-id="deletingId" @delete="removeRecommendation" />
+                <RecommendationHistoryTable :recommendations="history" :deleting-id="deletingId" @delete="requestDeleteRecommendation" />
             </div>
         </div>
     </div>
+
+    <Teleport to="body">
+        <div v-if="showDeleteConfirm" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-[2px]" role="presentation" @click.self="closeDeleteConfirmation" @keydown.esc.stop.prevent="closeDeleteConfirmation">
+            <section class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description" @click.stop>
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-600"><CircleAlert class="h-6 w-6" /></div>
+                <div class="mt-4 text-center">
+                    <h2 id="delete-dialog-title" class="text-lg font-semibold text-slate-800">Konfirmasi Hapus</h2>
+                    <p id="delete-dialog-description" class="mt-2 text-sm leading-6 text-slate-500">Apakah Anda yakin ingin menghapus rekomendasi untuk fase <strong>{{ selectedDeleteItem?.fase || "-" }}</strong> dengan pupuk <strong>{{ selectedDeleteItem?.jenis_pupuk || "-" }}</strong>? Data yang dihapus tidak dapat dikembalikan.</p>
+                </div>
+                <div class="mt-6 flex items-center justify-end gap-3">
+                    <button ref="cancelDeleteButton" type="button" @click="closeDeleteConfirmation" class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2">Batal</button>
+                    <button type="button" @click="removeRecommendation" class="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2">Hapus</button>
+                </div>
+            </section>
+        </div>
+    </Teleport>
 </template>
 
 <style scoped>
@@ -431,7 +474,7 @@ onMounted(loadData);
 .recommendation-message-leave-active,
 .processing-panel-enter-active,
 .processing-panel-leave-active {
-    transition: opacity 200ms ease, transform 200ms ease;
+    transition: opacity 260ms ease, transform 260ms ease;
 }
 
 .recommendation-message-enter-from,
@@ -439,7 +482,7 @@ onMounted(loadData);
 .processing-panel-enter-from,
 .processing-panel-leave-to {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateX(28px);
 }
 
 .recommendation-progress {
@@ -462,6 +505,13 @@ onMounted(loadData);
     .processing-panel-enter-active,
     .processing-panel-leave-active {
         transition: none;
+    }
+
+    .recommendation-message-enter-from,
+    .recommendation-message-leave-to,
+    .processing-panel-enter-from,
+    .processing-panel-leave-to {
+        transform: none;
     }
 
     .recommendation-progress {
