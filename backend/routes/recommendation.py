@@ -7,6 +7,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 
 from auth import get_current_user
+from constants import PLANT_VARIETY, PLANT_DISPLAY_NAME
 from database.session import SessionLocal
 from models.user import User
 from services.recommendation_service import generate_recommendation
@@ -36,20 +37,23 @@ def latest_recommendation(
                 SELECT
                     r.id,
                     r.monitoring_id,
-                    r.varietas_id,
                     r.fase_id,
-                    v.nama AS varietas,
+                    :varietas AS varietas,
+                    :objek_tanaman AS objek_tanaman,
                     f.nama AS fase,
                     r.jenis_pupuk,
                     r.dosis,
                     r.kategori,
                     r.created_at
                 FROM rekomendasi r
-                JOIN varietas v ON r.varietas_id = v.id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 ORDER BY r.id DESC
                 LIMIT 1
-            """)
+            """),
+            {
+                "varietas": PLANT_VARIETY,
+                "objek_tanaman": PLANT_DISPLAY_NAME
+            }
         )
         row = result.fetchone()
         return dict(row._mapping) if row is not None else None
@@ -74,7 +78,8 @@ def recommendation_history(
                     m.temperature,
                     m.humidity,
                     m.rainfall,
-                    v.nama AS varietas,
+                    :varietas AS varietas,
+                    :objek_tanaman AS objek_tanaman,
                     f.nama AS fase,
                     r.jenis_pupuk,
                     r.dosis,
@@ -82,11 +87,14 @@ def recommendation_history(
                     r.created_at
                 FROM rekomendasi r
                 JOIN monitoring m ON r.monitoring_id = m.id
-                JOIN varietas v ON r.varietas_id = v.id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 ORDER BY r.id DESC
                 LIMIT 10
-            """)
+            """),
+            {
+                "varietas": PLANT_VARIETY,
+                "objek_tanaman": PLANT_DISPLAY_NAME
+            }
         )
         return [dict(row._mapping) for row in result]
     finally:
@@ -109,7 +117,8 @@ def export_csv(
                     m.temperature,
                     m.humidity,
                     m.rainfall,
-                    v.nama AS varietas,
+                    :varietas AS varietas,
+                    :objek_tanaman AS objek_tanaman,
                     f.nama AS fase,
                     r.jenis_pupuk,
                     r.dosis,
@@ -117,10 +126,13 @@ def export_csv(
                     r.created_at
                 FROM rekomendasi r
                 JOIN monitoring m ON r.monitoring_id = m.id
-                JOIN varietas v ON r.varietas_id = v.id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 ORDER BY r.id DESC
-            """)
+            """),
+            {
+                "varietas": PLANT_VARIETY,
+                "objek_tanaman": PLANT_DISPLAY_NAME
+            }
         )
 
         output = io.StringIO()
@@ -134,6 +146,7 @@ def export_csv(
             "Temperatur (°C)",
             "Kelembapan (%)",
             "Curah Hujan (mm)",
+            "Objek Tanaman",
             "Varietas",
             "Fase",
             "Jenis Pupuk",
@@ -152,6 +165,7 @@ def export_csv(
                 row["temperature"],
                 row["humidity"],
                 row["rainfall"],
+                row["objek_tanaman"],
                 row["varietas"],
                 row["fase"],
                 row["jenis_pupuk"],
