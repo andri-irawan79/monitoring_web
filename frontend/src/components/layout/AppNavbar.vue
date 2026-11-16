@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onMounted, ref } from "vue";
-import { Leaf, LogOut, Menu, X, CircleAlert } from "lucide-vue-next";
+import { Leaf, LogOut, Menu, X, CircleAlert, KeyRound } from "lucide-vue-next";
 import { useRouter } from "vue-router";
 import { currentUser } from "../../services/authState";
 import { getCurrentAccount, logoutAccount } from "../../services/authService";
@@ -32,6 +32,10 @@ const closeLogoutConfirmation = async () => {
   showLogoutConfirm.value = false;
   await nextTick();
   logoutButton.value?.focus();
+};
+
+const openAccountSecurity = () => {
+  router.push({ name: "account-security" });
 };
 
 const confirmLogout = () => {
@@ -94,10 +98,20 @@ onMounted(async () => {
             <p class="max-w-36 truncate text-[10px] text-slate-500 sm:max-w-44">{{ userEmail || "Akun pengguna" }}</p>
           </div>
           <button
+            type="button"
+            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-emerald-100 bg-white text-emerald-700 shadow-sm transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
+            aria-label="Ubah kata sandi"
+            title="Ubah kata sandi"
+            @click="openAccountSecurity"
+          >
+            <KeyRound class="h-4 w-4" />
+          </button>
+          <button
             ref="logoutButton"
             type="button"
             class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-rose-100 bg-white text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
             aria-label="Keluar dari akun"
+            title="Keluar dari akun"
             @click="openLogoutConfirmation"
           >
             <LogOut class="h-4 w-4" />
