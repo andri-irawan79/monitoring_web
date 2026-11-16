@@ -22,7 +22,8 @@ def generate(
 ):
     return generate_recommendation(
         monitoring_id=payload["monitoring_id"],
-        fase_id=payload["fase_id"]
+        fase_id=payload["fase_id"],
+        user_id=current_user.id
     )
 
 
@@ -49,10 +50,11 @@ def latest_recommendation(
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
+                WHERE r.user_id = :user_id
                 ORDER BY r.id DESC
                 LIMIT 1
             """),
-            {"varietas": PLANT_VARIETY}
+            {"varietas": PLANT_VARIETY, "user_id": current_user.id}
         )
         row = result.fetchone()
         return dict(row._mapping) if row is not None else None
@@ -89,10 +91,11 @@ def recommendation_history(
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
+                WHERE r.user_id = :user_id
                 ORDER BY r.id DESC
 
             """),
-            {"varietas": PLANT_VARIETY}
+            {"varietas": PLANT_VARIETY, "user_id": current_user.id}
         )
         return [dict(row._mapping) for row in result]
     finally:
@@ -107,8 +110,11 @@ def delete_recommendation(
     db = SessionLocal()
     try:
         existing = db.execute(
-            text("SELECT id FROM rekomendasi WHERE id = :id"),
-            {"id": recommendation_id}
+            text(
+                "SELECT id FROM rekomendasi "
+                "WHERE id = :id AND user_id = :user_id"
+            ),
+            {"id": recommendation_id, "user_id": current_user.id}
         ).fetchone()
 
         if existing is None:
@@ -170,9 +176,10 @@ def export_csv(
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
+                WHERE r.user_id = :user_id
                 ORDER BY r.id DESC
             """),
-            {"varietas": PLANT_VARIETY}
+            {"varietas": PLANT_VARIETY, "user_id": current_user.id}
         )
 
         output = io.StringIO()
