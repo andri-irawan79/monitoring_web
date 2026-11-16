@@ -3,7 +3,9 @@ import io
 from datetime import datetime
 
 from fastapi.responses import StreamingResponse
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from auth import get_current_user
+from models.user import User
 from database.session import SessionLocal
 from models.rekomendasi import Rekomendasi
 from sqlalchemy import text
@@ -16,7 +18,7 @@ router = APIRouter()
 
 
 @router.post("/generate")
-def generate(payload: dict):
+def generate(payload: dict, current_user: User = Depends(get_current_user)):
 
     return generate_recommendation(
         monitoring_id=payload["monitoring_id"],
@@ -24,7 +26,7 @@ def generate(payload: dict):
     )
 
 # @router.get("/latest")
-# def latest_recommendation():
+# def latest_recommendation(current_user: User = Depends(get_current_user)):
 
 #     db = SessionLocal()
 
@@ -41,7 +43,7 @@ def generate(payload: dict):
 #     return data
 
 # @router.get("/history")
-# def recommendation_history():
+# def recommendation_history(current_user: User = Depends(get_current_user)):
 
     db = SessionLocal()
 
@@ -210,7 +212,7 @@ def recommendation_history():
 
 
 @router.get("/export")
-def export_csv():
+def export_csv(current_user: User = Depends(get_current_user)):
 
     db = SessionLocal()
 
