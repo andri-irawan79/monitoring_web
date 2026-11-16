@@ -63,7 +63,7 @@ onMounted(async () => {
           <h1 class="truncate text-sm sm:text-lg md:text-2xl font-bold text-slate-800">
             DASHBOARD MONITORING DURIAN
           </h1>
-          <p class="hidden xs:block truncate text-[10px] sm:text-xs md:text-sm text-slate-500">
+          <p class="hidden sm:block truncate text-[10px] sm:text-xs md:text-sm text-slate-500">
             Sistem Monitoring Nutrisi & Rekomendasi Pupuk
           </p>
         </div>
