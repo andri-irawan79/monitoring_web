@@ -17,10 +17,10 @@ import { Sprout, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-vue-next"
         <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200">Durian Montong · Pemupukan terarah</p>
         <h1 class="mt-2 text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
           Rekomendasi Pemupukan
-          <span class="block text-emerald-200">berdasarkan kondisi tanah.</span>
+          <span class="block text-emerald-200">berdasarkan parameter masukan.</span>
         </h1>
         <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/80 sm:text-base">
-          Pilih fase pertumbuhan tanaman untuk memperoleh rekomendasi jenis dan dosis pupuk melalui metode Fuzzy Tsukamoto.
+          Sistem mengolah nilai N, P, K, pH, dan fase pertumbuhan melalui basis aturan Fuzzy Tsukamoto. Keluaran yang ditampilkan bergantung pada data masukan serta aturan yang diterapkan dalam penelitian.
         </p>
 
         <div class="mt-6 flex flex-wrap gap-2">
@@ -36,8 +36,8 @@ import { Sprout, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-vue-next"
       <div class="rounded-2xl border border-white/15 bg-white/[0.08] p-4 shadow-inner backdrop-blur-sm sm:p-5">
         <div class="flex items-center justify-between gap-3">
           <div>
-            <p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-100/70">Alur rekomendasi</p>
-            <p class="mt-1 text-sm font-semibold text-white">Dari data menuju keputusan</p>
+            <p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-100/70">Alur pengolahan</p>
+            <p class="mt-1 text-sm font-semibold text-white">Tahapan pembentukan keluaran</p>
           </div>
           <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-300/15 text-emerald-200">
             <Sprout class="h-5 w-5" />
@@ -48,7 +48,7 @@ import { Sprout, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-vue-next"
           <div class="flex items-center gap-3">
             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-xs font-extrabold text-emerald-100">01</span>
             <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-white">Kondisi tanah</p>
+              <p class="text-sm font-semibold text-white">Parameter tanah</p>
               <p class="text-[11px] leading-5 text-emerald-100/65">N, P, K, dan pH dari data monitoring</p>
             </div>
             <CheckCircle2 class="h-4 w-4 text-emerald-300" />
@@ -58,7 +58,7 @@ import { Sprout, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-vue-next"
             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-xs font-extrabold text-emerald-100">02</span>
             <div class="min-w-0 flex-1">
               <p class="text-sm font-semibold text-white">Fase pertumbuhan</p>
-              <p class="text-[11px] leading-5 text-emerald-100/65">Pemilihan fase tanaman durian</p>
+              <p class="text-[11px] leading-5 text-emerald-100/65">Fase tanaman yang dipilih pengguna</p>
             </div>
             <CheckCircle2 class="h-4 w-4 text-emerald-300" />
           </div>
@@ -66,8 +66,8 @@ import { Sprout, FlaskConical, ArrowRight, CheckCircle2 } from "lucide-vue-next"
           <div class="flex items-center gap-3">
             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-lime-300/15 text-xs font-extrabold text-lime-100">03</span>
             <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-white">Hasil pemupukan</p>
-              <p class="text-[11px] leading-5 text-emerald-100/65">Jenis pupuk dan dosis rekomendasi</p>
+              <p class="text-sm font-semibold text-white">Keluaran rekomendasi</p>
+              <p class="text-[11px] leading-5 text-emerald-100/65">Jenis pupuk dan dosis hasil perhitungan</p>
             </div>
             <ArrowRight class="h-4 w-4 text-lime-200" />
           </div>
