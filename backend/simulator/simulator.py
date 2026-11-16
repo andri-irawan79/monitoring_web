@@ -25,7 +25,11 @@ API_URL = os.getenv(
     "http://127.0.0.1:8000/monitoring/"
 )
 API_URL = API_URL.rstrip("/") + "/"
-SIMULATOR_API_KEY = os.getenv(\n    "SIMULATOR_API_KEY",\n    "local-simulator-key-change-before-deployment"\n)\n
+SIMULATOR_API_KEY = os.getenv(
+    "SIMULATOR_API_KEY",
+    "local-simulator-key-change-before-deployment"
+)
+
 RECORD_LIMIT = 365
 SAMPLE_SEED = 42
 INTERVAL_SECONDS = float(os.getenv("SIMULATOR_INTERVAL_SECONDS", "2"))
