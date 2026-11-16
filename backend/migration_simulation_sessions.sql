@@ -21,6 +21,12 @@ ALTER TABLE monitoring
 ALTER TABLE monitoring
     ADD COLUMN IF NOT EXISTS session_record_number INTEGER NULL;
 
+ALTER TABLE simulation_sessions
+    ADD COLUMN IF NOT EXISTS user_id INTEGER NULL
+    REFERENCES users(id) ON DELETE CASCADE;
+
+DROP INDEX IF EXISTS uq_simulation_sessions_single_active;
+
 CREATE UNIQUE INDEX IF NOT EXISTS uq_monitoring_session_record
     ON monitoring (simulation_session_id, session_record_number)
     WHERE simulation_session_id IS NOT NULL
