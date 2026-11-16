@@ -122,7 +122,7 @@ def send_record(payload: dict) -> dict:
     request = Request(
         API_URL,
         data=body,
-        headers={"Content-Type": "application/json"},
+        headers={"Content-Type": "application/json",\n            "X-Simulator-Key": SIMULATOR_API_KEY},
         method="POST",
     )
 
