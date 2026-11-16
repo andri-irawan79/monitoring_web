@@ -1,62 +1,78 @@
 <script setup>
-
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import AppNavbar from "./AppNavbar.vue";
 import AppSidebar from "./AppSidebar.vue";
 
+const sidebarOpen = ref(false);
+
+const toggleSidebar = () => {
+    sidebarOpen.value = !sidebarOpen.value;
+};
+
+const closeSidebar = () => {
+    sidebarOpen.value = false;
+};
+
+const handleKeydown = (event) => {
+    if (event.key === "Escape") {
+        closeSidebar();
+    }
+};
+
+onMounted(() => {
+    window.addEventListener("keydown", handleKeydown);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener("keydown", handleKeydown);
+});
 </script>
 
 <template>
+    <div class="min-h-screen bg-slate-50">
+        <AppNavbar
+            :sidebar-open="sidebarOpen"
+            @toggle-sidebar="toggleSidebar"
+        />
 
-<div
-    class="
-        min-h-screen
-        bg-slate-100
-    "
->
-
-    <!-- Navbar -->
-
-    <AppNavbar/>
-
-    <!-- Body -->
-
-    <div
-        class="
-            flex
-            pt-20
-        "
-    >
-
-        <!-- Sidebar -->
-
-        <AppSidebar/>
-
-        <!-- Content -->
-
-        <main
-            class="
-            flex-1
-            ml-72
-            p-8
-            overflow-y-auto
-            "
-        >
-
-            <div
+        <div class="flex min-h-[calc(100vh-5rem)] pt-20">
+            <button
+                v-if="sidebarOpen"
+                type="button"
                 class="
-                    max-w-7xl
-                    mx-auto
+                    fixed
+                    inset-x-0
+                    top-20
+                    bottom-0
+                    z-30
+                    bg-slate-950/35
+                    backdrop-blur-[1px]
+                    lg:hidden
+                "
+                aria-label="Tutup menu navigasi"
+                @click="closeSidebar"
+            />
+
+            <AppSidebar
+                :mobile-open="sidebarOpen"
+                @close="closeSidebar"
+            />
+
+            <main
+                class="
+                    min-w-0
+                    w-full
+                    flex-1
+                    p-4
+                    sm:p-6
+                    xl:p-8
+                    lg:ml-72
                 "
             >
-
-                <slot/>
-
-            </div>
-
-        </main>
-
+                <div class="mx-auto w-full max-w-7xl min-w-0">
+                    <slot />
+                </div>
+            </main>
+        </div>
     </div>
-
-</div>
-
 </template>
