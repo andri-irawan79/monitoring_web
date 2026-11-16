@@ -25,7 +25,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <header class="fixed top-0 left-0 right-0 z-50 h-20 bg-white border-b border-slate-200 shadow-sm">
+  <header class="fixed top-0 left-0 right-0 z-50 h-20 border-b border-emerald-950/5 bg-white/95 shadow-[0_2px_16px_-12px_rgba(15,23,42,.28)] backdrop-blur-xl">
     <div class="max-w-screen-2xl mx-auto h-full px-4 sm:px-6 md:px-8 flex items-center justify-between gap-3">
       <div class="flex items-center gap-2 sm:gap-4 min-w-0">
         <button
@@ -55,12 +55,12 @@ onMounted(async () => {
           <Menu v-else class="h-5 w-5" />
         </button>
 
-        <div class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-green-100">
-          <Leaf class="h-6 w-6 sm:h-7 sm:w-7 text-green-700" />
+        <div class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 ring-1 ring-emerald-100">
+          <Leaf class="h-6 w-6 sm:h-7 sm:w-7 text-emerald-700" />
         </div>
 
         <div class="min-w-0">
-          <h1 class="truncate text-sm sm:text-lg md:text-2xl font-bold text-slate-800">
+          <h1 class="truncate text-sm sm:text-lg md:text-2xl font-bold text-slate-900">
             DASHBOARD MONITORING DURIAN
           </h1>
           <p class="hidden sm:block truncate text-[10px] sm:text-xs md:text-sm text-slate-500">

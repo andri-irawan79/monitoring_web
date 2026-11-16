@@ -29,7 +29,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50">
+    <div class="min-h-screen bg-[#f5f8f6]">
         <AppNavbar
             :sidebar-open="sidebarOpen"
             @toggle-sidebar="toggleSidebar"
@@ -63,13 +63,16 @@ onBeforeUnmount(() => {
                     min-w-0
                     w-full
                     flex-1
-                    p-4
-                    sm:p-6
-                    xl:p-8
+                    px-4
+                    py-5
+                    sm:px-6
+                    sm:py-7
+                    xl:px-8
+                    xl:py-8
                     lg:ml-72
                 "
             >
-                <div class="mx-auto w-full max-w-7xl min-w-0">
+                <div class="mx-auto w-full max-w-[1480px] min-w-0">
                     <slot />
                 </div>
             </main>
