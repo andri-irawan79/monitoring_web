@@ -90,7 +90,7 @@ def recommendation_history(
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
                 ORDER BY r.id DESC
-                LIMIT 10
+
             """),
             {"varietas": PLANT_VARIETY}
         )
