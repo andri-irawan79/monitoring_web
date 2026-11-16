@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from sqlalchemy import inspect
+from sqlalchemy import inspect, text
 from database.connection import engine
 from models.user import User
+from models.simulation_session import SimulationSession
 from routes.auth import router as auth_router
 from routes.monitoring import router as monitoring_router
 from routes.fase import router as fase_router
@@ -15,7 +16,7 @@ app = FastAPI(title="Durian Monitoring API")
 
 
 @app.on_event("startup")
-def create_auth_table():
+def prepare_application_tables():
     # Membuat tabel akun baru. Jika ada tabel users versi lama,
     # hentikan startup dengan pesan yang jelas; create(checkfirst=True)
     # tidak mengubah struktur tabel yang sudah ada.
@@ -38,6 +39,37 @@ def create_auth_table():
             )
     else:
         User.__table__.create(bind=engine, checkfirst=True)
+
+    # Idempotent PostgreSQL schema preparation for session-based simulation.
+    # Existing monitoring rows remain intact; the new columns are nullable.
+    if not inspector.has_table("monitoring"):
+        raise RuntimeError(
+            "Tabel 'monitoring' belum tersedia. Siapkan skema monitoring "
+            "yang digunakan aplikasi sebelum menjalankan server."
+        )
+
+    SimulationSession.__table__.create(bind=engine, checkfirst=True)
+    with engine.begin() as connection:
+        connection.execute(text(
+            "ALTER TABLE monitoring "
+            "ADD COLUMN IF NOT EXISTS simulation_session_id VARCHAR(36)"
+        ))
+        connection.execute(text(
+            "ALTER TABLE monitoring "
+            "ADD COLUMN IF NOT EXISTS session_record_number INTEGER"
+        ))
+        connection.execute(text(
+            "CREATE UNIQUE INDEX IF NOT EXISTS uq_monitoring_session_record "
+            "ON monitoring (simulation_session_id, session_record_number) "
+            "WHERE simulation_session_id IS NOT NULL "
+            "AND session_record_number IS NOT NULL"
+        ))
+        connection.execute(text(
+            "CREATE UNIQUE INDEX IF NOT EXISTS uq_simulation_sessions_single_active "
+            "ON simulation_sessions ((1)) "
+            "WHERE status IN ('starting', 'running')"
+        ))
+
 
 app.include_router(auth_router)
 
@@ -62,6 +94,7 @@ app.add_middleware(
 
 app.include_router(fase_router)
 app.include_router(dashboard_router)
+
 
 @app.get("/")
 def root():

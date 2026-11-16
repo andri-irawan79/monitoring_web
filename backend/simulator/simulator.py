@@ -1,11 +1,13 @@
 """
 Simulator data monitoring durian melalui HTTP REST API.
 
-Program ini membaca 365 record pertama dari Crop_recommendationV2.csv,
-kemudian mengirimkannya langsung ke endpoint POST FastAPI. MQTT tidak
-digunakan dalam alur simulasi ini.
+Program ini membaca 365 record dari Crop_recommendationV2.csv dan
+mengirimkannya ke FastAPI. Tanpa --session-id, skrip membuat sesi Git Bash
+sendiri; website meneruskan ID sesi yang sudah dibuat oleh backend.
+MQTT tidak digunakan dalam alur simulasi ini.
 """
 
+import argparse
 import json
 import os
 import time
@@ -20,13 +22,26 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 load_dotenv(BASE_DIR / "backend" / ".env")
-DATASET_PATH = BASE_DIR / "Crop_recommendationV2.csv"
+configured_dataset = os.getenv("SIMULATOR_DATASET_PATH")
+if configured_dataset:
+    DATASET_PATH = Path(configured_dataset).expanduser()
+    if not DATASET_PATH.is_absolute():
+        DATASET_PATH = BASE_DIR / DATASET_PATH
+else:
+    preferred_dataset = BASE_DIR / "Crop_recommendationV2.csv"
+    fallback_dataset = BASE_DIR / "Crop_recommendation.csv"
+    DATASET_PATH = (
+        preferred_dataset
+        if preferred_dataset.exists()
+        else fallback_dataset
+    )
 
 API_URL = os.getenv(
     "MONITORING_API_URL",
     "http://127.0.0.1:8000/monitoring/"
 )
 API_URL = API_URL.rstrip("/") + "/"
+MONITORING_BASE_URL = API_URL.rstrip("/")
 SIMULATOR_API_KEY = os.getenv(
     "SIMULATOR_API_KEY",
     "local-simulator-key-change-before-deployment"
@@ -121,6 +136,56 @@ def stratified_sample(
     )
 
 
+def _request_json(url: str, payload: dict) -> dict:
+    """Send one control request; start is intentionally not auto-retried."""
+    body = json.dumps(payload).encode("utf-8")
+    request = Request(
+        url,
+        data=body,
+        headers={
+            "Content-Type": "application/json",
+            "X-Simulator-Key": SIMULATOR_API_KEY,
+        },
+        method="POST",
+    )
+
+    try:
+        with urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            response_body = response.read().decode("utf-8")
+            return json.loads(response_body) if response_body else {}
+    except HTTPError as error:
+        error_body = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"HTTP {error.code}: {error_body}") from error
+    except (URLError, TimeoutError) as error:
+        raise RuntimeError(f"Gagal menghubungi API: {error}") from error
+
+
+def create_terminal_session() -> str:
+    """Create a new session when the script is launched manually."""
+    result = _request_json(
+        f"{MONITORING_BASE_URL}/sessions/terminal/start",
+        {},
+    )
+    session_id = (result.get("session") or {}).get("id")
+    if not session_id:
+        raise RuntimeError("API tidak mengembalikan ID sesi simulasi.")
+    return session_id
+
+
+def finish_session(session_id: str, final_status: str, error_message=None) -> None:
+    """Report completion, Ctrl+C, or failure to the backend."""
+    try:
+        _request_json(
+            f"{MONITORING_BASE_URL}/sessions/{session_id}/finish",
+            {
+                "status": final_status,
+                "error_message": str(error_message)[:1000] if error_message else None,
+            },
+        )
+    except Exception as error:
+        print(f"Peringatan: status akhir sesi tidak berhasil dikirim: {error}")
+
+
 def send_record(payload: dict) -> dict:
     """Kirim satu record ke FastAPI dan kembalikan respons JSON."""
 
@@ -166,9 +231,7 @@ def send_record(payload: dict) -> dict:
                     f"HTTP {error.code}: {error_body}"
                 ) from error
 
-            last_error = (
-                f"HTTP {error.code}: {error_body}"
-            )
+            last_error = f"HTTP {error.code}: {error_body}"
 
         except (URLError, TimeoutError) as error:
             last_error = str(error)
@@ -189,12 +252,7 @@ def send_record(payload: dict) -> dict:
     )
 
 
-def main() -> None:
-    if INTERVAL_SECONDS < 0:
-        raise ValueError(
-            "SIMULATOR_INTERVAL_SECONDS tidak boleh negatif."
-        )
-
+def load_sample() -> pd.DataFrame:
     if not DATASET_PATH.exists():
         raise FileNotFoundError(
             f"Dataset tidak ditemukan: {DATASET_PATH}"
@@ -202,9 +260,7 @@ def main() -> None:
 
     dataframe = pd.read_csv(DATASET_PATH)
 
-    missing_columns = REQUIRED_COLUMNS.difference(
-        dataframe.columns
-    )
+    missing_columns = REQUIRED_COLUMNS.difference(dataframe.columns)
     if missing_columns:
         raise ValueError(
             "Kolom dataset tidak lengkap: "
@@ -217,98 +273,123 @@ def main() -> None:
             f"minimal {RECORD_LIMIT} record diperlukan."
         )
 
-    dataframe = stratified_sample(
+    return stratified_sample(
         dataframe,
         sample_size=RECORD_LIMIT,
         label_column="label",
         random_seed=SAMPLE_SEED,
     )
 
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Simulator monitoring tanah berbasis data CSV."
+    )
+    parser.add_argument(
+        "--session-id",
+        default=None,
+        help="ID sesi yang dibuat backend saat simulator dimulai dari website.",
+    )
+    args = parser.parse_args()
+
+    if INTERVAL_SECONDS < 0:
+        raise ValueError("SIMULATOR_INTERVAL_SECONDS tidak boleh negatif.")
+
+    dataframe = load_sample()
+    session_id = args.session_id or create_terminal_session()
+
     print("=" * 72)
     print("SIMULATOR MONITORING DURIAN - HTTP REST API")
     print("=" * 72)
     print(f"Dataset       : {DATASET_PATH}")
     print(f"Endpoint      : {API_URL}")
+    print(f"ID sesi       : {session_id}")
     print(f"Jumlah record : {len(dataframe)}")
-    print(f"Metode sampel : Stratified sampling berdasarkan label")
+    print("Metode sampel : Stratified sampling berdasarkan label")
     print(f"Random seed   : {SAMPLE_SEED}")
     print("Distribusi sampel:")
     print(dataframe["label"].value_counts().sort_index().to_string())
     print(f"Interval      : {INTERVAL_SECONDS} detik")
     print(f"Tanggal awal  : {START_DATE.isoformat()}")
     print("Metode        : HTTP POST dengan payload JSON")
-    print("Kolom label hanya untuk stratifikasi; tidak dikirim ke API.")
+    print("Label hanya untuk stratifikasi; tidak dikirim ke API.")
     print("=" * 72)
 
     success_count = 0
+    final_status = "failed"
+    final_error = None
 
-    for index, row in dataframe.iterrows():
-        simulation_date = (
-            START_DATE + timedelta(days=success_count)
-        ).isoformat()
+    try:
+        for record_number, (_, row) in enumerate(
+            dataframe.iterrows(),
+            start=1,
+        ):
+            simulation_date = (
+                START_DATE + timedelta(days=record_number - 1)
+            ).isoformat()
 
-        payload = {
-            "nitrogen": int(row["N"]),
-            "phosphorus": int(row["P"]),
-            "potassium": int(row["K"]),
-            "temperature": round(float(row["temperature"]), 2),
-            "humidity": round(float(row["humidity"]), 2),
-            "ph": round(float(row["ph"]), 2),
-            "rainfall": round(float(row["rainfall"]), 2),
-            "simulation_date": simulation_date,
-        }
+            payload = {
+                "nitrogen": int(row["N"]),
+                "phosphorus": int(row["P"]),
+                "potassium": int(row["K"]),
+                "temperature": round(float(row["temperature"]), 2),
+                "humidity": round(float(row["humidity"]), 2),
+                "ph": round(float(row["ph"]), 2),
+                "rainfall": round(float(row["rainfall"]), 2),
+                "simulation_date": simulation_date,
+                "simulation_session_id": session_id,
+                "session_record_number": record_number,
+            }
 
-        print("\n" + "=" * 72)
-        print(
-            f"Mengirim record dataset ke-{index + 1} "
-            f"untuk tanggal simulasi {simulation_date}"
-        )
-        print("Data yang dikirim:")
-        print(json.dumps(payload, indent=2, ensure_ascii=False))
-
-        try:
-            response = send_record(payload)
-        except RuntimeError as error:
-            print(f"\nPENGIRIMAN DIHENTIKAN: {error}")
+            print("\n" + "=" * 72)
             print(
-                "Record berikutnya tidak dikirim agar "
-                "kegagalan pengiriman tidak tersembunyi."
+                f"Mengirim record sesi {record_number}/{len(dataframe)} "
+                f"untuk tanggal simulasi {simulation_date}"
             )
-            raise
+            print("Data yang dikirim:")
+            print(json.dumps(payload, indent=2, ensure_ascii=False))
 
-        success_count += 1
-        response_body = response["body"]
-
-        print("\nRespons FastAPI:")
-        print(
-            json.dumps(
-                response_body,
-                indent=2,
-                ensure_ascii=False
+            response = send_record(payload)
+            response_body = response["body"]
+            success_count = max(
+                success_count,
+                int(response_body.get("session_received_count") or record_number),
             )
-        )
-        print(
-            f"Status HTTP   : {response['status_code']}"
-        )
-        print(
-            f"ID database   : {response_body.get('id', '-')}"
-        )
-        print(
-            f"Status        : "
-            f"{response_body.get('message', 'Data diterima')}"
-        )
-        print(
-            f"Total terkirim: {success_count}/{len(dataframe)}"
-        )
-        print("=" * 72)
 
-        if success_count < len(dataframe):
-            time.sleep(INTERVAL_SECONDS)
+            print("\nRespons FastAPI:")
+            print(json.dumps(response_body, indent=2, ensure_ascii=False))
+            print(f"Status HTTP   : {response['status_code']}")
+            print(f"ID database   : {response_body.get('id', '-')}")
+            print(f"Status        : {response_body.get('message', 'Data diterima')}")
+            print(
+                f"Progres sesi  : "
+                f"{success_count}/{response_body.get('session_target_count', RECORD_LIMIT)}"
+            )
+            print("=" * 72)
 
-    print("\nSIMULASI SELESAI")
+            if record_number < len(dataframe):
+                time.sleep(INTERVAL_SECONDS)
+
+        final_status = "completed"
+
+    except KeyboardInterrupt:
+        final_status = "stopped"
+        print("\nSimulasi dihentikan melalui Ctrl+C.")
+
+    except Exception as error:
+        final_status = "failed"
+        final_error = error
+        print(f"\nPENGIRIMAN DIHENTIKAN: {error}")
+        raise
+
+    finally:
+        finish_session(session_id, final_status, final_error)
+
+    if final_status == "completed":
+        print("\nSIMULASI SELESAI")
     print(
-        f"Total record berhasil dikirim: "
-        f"{success_count}/{len(dataframe)}"
+        f"Total record berhasil dikirim dalam sesi ini: "
+        f"{success_count}/{RECORD_LIMIT}"
     )
 
 

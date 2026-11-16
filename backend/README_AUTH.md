@@ -40,3 +40,34 @@ Endpoint dashboard, master data, monitoring (GET), dan rekomendasi memerlukan he
 ## Batasan fitur autentikasi
 
 Implementasi ini mencakup pendaftaran, masuk, verifikasi sesi, dan keluar. Belum mencakup pembagian role/hak akses bertingkat, verifikasi email, reset kata sandi, autentikasi multifaktor, maupun pembatasan percobaan masuk (rate limiting). Untuk deployment publik, gunakan HTTPS dan secret acak yang kuat serta pertimbangkan kontrol tambahan tersebut.
+
+
+## Kontrol simulasi dan progres per sesi
+
+Simulator dapat dijalankan melalui dua cara. Jalankan backend terlebih dahulu dan pastikan `SIMULATOR_API_KEY` pada file `.env` sama dengan kunci yang dipakai skrip.
+
+### 1. Melalui website
+
+Masuk ke website, lalu gunakan bagian **Kontrol simulasi** pada sidebar. Pilih **Website**, kemudian tekan **Mulai dari website**. Backend menjalankan `backend/simulator/simulator.py` sebagai proses Python dan menyimpan output proses pada `backend/logs/simulator-<session-id>.log`.
+
+Tombol **Hentikan simulasi** hanya menghentikan proses yang dimulai oleh backend website tersebut.
+
+### 2. Melalui Git Bash
+
+Jalankan perintah berikut dari folder utama repository:
+
+```bash
+python backend/simulator/simulator.py
+```
+
+Skrip akan membuat sesi baru secara otomatis. Tekan `Ctrl+C` pada terminal untuk menghentikan sesi sebelum seluruh data dikirim. Skrip menggunakan `Crop_recommendationV2.csv` bila file tersebut tersedia; jika tidak, skrip menggunakan `Crop_recommendation.csv` yang ada di repository. Nama/lokasi file dapat diatur melalui `SIMULATOR_DATASET_PATH` pada `.env`.
+
+### Aturan hitungan sesi
+
+- Setiap sesi baru memiliki penghitung sendiri, dimulai dari `0/365`.
+- Setiap record dikirim dengan ID sesi dan nomor urut, sehingga pengiriman ulang record yang sama tidak menambah hitungan dua kali.
+- Hanya satu sesi yang boleh aktif pada satu waktu. Sesi website dan Git Bash tidak dapat berjalan bersamaan.
+- Riwayat monitoring dan sesi sebelumnya tidak dihapus ketika sesi baru dimulai.
+- Indikator penerimaan data memakai `SIMULATOR_STATUS_TIMEOUT_SECONDS` (bawaan 8 detik). Sesi baru ditandai gagal jika tidak menerima data melebihi `SIMULATOR_SESSION_TIMEOUT_SECONDS` (bawaan 45 detik), agar proses retry pengiriman tidak terlalu cepat dianggap gagal. Interval kirim bawaan adalah 2 detik melalui `SIMULATOR_INTERVAL_SECONDS`.
+
+Skema `simulation_sessions` dan kolom penghubung pada `monitoring` disiapkan secara idempoten saat backend mulai. Struktur ini menambahkan kolom nullable dan tidak menghapus record monitoring lama. Skrip SQL cadangan tersedia pada `backend/migration_simulation_sessions.sql` untuk lingkungan yang melakukan migrasi database secara manual.

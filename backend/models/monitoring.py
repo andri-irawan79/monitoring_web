@@ -1,14 +1,10 @@
-from sqlalchemy import Column
-from sqlalchemy import Integer
-from sqlalchemy import Float
-from sqlalchemy import DateTime
+from sqlalchemy import Column, Date, DateTime, Float, Integer, String
 from sqlalchemy.sql import func
-from sqlalchemy import Date
 
 from database.base import Base
 
-class Monitoring(Base):
 
+class Monitoring(Base):
     __tablename__ = "monitoring"
 
     id = Column(Integer, primary_key=True)
@@ -23,8 +19,9 @@ class Monitoring(Base):
     ph = Column(Float)
     rainfall = Column(Float)
 
-    created_at = Column(
-        DateTime,
-        server_default=func.now()
-    )
+    created_at = Column(DateTime, server_default=func.now())
     simulation_date = Column(Date)
+
+    # Nullable to preserve compatibility with existing/manual monitoring rows.
+    simulation_session_id = Column(String(36), nullable=True)
+    session_record_number = Column(Integer, nullable=True)

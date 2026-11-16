@@ -6,11 +6,21 @@ import {
   Info,
   LogOut,
   CircleAlert,
-  ChevronRight
+  ChevronRight,
+  Play,
+  Square,
+  Terminal,
+  Globe,
+  LoaderCircle
 } from "lucide-vue-next";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { logoutAccount } from "../../services/authService";
-import { getSimulatorStatus } from "../../services/monitoringService";
+import {
+  getSimulatorStatus,
+  getSimulationSessionStatus,
+  startWebsiteSimulation,
+  stopWebsiteSimulation
+} from "../../services/monitoringService";
 
 defineProps({
   mobileOpen: { type: Boolean, default: false }
@@ -22,36 +32,145 @@ const router = useRouter();
 const showLogoutConfirm = ref(false);
 const logoutButton = ref(null);
 const cancelButton = ref(null);
+
 const simulatorStatus = ref({ active: false, last_received_at: null });
+const simulatorSessionStatus = ref({ active: false, session: null });
 const simulatorStatusUnavailable = ref(false);
 const simulatorStatusLoading = ref(false);
+const simulatorActionLoading = ref(false);
+const simulatorActionError = ref("");
+const simulatorMode = ref("website");
 let simulatorStatusInterval = null;
 
-const simulatorStatusLabel = computed(() => {
-  if (simulatorStatusUnavailable.value) return "API tidak dapat dihubungi";
-  return simulatorStatus.value.active ? "Data simulasi diterima" : "Menunggu data simulator Python";
+const currentSession = computed(
+  () => simulatorSessionStatus.value.session || null
+);
+const hasActiveSession = computed(
+  () => Boolean(simulatorSessionStatus.value.active)
+);
+const websiteSessionCanStop = computed(
+  () => hasActiveSession.value
+    && currentSession.value?.mode === "website"
+    && currentSession.value?.can_stop_from_website
+);
+const terminalSessionActive = computed(
+  () => hasActiveSession.value && currentSession.value?.mode === "terminal"
+);
+const sessionProgress = computed(() => {
+  const session = currentSession.value;
+  if (!session) return 0;
+  const target = Math.max(1, Number(session.target_count || 365));
+  const received = Math.max(0, Number(session.received_count || 0));
+  return Math.min(100, Math.round((received / target) * 100));
 });
-
+const sessionProgressLabel = computed(() => {
+  const session = currentSession.value;
+  if (!session) return "0/365 data";
+  return String(session.received_count) + "/" + String(session.target_count) + " data";
+});
+const sessionStatusLabel = computed(() => {
+  const session = currentSession.value;
+  if (!session) return "Belum ada sesi simulasi";
+  const labels = {
+    starting: "Menyiapkan simulator",
+    running: session.mode === "website"
+      ? "Berjalan dari website"
+      : "Berjalan dari Git Bash",
+    completed: "Simulasi selesai",
+    stopped: "Simulasi dihentikan",
+    failed: "Simulasi gagal"
+  };
+  return labels[session.status] || "Status tidak diketahui";
+});
+const sessionModeLabel = computed(() => {
+  if (!currentSession.value) return "";
+  return currentSession.value.mode === "website" ? "WEBSITE" : "GIT BASH";
+});
 const lastReceivedLabel = computed(() => {
-  const value = simulatorStatus.value.last_received_at;
-  if (!value) return "Belum ada data diterima";
+  const value = currentSession.value
+    ? currentSession.value.last_received_at
+    : simulatorStatus.value.last_received_at;
+  if (!value) {
+    return currentSession.value
+      ? "Menunggu record pertama pada sesi ini"
+      : "Belum ada data diterima";
+  }
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Waktu penerimaan tidak tersedia";
-  return `Terakhir diterima ${date.toLocaleTimeString("id-ID")}`;
+  return "Data terakhir " + date.toLocaleTimeString("id-ID");
+});
+const statusDotActive = computed(() => {
+  if (currentSession.value) return hasActiveSession.value;
+  return simulatorStatus.value.active;
 });
 
 const refreshSimulatorStatus = async () => {
   if (simulatorStatusLoading.value) return;
   simulatorStatusLoading.value = true;
   try {
-    const status = await getSimulatorStatus();
-    simulatorStatus.value = status || { active: false, last_received_at: null };
+    const [legacyStatus, sessionStatus] = await Promise.all([
+      getSimulatorStatus(),
+      getSimulationSessionStatus()
+    ]);
+    simulatorStatus.value = legacyStatus || {
+      active: false,
+      last_received_at: null
+    };
+    simulatorSessionStatus.value = sessionStatus || {
+      active: false,
+      session: null
+    };
+    if (sessionStatus?.active && sessionStatus.session?.mode) {
+      simulatorMode.value = sessionStatus.session.mode;
+    }
     simulatorStatusUnavailable.value = false;
   } catch {
     simulatorStatusUnavailable.value = true;
     simulatorStatus.value = { active: false, last_received_at: null };
+    simulatorSessionStatus.value = { active: false, session: null };
   } finally {
     simulatorStatusLoading.value = false;
+  }
+};
+
+const startWebsiteSession = async () => {
+  if (simulatorActionLoading.value || hasActiveSession.value) return;
+  simulatorActionLoading.value = true;
+  simulatorActionError.value = "";
+  try {
+    await startWebsiteSimulation();
+    simulatorMode.value = "website";
+    await refreshSimulatorStatus();
+  } catch (error) {
+    simulatorActionError.value =
+      error.response?.data?.detail || "Simulator website gagal dijalankan.";
+    await refreshSimulatorStatus();
+  } finally {
+    simulatorActionLoading.value = false;
+  }
+};
+
+const stopWebsiteSession = async () => {
+  const sessionId = currentSession.value?.id;
+  if (!sessionId || simulatorActionLoading.value) return;
+  simulatorActionLoading.value = true;
+  simulatorActionError.value = "";
+  try {
+    await stopWebsiteSimulation(sessionId);
+    await refreshSimulatorStatus();
+  } catch (error) {
+    simulatorActionError.value =
+      error.response?.data?.detail || "Simulator tidak berhasil dihentikan.";
+    await refreshSimulatorStatus();
+  } finally {
+    simulatorActionLoading.value = false;
+  }
+};
+
+const selectSimulatorMode = (mode) => {
+  if (!hasActiveSession.value) {
+    simulatorMode.value = mode;
+    simulatorActionError.value = "";
   }
 };
 
@@ -146,37 +265,167 @@ const confirmLogout = () => {
       </nav>
     </div>
 
-    <div class="space-y-3 border-t border-slate-200/80 bg-white/70 p-4">
+    <div class="shrink-0 space-y-3 border-t border-slate-200/80 bg-white/70 p-4">
       <section
         class="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-3.5 shadow-sm"
         aria-live="polite"
-        aria-label="Status penerimaan data simulator"
+        aria-label="Kontrol dan progres sesi simulasi"
       >
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex min-w-0 items-center gap-2.5">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex min-w-0 items-center gap-2">
             <span class="relative flex h-3 w-3 shrink-0 items-center justify-center">
-              <span v-if="simulatorStatus.active" class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+              <span
+                v-if="statusDotActive"
+                class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"
+              ></span>
               <span
                 class="relative h-2.5 w-2.5 rounded-full ring-2 ring-white"
-                :class="simulatorStatus.active ? 'bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,.12)]' : 'bg-rose-500 shadow-[0_0_0_3px_rgba(244,63,94,.10)]'"
+                :class="statusDotActive
+                  ? 'bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,.12)]'
+                  : currentSession?.status === 'failed'
+                    ? 'bg-rose-500 shadow-[0_0_0_3px_rgba(244,63,94,.10)]'
+                    : 'bg-slate-300'"
               ></span>
             </span>
-            <div class="min-w-0">
-              <p class="text-xs font-extrabold text-slate-800">Status simulasi</p>
-              <p class="mt-0.5 truncate text-[10px] font-semibold" :class="simulatorStatus.active ? 'text-emerald-700' : 'text-rose-700'">
-                {{ simulatorStatusLabel }}
-              </p>
-            </div>
+            <p class="truncate text-xs font-extrabold text-slate-800">Kontrol simulasi</p>
           </div>
           <span
-            class="shrink-0 rounded-full px-2 py-1 text-[9px] font-extrabold uppercase tracking-wide"
-            :class="simulatorStatus.active ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-50 text-rose-700'"
+            v-if="sessionModeLabel"
+            class="shrink-0 rounded-full bg-slate-100 px-2 py-1 text-[8px] font-extrabold tracking-wide text-slate-600"
           >
-            {{ simulatorStatus.active ? "Aktif" : "Tidak aktif" }}
+            {{ sessionModeLabel }}
           </span>
         </div>
-        <p class="mt-2 pl-5 text-[10px] leading-4 text-slate-500">{{ lastReceivedLabel }}</p>
-        <p class="mt-1 pl-5 text-[9px] leading-4 text-slate-400">Simulator Python · data dari CSV, bukan sensor</p>
+
+        <p class="mt-2 text-[10px] font-bold text-slate-700">
+          {{ sessionStatusLabel }}
+        </p>
+
+        <div v-if="currentSession" class="mt-3">
+          <div class="mb-1.5 flex items-center justify-between gap-2 text-[10px]">
+            <span class="font-semibold text-slate-500">Progres sesi</span>
+            <span class="font-extrabold tabular-nums text-slate-800">
+              {{ sessionProgressLabel }} · {{ sessionProgress }}%
+            </span>
+          </div>
+          <div
+            class="h-2 overflow-hidden rounded-full bg-slate-200"
+            role="progressbar"
+            :aria-valuenow="sessionProgress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-label="Progres sesi simulasi"
+          >
+            <div
+              class="h-full rounded-full bg-emerald-600 transition-all duration-500"
+              :style="{ width: String(sessionProgress) + '%' }"
+            ></div>
+          </div>
+        </div>
+        <p v-else class="mt-2 text-[10px] leading-4 text-slate-500">
+          Setiap sesi dimulai dari 0 dan menargetkan 365 data.
+        </p>
+
+        <p class="mt-2 text-[9px] leading-4 text-slate-400">
+          {{ lastReceivedLabel }} · Data CSV, bukan sensor
+        </p>
+        <p
+          v-if="currentSession?.error_message"
+          class="mt-2 rounded-lg bg-rose-50 px-2 py-1.5 text-[9px] leading-4 text-rose-700"
+        >
+          {{ currentSession.error_message }}
+        </p>
+
+        <div class="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1">
+          <button
+            type="button"
+            class="flex min-h-8 items-center justify-center gap-1.5 rounded-lg px-2 text-[10px] font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            :class="simulatorMode === 'website'
+              ? 'bg-white text-emerald-800 shadow-sm'
+              : 'text-slate-500 hover:text-slate-800'"
+            :disabled="hasActiveSession"
+            :aria-pressed="simulatorMode === 'website'"
+            @click="selectSimulatorMode('website')"
+          >
+            <Globe class="h-3.5 w-3.5" />
+            Website
+          </button>
+          <button
+            type="button"
+            class="flex min-h-8 items-center justify-center gap-1.5 rounded-lg px-2 text-[10px] font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            :class="simulatorMode === 'terminal'
+              ? 'bg-white text-emerald-800 shadow-sm'
+              : 'text-slate-500 hover:text-slate-800'"
+            :disabled="hasActiveSession"
+            :aria-pressed="simulatorMode === 'terminal'"
+            @click="selectSimulatorMode('terminal')"
+          >
+            <Terminal class="h-3.5 w-3.5" />
+            Git Bash
+          </button>
+        </div>
+
+        <div v-if="simulatorMode === 'website'" class="mt-2">
+          <button
+            v-if="websiteSessionCanStop"
+            type="button"
+            class="flex min-h-9 w-full items-center justify-center gap-2 rounded-xl bg-rose-600 px-3 py-2 text-[10px] font-extrabold text-white transition-colors hover:bg-rose-700 disabled:cursor-wait disabled:opacity-60"
+            :disabled="simulatorActionLoading"
+            @click="stopWebsiteSession"
+          >
+            <LoaderCircle v-if="simulatorActionLoading" class="h-3.5 w-3.5 animate-spin" />
+            <Square v-else class="h-3 w-3 fill-current" />
+            Hentikan simulasi
+          </button>
+          <button
+            v-else
+            type="button"
+            class="flex min-h-9 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-3 py-2 text-[10px] font-extrabold text-white transition-colors hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="simulatorActionLoading || hasActiveSession || simulatorStatusUnavailable"
+            @click="startWebsiteSession"
+          >
+            <LoaderCircle v-if="simulatorActionLoading" class="h-3.5 w-3.5 animate-spin" />
+            <Play v-else class="h-3.5 w-3.5 fill-current" />
+            Mulai dari website
+          </button>
+          <p
+            v-if="terminalSessionActive"
+            class="mt-2 text-[9px] leading-4 text-amber-700"
+          >
+            Sesi aktif dari Git Bash. Hentikan melalui terminal dengan Ctrl+C.
+          </p>
+        </div>
+
+        <div v-else class="mt-2 rounded-xl border border-slate-200 bg-white p-2.5">
+          <p class="text-[9px] font-bold leading-4 text-slate-600">
+            Jalankan dari folder utama proyek:
+          </p>
+          <code class="mt-1 block break-all rounded-md bg-slate-900 px-2 py-1.5 text-[9px] text-emerald-100">
+            python backend/simulator/simulator.py
+          </code>
+          <p class="mt-1.5 text-[9px] leading-4 text-slate-500">
+            Tekan Ctrl+C di Git Bash untuk menghentikan sesi.
+          </p>
+          <p
+            v-if="terminalSessionActive"
+            class="mt-1 text-[9px] font-bold text-emerald-700"
+          >
+            Sesi Git Bash sedang mengirim data.
+          </p>
+        </div>
+
+        <p
+          v-if="simulatorActionError"
+          class="mt-2 rounded-lg bg-rose-50 px-2 py-1.5 text-[9px] leading-4 text-rose-700"
+        >
+          {{ simulatorActionError }}
+        </p>
+        <p
+          v-if="simulatorStatusUnavailable"
+          class="mt-2 text-[9px] leading-4 text-rose-700"
+        >
+          API tidak dapat dihubungi. Periksa server backend.
+        </p>
       </section>
 
       <button
