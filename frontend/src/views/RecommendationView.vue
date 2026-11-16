@@ -32,6 +32,7 @@ const successMessage = ref("");
 const successTitle = ref("Rekomendasi berhasil dibuat!");
 const successTimer = ref(null);
 const showDeleteConfirm = ref(false);
+const showDeleteSuccessDialog = ref(false);
 const selectedDeleteItem = ref(null);
 const cancelDeleteButton = ref(null);
 const errorTitle = ref("");
@@ -229,10 +230,9 @@ const removeRecommendation = async () => {
             hasGeneratedAnalysis.value = false;
         }
 
-        successTitle.value = "Data berhasil dihapus";
-        successMessage.value = "Data riwayat rekomendasi telah berhasil dihapus dari sistem.";
+        successMessage.value = "";
         if (successTimer.value) window.clearTimeout(successTimer.value);
-        successTimer.value = window.setTimeout(() => { successMessage.value = ""; }, 4500);
+        showDeleteSuccessDialog.value = true;
     } catch (error) {
         console.error("Gagal menghapus rekomendasi:", error);
         errorTitle.value = "Rekomendasi gagal dihapus";
@@ -271,6 +271,8 @@ onUnmounted(() => {
                     p-4
                     text-green-800
                     shadow-sm
+                    relative
+                    overflow-hidden
                 "
                 role="status"
                 aria-live="polite"
@@ -290,6 +292,9 @@ onUnmounted(() => {
                 >
                     <X class="h-4 w-4" />
                 </button>
+                <div class="success-toast-progress absolute inset-x-0 bottom-0 h-1 bg-green-200">
+                    <div class="h-full w-full origin-left bg-green-600" />
+                </div>
             </div>
         </Transition>
 
@@ -467,6 +472,44 @@ onUnmounted(() => {
             </section>
         </div>
     </Teleport>
+
+    <Teleport to="body">
+        <div
+            v-if="showDeleteSuccessDialog"
+            class="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-[2px]"
+            role="presentation"
+        >
+            <section
+                class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="delete-success-title"
+                aria-describedby="delete-success-description"
+            >
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600">
+                    <CheckCircle2 class="h-6 w-6" />
+                </div>
+                <div class="mt-4 text-center">
+                    <h2 id="delete-success-title" class="text-lg font-semibold text-slate-800">
+                        Data berhasil dihapus
+                    </h2>
+                    <p id="delete-success-description" class="mt-2 text-sm leading-6 text-slate-500">
+                        Data riwayat rekomendasi telah berhasil dihapus dari sistem.
+                    </p>
+                </div>
+                <div class="mt-6 flex justify-center">
+                    <button
+                        type="button"
+                        autofocus
+                        @click="showDeleteSuccessDialog = false"
+                        class="min-w-24 rounded-xl bg-green-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300 focus-visible:ring-offset-2"
+                    >
+                        OK
+                    </button>
+                </div>
+            </section>
+        </div>
+    </Teleport>
 </template>
 
 <style scoped>
@@ -487,6 +530,15 @@ onUnmounted(() => {
 .processing-panel-leave-to {
     opacity: 0;
     transform: translateY(6px);
+}
+
+.success-toast-progress > div {
+    animation: success-toast-countdown 4.5s linear forwards;
+}
+
+@keyframes success-toast-countdown {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
 }
 
 .recommendation-progress {
