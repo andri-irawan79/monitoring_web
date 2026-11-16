@@ -80,8 +80,8 @@ onBeforeUnmount(() => { if (refreshInterval) clearInterval(refreshInterval); });
     </section>
 
     <section class="grid grid-cols-1 items-stretch gap-5 2xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,0.8fr)]">
-      <div class="min-w-0"><MonitoringChartCard :data="history" /></div>
-      <div v-if="monitoring" class="min-w-0"><NutrientStatusCard :monitoring="monitoring" /></div>
+      <div class="min-w-0 h-full"><MonitoringChartCard :data="history" /></div>
+      <div v-if="monitoring" class="min-w-0 h-full"><NutrientStatusCard :monitoring="monitoring" /></div>
     </section>
 
     <section v-if="monitoring" class="min-w-0">
