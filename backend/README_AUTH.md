@@ -68,6 +68,6 @@ Skrip akan membuat sesi baru secara otomatis. Tekan `Ctrl+C` pada terminal untuk
 - Setiap record dikirim dengan ID sesi dan nomor urut, sehingga pengiriman ulang record yang sama tidak menambah hitungan dua kali.
 - Hanya satu sesi yang boleh aktif pada satu waktu. Sesi website dan Git Bash tidak dapat berjalan bersamaan.
 - Riwayat monitoring dan sesi sebelumnya tidak dihapus ketika sesi baru dimulai.
-- Status sesi yang tidak menerima data melebihi `SIMULATOR_STATUS_TIMEOUT_SECONDS` (bawaan 8 detik) akan ditandai gagal saat status diperiksa. Interval kirim bawaan adalah 2 detik melalui `SIMULATOR_INTERVAL_SECONDS`.
+- Indikator penerimaan data memakai `SIMULATOR_STATUS_TIMEOUT_SECONDS` (bawaan 8 detik). Sesi baru ditandai gagal jika tidak menerima data melebihi `SIMULATOR_SESSION_TIMEOUT_SECONDS` (bawaan 45 detik), agar proses retry pengiriman tidak terlalu cepat dianggap gagal. Interval kirim bawaan adalah 2 detik melalui `SIMULATOR_INTERVAL_SECONDS`.
 
 Skema `simulation_sessions` dan kolom penghubung pada `monitoring` disiapkan secara idempoten saat backend mulai. Struktur ini menambahkan kolom nullable dan tidak menghapus record monitoring lama. Skrip SQL cadangan tersedia pada `backend/migration_simulation_sessions.sql` untuk lingkungan yang melakukan migrasi database secara manual.
