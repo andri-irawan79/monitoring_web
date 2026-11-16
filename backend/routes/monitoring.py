@@ -89,7 +89,7 @@ def simulator_status(current_user: User = Depends(get_current_user)):
                 Monitoring.created_at,
                 func.extract(
                     "epoch",
-                    func.now() - Monitoring.created_at
+                    func.localtimestamp() - Monitoring.created_at
                 ).label("age_seconds"),
             )
             .order_by(Monitoring.id.desc())
