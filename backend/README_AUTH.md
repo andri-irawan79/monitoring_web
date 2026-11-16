@@ -13,7 +13,7 @@ Fitur autentikasi menyediakan pendaftaran akun, masuk, sesi akses, dan keluar.
 uvicorn main:app --reload
 ```
 
-Tabel `users` dibuat otomatis saat aplikasi mulai apabila tabel tersebut belum tersedia.
+Tabel `users` dibuat otomatis saat aplikasi mulai apabila tabel tersebut belum tersedia. Jika basis data sudah memiliki tabel `users` lama dengan kolom seperti `username`, `password`, atau `role`, aplikasi menghentikan proses startup dengan pesan migrasi. Cadangkan data terlebih dahulu, lalu migrasikan atau ubah nama tabel lama; pembuatan tabel otomatis tidak mengubah skema tabel yang sudah ada.
 
 ## Konfigurasi frontend
 
