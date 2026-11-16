@@ -91,7 +91,7 @@ const submitLogin = async () => {
         <div class="relative z-10 my-12 max-w-xl">
           <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100/15 bg-white/8 px-3.5 py-2 text-xs font-semibold tracking-wide text-emerald-100">
             <Sprout class="h-4 w-4 text-lime-200" />
-            PENGELOLAAN TANAMAN DURian
+            PENGELOLAAN TANAMAN DURIAN
           </div>
           <h1 class="max-w-lg text-4xl font-semibold leading-[1.15] tracking-tight xl:text-5xl">
             Kenali kondisi tanah. Rawat durian dengan lebih terarah.
