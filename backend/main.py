@@ -4,7 +4,6 @@ from database.connection import engine
 from models.user import User
 from routes.auth import router as auth_router
 from routes.monitoring import router as monitoring_router
-from routes.varietas import router as varietas_router
 from routes.fase import router as fase_router
 from routes.dashboard import router as dashboard_router
 from fastapi.middleware.cors import CORSMiddleware
@@ -61,7 +60,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(varietas_router)
 app.include_router(fase_router)
 app.include_router(dashboard_router)
 
