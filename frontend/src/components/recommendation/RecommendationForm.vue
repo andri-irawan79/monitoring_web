@@ -1,4 +1,6 @@
 <script setup>
+import { LoaderCircle } from "lucide-vue-next";
+
 defineProps({
     fases: {
         type: Array,
@@ -144,7 +146,8 @@ const emit = defineEmits([
                     sm:w-auto
                 "
             >
-                {{ loading ? "Menghitung..." : "Hitung Rekomendasi" }}
+                <LoaderCircle v-if="loading" class="h-4 w-4 animate-spin" />
+                {{ loading ? "Sedang Menghitung..." : "Buat Rekomendasi" }}
             </button>
         </div>
     </section>
