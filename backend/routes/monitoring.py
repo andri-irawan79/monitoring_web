@@ -469,6 +469,11 @@ def create_monitoring(
             )
             if session is None:
                 raise HTTPException(status_code=404, detail="Sesi simulasi tidak ditemukan.")
+            if session.user_id is None:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Sesi simulasi belum terhubung dengan akun pengguna.",
+                )
 
             if not 1 <= payload.session_record_number <= session.target_count:
                 raise HTTPException(
