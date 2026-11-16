@@ -17,7 +17,8 @@ import { getLatestMonitoring } from "../services/monitoringService";
 import { getFase } from "../services/masterService";
 import {
     generateRecommendation,
-    getRecommendationHistory
+    getRecommendationHistory,
+    deleteRecommendation
 } from "../services/recommendationService";
 
 const monitoring = ref(null);
@@ -31,6 +32,7 @@ const successMessage = ref("");
 const errorTitle = ref("");
 const errorMessage = ref("");
 const historyWarning = ref("");
+const deletingId = ref(null);
 const fuzzyValues = ref(null);
 const bestRule = ref(null);
 const activeRules = ref([]);
@@ -182,6 +184,41 @@ const generate = async () => {
     if (recommendationCreated) {
         successMessage.value =
             "Rekomendasi berhasil dihitung dan disimpan. Hasil terbaru sudah ditampilkan.";
+    }
+};
+
+
+const removeRecommendation = async (item) => {
+    if (!item?.id || deletingId.value !== null) return;
+
+    const confirmed = window.confirm(
+        `Apakah Anda yakin ingin menghapus rekomendasi untuk fase "${item.fase || "-"}" dengan pupuk "${item.jenis_pupuk || "-"}"? Data yang dihapus tidak dapat dikembalikan.`
+    );
+    if (!confirmed) return;
+
+    deletingId.value = item.id;
+    historyWarning.value = "";
+    try {
+        await deleteRecommendation(item.id);
+        history.value = history.value.filter((row) => row.id !== item.id);
+
+        if (recommendation.value?.id === item.id) {
+            recommendation.value = null;
+            fuzzyValues.value = null;
+            bestRule.value = null;
+            activeRules.value = [];
+            defuzzification.value = {};
+            hasGeneratedAnalysis.value = false;
+        }
+    } catch (error) {
+        console.error("Gagal menghapus rekomendasi:", error);
+        errorTitle.value = "Rekomendasi gagal dihapus";
+        errorMessage.value =
+            error.response?.data?.detail ||
+            error.response?.data?.message ||
+            "Terjadi kesalahan saat menghapus rekomendasi. Silakan coba kembali.";
+    } finally {
+        deletingId.value = null;
     }
 };
 
@@ -383,7 +420,7 @@ onMounted(loadData);
             </div>
 
             <div v-if="!loading" class="xl:col-span-2">
-                <RecommendationHistoryTable :recommendations="history" />
+                <RecommendationHistoryTable :recommendations="history" :deleting-id="deletingId" @delete="removeRecommendation" />
             </div>
         </div>
     </div>
