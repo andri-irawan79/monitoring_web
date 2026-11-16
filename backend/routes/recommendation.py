@@ -7,7 +7,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 
 from auth import get_current_user
-from constants import PLANT_VARIETY, PLANT_DISPLAY_NAME
+from constants import PLANT_VARIETY
 from database.session import SessionLocal
 from models.user import User
 from services.recommendation_service import generate_recommendation
@@ -52,10 +52,7 @@ def latest_recommendation(
                 ORDER BY r.id DESC
                 LIMIT 1
             """),
-            {
-                "varietas": PLANT_VARIETY,
-                "objek_tanaman": PLANT_DISPLAY_NAME
-            }
+            {"varietas": PLANT_VARIETY}
         )
         row = result.fetchone()
         return dict(row._mapping) if row is not None else None
@@ -95,10 +92,7 @@ def recommendation_history(
                 ORDER BY r.id DESC
                 LIMIT 10
             """),
-            {
-                "varietas": PLANT_VARIETY,
-                "objek_tanaman": PLANT_DISPLAY_NAME
-            }
+            {"varietas": PLANT_VARIETY}
         )
         return [dict(row._mapping) for row in result]
     finally:
@@ -135,10 +129,7 @@ def export_csv(
                     ON va.rekomendasi_id = r.id
                 ORDER BY r.id DESC
             """),
-            {
-                "varietas": PLANT_VARIETY,
-                "objek_tanaman": PLANT_DISPLAY_NAME
-            }
+            {"varietas": PLANT_VARIETY}
         )
 
         output = io.StringIO()
