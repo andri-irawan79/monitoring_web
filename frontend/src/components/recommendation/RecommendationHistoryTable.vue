@@ -1,30 +1,251 @@
 <script setup>
 import { computed, ref, watch } from "vue";
-import { Download, Trash2, ChevronLeft, ChevronRight, ClipboardList } from "lucide-vue-next";
+import {
+  Download,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardList,
+  CalendarDays,
+  X
+} from "lucide-vue-next";
 import BaseCard from "../ui/BaseCard.vue";
 import { exportRecommendationCSV } from "../../services/recommendationService";
-const props = defineProps({ recommendations: { type: Array, default: () => [] }, deletingId: { type: [Number, String], default: null } });
+
+const props = defineProps({
+  recommendations: { type: Array, default: () => [] },
+  deletingId: { type: [Number, String], default: null }
+});
 const emit = defineEmits(["delete"]);
-const currentPage = ref(1), perPage = 10;
-const totalItems = computed(() => props.recommendations.length);
+
+const currentPage = ref(1);
+const dateFilter = ref("");
+const perPage = 10;
+
+const filteredRecommendations = computed(() => {
+  if (!dateFilter.value) return props.recommendations;
+
+  return props.recommendations.filter((item) => {
+    const recommendationDate = String(item.created_at || "").slice(0, 10);
+    return recommendationDate === dateFilter.value;
+  });
+});
+
+const totalItems = computed(() => filteredRecommendations.value.length);
+const totalRecords = computed(() => props.recommendations.length);
 const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPage)));
-const paginatedData = computed(() => props.recommendations.slice((currentPage.value - 1) * perPage, currentPage.value * perPage));
-const startItem = computed(() => totalItems.value ? (currentPage.value - 1) * perPage + 1 : 0);
-const endItem = computed(() => Math.min(currentPage.value * perPage, totalItems.value));
-watch(totalPages, pages => { if (currentPage.value > pages) currentPage.value = pages; });
-function badge(k) { const v = String(k || "").toLowerCase(); if (v === "tinggi") return "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200"; if (v === "sedang") return "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200"; return "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200"; }
-function fmt(value, digits = 2) { const n = Number(value); return Number.isFinite(n) ? n.toFixed(digits) : "-"; }
+
+const paginatedData = computed(() =>
+  filteredRecommendations.value.slice(
+    (currentPage.value - 1) * perPage,
+    currentPage.value * perPage
+  )
+);
+
+const startItem = computed(() =>
+  totalItems.value ? (currentPage.value - 1) * perPage + 1 : 0
+);
+const endItem = computed(() =>
+  Math.min(currentPage.value * perPage, totalItems.value)
+);
+
+watch(dateFilter, () => {
+  currentPage.value = 1;
+});
+
+watch(totalPages, (pages) => {
+  if (currentPage.value > pages) currentPage.value = pages;
+});
+
+function badge(k) {
+  const v = String(k || "").toLowerCase();
+  if (v === "tinggi") return "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200";
+  if (v === "sedang") return "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200";
+  return "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200";
+}
+
+function fmt(value, digits = 2) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n.toFixed(digits) : "-";
+}
 </script>
+
 <template>
-<BaseCard id="recommendation-history" class="scroll-mt-24">
-  <div class="mb-5 flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between"><div class="flex items-start gap-3"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ClipboardList class="h-5 w-5" /></div><div><h2 class="text-lg font-bold tracking-tight text-slate-800">Riwayat Rekomendasi</h2><p class="mt-1 text-sm text-slate-500">Daftar hasil rekomendasi pemupukan Durian Montong</p></div></div><button type="button" @click="exportRecommendationCSV" class="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:w-auto"><Download class="h-4 w-4" /> Export CSV</button></div>
-  <div class="mb-3 flex flex-wrap items-center justify-between gap-2"><p class="text-sm text-slate-500">Menampilkan <span class="font-semibold text-slate-700">{{ startItem }}–{{ endItem }}</span> dari <span class="font-semibold text-slate-700">{{ totalItems }}</span> data</p><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">10 data per halaman</span></div>
-  <div class="overflow-hidden rounded-xl border border-slate-200"><div class="overflow-x-auto"><table class="min-w-[1120px] w-full whitespace-nowrap text-sm">
-    <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th class="px-4 py-3.5">Tanggal</th><th class="px-4 py-3.5">N</th><th class="px-4 py-3.5">P</th><th class="px-4 py-3.5">K</th><th class="px-4 py-3.5">pH</th><th class="px-4 py-3.5">Objek Tanaman</th><th class="px-4 py-3.5">Fase</th><th class="px-4 py-3.5">Jenis Pupuk</th><th class="px-4 py-3.5">Dosis</th><th class="px-4 py-3.5">Kategori</th><th class="px-4 py-3.5 text-right">Aksi</th></tr></thead>
-    <tbody class="divide-y divide-slate-100 bg-white"><tr v-for="item in paginatedData" :key="item.id" class="transition-colors hover:bg-emerald-50/40">
-      <td class="px-4 py-3.5 font-medium text-slate-700">{{ item.created_at }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.nitrogen) }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.phosphorus) }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.potassium) }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.ph) }}</td><td class="px-4 py-3.5 text-slate-600">{{ item.objek_tanaman || "Durian Montong" }}</td><td class="px-4 py-3.5 text-slate-600">{{ item.fase }}</td><td class="px-4 py-3.5 font-medium text-slate-700">{{ item.jenis_pupuk }}</td><td class="px-4 py-3.5 font-semibold tabular-nums text-slate-700">{{ fmt(item.dosis) }} kg</td><td class="px-4 py-3.5"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold" :class="badge(item.kategori)">{{ item.kategori }}</span></td><td class="px-4 py-3.5 text-right"><button type="button" :disabled="deletingId === item.id" @click="emit('delete', item)" class="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-rose-200 px-3 text-xs font-semibold text-rose-700 transition hover:bg-rose-50 disabled:cursor-wait disabled:opacity-50"><Trash2 class="h-3.5 w-3.5" />{{ deletingId === item.id ? "Menghapus..." : "Hapus" }}</button></td>
-    </tr><tr v-if="!recommendations.length"><td colspan="11" class="px-4 py-12 text-center"><div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500"><ClipboardList class="h-6 w-6" /></div><p class="mt-3 font-semibold text-slate-700">Belum ada riwayat rekomendasi</p><p class="mt-1 text-sm text-slate-500">Rekomendasi yang berhasil dibuat akan muncul di sini.</p></td></tr></tbody>
-  </table></div></div>
-  <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><p class="text-xs text-slate-500">Halaman {{ currentPage }} dari {{ totalPages }}</p><div class="flex items-center justify-end gap-2"><button type="button" :disabled="currentPage === 1" @click="currentPage--" class="inline-flex min-h-9 items-center gap-1 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft class="h-4 w-4" /> Sebelumnya</button><button type="button" :disabled="currentPage >= totalPages" @click="currentPage++" class="inline-flex min-h-9 items-center gap-1 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Berikutnya <ChevronRight class="h-4 w-4" /></button></div></div>
-</BaseCard>
+  <BaseCard id="recommendation-history" class="scroll-mt-24">
+    <div class="mb-5 flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-start gap-3">
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+          <ClipboardList class="h-5 w-5" />
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight text-slate-800">Riwayat Rekomendasi</h2>
+          <p class="mt-1 text-sm text-slate-500">Daftar hasil rekomendasi pemupukan Durian Montong</p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        @click="exportRecommendationCSV"
+        class="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:w-auto"
+      >
+        <Download class="h-4 w-4" />
+        Export CSV
+      </button>
+    </div>
+
+    <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50/70 p-3 sm:p-4">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div class="w-full sm:max-w-xs">
+          <label for="recommendation-date-filter" class="mb-1.5 block text-xs font-semibold text-slate-600">
+            Cari berdasarkan tanggal rekomendasi
+          </label>
+          <div class="relative">
+            <CalendarDays class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              id="recommendation-date-filter"
+              v-model="dateFilter"
+              type="date"
+              aria-label="Pilih tanggal rekomendasi"
+              class="min-h-10 w-full rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-3 text-sm text-slate-700 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100"
+            />
+          </div>
+        </div>
+
+        <button
+          v-if="dateFilter"
+          type="button"
+          @click="dateFilter = ''"
+          class="inline-flex min-h-9 items-center justify-center gap-1.5 self-start rounded-lg border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 sm:self-end"
+        >
+          <X class="h-3.5 w-3.5" />
+          Hapus filter
+        </button>
+        <p v-else class="text-xs text-slate-400 sm:pb-2">
+          Pilih tanggal untuk menampilkan rekomendasi pada hari tersebut.
+        </p>
+      </div>
+    </div>
+
+    <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+      <p class="text-sm text-slate-500">
+        Menampilkan
+        <span class="font-semibold text-slate-700">{{ startItem }}–{{ endItem }}</span>
+        dari
+        <span class="font-semibold text-slate-700">{{ totalItems }}</span>
+        hasil
+        <span v-if="dateFilter" class="text-slate-400">· {{ totalRecords }} total riwayat</span>
+      </p>
+      <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+        10 data per halaman
+      </span>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-slate-200">
+      <div class="overflow-x-auto">
+        <table class="min-w-[1120px] w-full whitespace-nowrap text-sm">
+          <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+              <th class="px-4 py-3.5">Tanggal</th>
+              <th class="px-4 py-3.5">N</th>
+              <th class="px-4 py-3.5">P</th>
+              <th class="px-4 py-3.5">K</th>
+              <th class="px-4 py-3.5">pH</th>
+              <th class="px-4 py-3.5">Objek Tanaman</th>
+              <th class="px-4 py-3.5">Fase</th>
+              <th class="px-4 py-3.5">Jenis Pupuk</th>
+              <th class="px-4 py-3.5">Dosis</th>
+              <th class="px-4 py-3.5">Kategori</th>
+              <th class="px-4 py-3.5 text-right">Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-slate-100 bg-white">
+            <tr
+              v-for="item in paginatedData"
+              :key="item.id"
+              class="transition-colors hover:bg-emerald-50/40"
+            >
+              <td class="px-4 py-3.5 font-medium text-slate-700">{{ item.created_at }}</td>
+              <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.nitrogen) }}</td>
+              <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.phosphorus) }}</td>
+              <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.potassium) }}</td>
+              <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.ph) }}</td>
+              <td class="px-4 py-3.5 text-slate-600">{{ item.objek_tanaman || "Durian Montong" }}</td>
+              <td class="px-4 py-3.5 text-slate-600">{{ item.fase }}</td>
+              <td class="px-4 py-3.5 font-medium text-slate-700">{{ item.jenis_pupuk }}</td>
+              <td class="px-4 py-3.5 font-semibold tabular-nums text-slate-700">{{ fmt(item.dosis) }} kg</td>
+              <td class="px-4 py-3.5">
+                <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold" :class="badge(item.kategori)">
+                  {{ item.kategori }}
+                </span>
+              </td>
+              <td class="px-4 py-3.5 text-right">
+                <button
+                  type="button"
+                  :disabled="deletingId === item.id"
+                  @click="emit('delete', item)"
+                  class="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-rose-200 px-3 text-xs font-semibold text-rose-700 transition hover:bg-rose-50 disabled:cursor-wait disabled:opacity-50"
+                >
+                  <Trash2 class="h-3.5 w-3.5" />
+                  {{ deletingId === item.id ? "Menghapus..." : "Hapus" }}
+                </button>
+              </td>
+            </tr>
+
+            <tr v-if="!totalRecords">
+              <td colspan="11" class="px-4 py-12 text-center">
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                  <ClipboardList class="h-6 w-6" />
+                </div>
+                <p class="mt-3 font-semibold text-slate-700">Belum ada riwayat rekomendasi</p>
+                <p class="mt-1 text-sm text-slate-500">Rekomendasi yang berhasil dibuat akan muncul di sini.</p>
+              </td>
+            </tr>
+
+            <tr v-else-if="!filteredRecommendations.length">
+              <td colspan="11" class="px-4 py-12 text-center">
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                  <CalendarDays class="h-6 w-6" />
+                </div>
+                <p class="mt-3 font-semibold text-slate-700">Tidak ada rekomendasi pada tanggal ini</p>
+                <p class="mt-1 text-sm text-slate-500">Pilih tanggal lain atau hapus filter untuk melihat seluruh riwayat.</p>
+                <button
+                  type="button"
+                  @click="dateFilter = ''"
+                  class="mt-3 inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-emerald-200 px-3 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                >
+                  <X class="h-3.5 w-3.5" />
+                  Tampilkan semua riwayat
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-xs text-slate-500">Halaman {{ currentPage }} dari {{ totalPages }}</p>
+      <div class="flex items-center justify-end gap-2">
+        <button
+          type="button"
+          :disabled="currentPage === 1"
+          @click="currentPage--"
+          class="inline-flex min-h-9 items-center gap-1 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <ChevronLeft class="h-4 w-4" />
+          Sebelumnya
+        </button>
+        <button
+          type="button"
+          :disabled="currentPage >= totalPages || !totalItems"
+          @click="currentPage++"
+          class="inline-flex min-h-9 items-center gap-1 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Berikutnya
+          <ChevronRight class="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  </BaseCard>
 </template>
