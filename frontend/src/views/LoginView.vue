@@ -71,7 +71,7 @@ const submitLogin = async () => {
       <div class="flex items-center px-6 py-9 sm:px-10 sm:py-12 lg:px-12">
         <div class="mx-auto w-full max-w-[370px]">
           <div class="mb-8 flex items-center justify-center gap-2 lg:justify-start">
-            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
               <Leaf class="h-5 w-5" />
             </div>
             <div>
@@ -81,7 +81,7 @@ const submitLogin = async () => {
           </div>
 
           <div class="mb-6 text-center lg:text-left">
-            <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-violet-600">
+            <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">
               Selamat datang kembali
             </p>
             <h1 class="text-3xl font-bold tracking-tight text-slate-900">Masuk</h1>
@@ -176,7 +176,7 @@ const submitLogin = async () => {
           </form>
 
           <div class="mt-7 flex items-start gap-2 rounded-xl bg-slate-50 px-3.5 py-3 text-[11px] leading-5 text-slate-500">
-            <Microscope class="mt-0.5 h-4 w-4 shrink-0 text-violet-500" />
+            <Microscope class="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
             <p>
               Penelitian menggunakan data simulasi. Keluaran sistem merupakan hasil pengujian metode, bukan rekomendasi pemupukan lapangan yang telah divalidasi.
             </p>
@@ -192,14 +192,14 @@ const submitLogin = async () => {
             <Leaf class="h-6 w-6 text-white" />
           </div>
           <p class="text-2xl font-bold tracking-tight sm:text-[27px]">Halo, Peneliti!</p>
-          <p class="mx-auto mt-3 max-w-[250px] text-sm leading-6 text-violet-100/90">
+          <p class="mx-auto mt-3 max-w-[250px] text-sm leading-6 text-emerald-50/90">
             Belum memiliki akun? Daftarkan akun untuk mengakses data simulasi dan meninjau proses pengujian Fuzzy Tsukamoto.
           </p>
           <RouterLink to="/register" class="auth-side-button mt-6">
             Daftar akun
             <ArrowRight class="h-4 w-4" />
           </RouterLink>
-          <p class="mt-7 text-[10px] leading-4 text-violet-100/65">
+          <p class="mt-7 text-[10px] leading-4 text-emerald-100/65">
             Implementasi dan evaluasi metode pada sistem monitoring kondisi tanah Durian Montong.
           </p>
         </div>
@@ -217,11 +217,11 @@ const submitLogin = async () => {
         aria-label="Login berhasil, sedang menyiapkan dashboard"
       >
         <section class="w-full max-w-sm rounded-[28px] border border-white/70 bg-white p-7 text-center shadow-2xl shadow-slate-950/20 sm:p-8">
-          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-violet-50 ring-8 ring-violet-50/70">
-            <CheckCircle2 class="h-9 w-9 text-violet-600" />
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 ring-8 ring-emerald-50/70">
+            <CheckCircle2 class="h-9 w-9 text-emerald-700" />
           </div>
 
-          <p class="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-violet-700">
+          <p class="mt-6 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700">
             Autentikasi Berhasil
           </p>
           <h2 class="mt-2 text-xl font-bold tracking-tight text-slate-900">
@@ -231,13 +231,13 @@ const submitLogin = async () => {
             Menyiapkan halaman sistem penelitian Anda.
           </p>
 
-          <div class="mt-6 flex items-center justify-center gap-2 text-sm font-semibold text-violet-700">
+          <div class="mt-6 flex items-center justify-center gap-2 text-sm font-semibold text-emerald-700">
             <LoaderCircle class="h-4 w-4 animate-spin" />
             <span>Membuka dashboard</span>
           </div>
 
-          <div class="mt-4 h-1.5 overflow-hidden rounded-full bg-violet-100">
-            <div class="login-progress h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500" />
+          <div class="mt-4 h-1.5 overflow-hidden rounded-full bg-emerald-100">
+            <div class="login-progress h-full rounded-full bg-gradient-to-r from-emerald-500 to-lime-500" />
           </div>
         </section>
       </div>
@@ -248,8 +248,8 @@ const submitLogin = async () => {
 <style scoped>
 .auth-page {
   background:
-    radial-gradient(ellipse at 12% 10%, rgba(196, 181, 253, 0.22), transparent 34%),
-    #e9eaf2;
+    radial-gradient(ellipse at 12% 10%, rgba(167, 243, 208, 0.25), transparent 34%),
+    #f5f8f6;
 }
 
 .auth-shell {
@@ -257,7 +257,7 @@ const submitLogin = async () => {
 }
 
 .auth-side {
-  background: linear-gradient(145deg, #6046c7 0%, #4b2fa8 55%, #39218f 100%);
+  background: linear-gradient(118deg, #123d31 0%, #155342 58%, #17634c 100%);
 }
 
 .auth-side::before {
@@ -311,7 +311,7 @@ const submitLogin = async () => {
 }
 
 .auth-input-wrap:focus-within .auth-input-icon {
-  color: #6d4bc3;
+  color: #047857;
 }
 
 .auth-input {
@@ -339,9 +339,9 @@ const submitLogin = async () => {
 }
 
 .auth-input:focus {
-  border-color: #7659ce;
+  border-color: #059669;
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(118, 89, 206, 0.12);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
 }
 
 .auth-input:disabled {
@@ -357,23 +357,23 @@ const submitLogin = async () => {
   justify-content: center;
   gap: 9px;
   border-radius: 10px;
-  background: linear-gradient(100deg, #5a3bb9, #4930a5);
+  background: linear-gradient(100deg, #123d31, #17634c);
   padding: 10px 16px;
   color: white;
   font-size: 13px;
   font-weight: 700;
-  box-shadow: 0 7px 16px rgba(75, 47, 168, 0.18);
+  box-shadow: 0 7px 16px rgba(15, 65, 48, 0.18);
   transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
 }
 
 .auth-submit:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(75, 47, 168, 0.23);
+  box-shadow: 0 10px 20px rgba(15, 65, 48, 0.23);
 }
 
 .auth-submit:focus-visible,
 .auth-side-button:focus-visible {
-  outline: 3px solid rgba(167, 139, 250, 0.55);
+  outline: 3px solid rgba(110, 231, 183, 0.55);
   outline-offset: 3px;
 }
 
