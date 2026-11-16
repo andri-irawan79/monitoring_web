@@ -20,7 +20,7 @@ function badge(kategori) {
 
 <template>
   <BaseCard>
-    <div class="flex justify-between items-center mb-6">
+    <div class="mb-5 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2 class="text-xl font-bold">Riwayat Rekomendasi</h2>
         <p class="text-slate-500 text-sm">10 rekomendasi terakhir untuk Durian Montong</p>
@@ -28,14 +28,14 @@ function badge(kategori) {
       <button
         type="button"
         @click="exportRecommendationCSV"
-        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+        class="inline-flex min-h-10 w-full items-center justify-center rounded-xl bg-green-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 sm:w-auto"
       >
         Export CSV
       </button>
     </div>
 
     <div class="overflow-x-auto">
-      <table class="min-w-full">
+      <table class="min-w-full whitespace-nowrap text-sm">
         <thead>
           <tr class="border-b text-left text-slate-500">
             <th class="px-4 py-3">Tanggal</th>
