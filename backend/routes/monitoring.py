@@ -21,6 +21,9 @@ router = APIRouter()
 SIMULATOR_STATUS_TIMEOUT_SECONDS = float(
     os.getenv("SIMULATOR_STATUS_TIMEOUT_SECONDS", "8")
 )
+SIMULATOR_SESSION_TIMEOUT_SECONDS = float(
+    os.getenv("SIMULATOR_SESSION_TIMEOUT_SECONDS", "45")
+)
 SIMULATOR_RECORD_TARGET = 365
 
 
@@ -65,14 +68,14 @@ def _create_session(db, mode):
         age_seconds = (
             (datetime.utcnow() - activity_at).total_seconds()
             if activity_at
-            else SIMULATOR_STATUS_TIMEOUT_SECONDS + 1
+            else SIMULATOR_SESSION_TIMEOUT_SECONDS + 1
         )
-        if age_seconds > SIMULATOR_STATUS_TIMEOUT_SECONDS:
+        if age_seconds > SIMULATOR_SESSION_TIMEOUT_SECONDS:
             active.status = "failed"
             active.finished_at = datetime.utcnow()
             active.error_message = (
                 "Sesi sebelumnya tidak menerima data baru dalam "
-                f"{SIMULATOR_STATUS_TIMEOUT_SECONDS:g} detik."
+                f"{SIMULATOR_SESSION_TIMEOUT_SECONDS:g} detik."
             )
             db.commit()
         else:
@@ -240,14 +243,14 @@ def simulation_session_status(
             age_seconds = (
                 (datetime.utcnow() - activity_at).total_seconds()
                 if activity_at
-                else SIMULATOR_STATUS_TIMEOUT_SECONDS + 1
+                else SIMULATOR_SESSION_TIMEOUT_SECONDS + 1
             )
-            if age_seconds > SIMULATOR_STATUS_TIMEOUT_SECONDS:
+            if age_seconds > SIMULATOR_SESSION_TIMEOUT_SECONDS:
                 session.status = "failed"
                 session.finished_at = datetime.utcnow()
                 session.error_message = (
                     "Tidak ada data baru yang diterima dalam "
-                    f"{SIMULATOR_STATUS_TIMEOUT_SECONDS:g} detik. "
+                    f"{SIMULATOR_SESSION_TIMEOUT_SECONDS:g} detik. "
                     "Periksa proses simulator dan koneksi API."
                 )
                 db.commit()
@@ -257,7 +260,7 @@ def simulation_session_status(
         )
         return {
             "active": is_active,
-            "timeout_seconds": SIMULATOR_STATUS_TIMEOUT_SECONDS,
+            "timeout_seconds": SIMULATOR_SESSION_TIMEOUT_SECONDS,
             "session": _session_payload(session),
         }
 
