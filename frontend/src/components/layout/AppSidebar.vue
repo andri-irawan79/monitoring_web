@@ -1,11 +1,9 @@
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import {
   LayoutDashboard,
   FlaskConical,
   Info,
-  LogOut,
-  CircleAlert,
   ChevronRight,
   Play,
   Square,
@@ -13,8 +11,7 @@ import {
   Globe,
   LoaderCircle
 } from "lucide-vue-next";
-import { RouterLink, useRoute, useRouter } from "vue-router";
-import { logoutAccount } from "../../services/authService";
+import { RouterLink, useRoute } from "vue-router";
 import {
   getSimulatorStatus,
   getSimulationSessionStatus,
@@ -28,10 +25,6 @@ defineProps({
 const emit = defineEmits(["close"]);
 
 const route = useRoute();
-const router = useRouter();
-const showLogoutConfirm = ref(false);
-const logoutButton = ref(null);
-const cancelButton = ref(null);
 
 const simulatorStatus = ref({ active: false, last_received_at: null });
 const simulatorSessionStatus = ref({ active: false, session: null });
@@ -188,23 +181,6 @@ const menus = [
   { name: "Rekomendasi", description: "Pengolahan Fuzzy Tsukamoto", icon: FlaskConical, path: "/recommendation" }
 ];
 
-const openLogoutConfirmation = async () => {
-  showLogoutConfirm.value = true;
-  await nextTick();
-  cancelButton.value?.focus();
-};
-
-const closeLogoutConfirmation = async () => {
-  showLogoutConfirm.value = false;
-  await nextTick();
-  logoutButton.value?.focus();
-};
-
-const confirmLogout = () => {
-  showLogoutConfirm.value = false;
-  logoutAccount();
-  router.replace("/login");
-};
 </script>
 
 <template>
@@ -428,20 +404,6 @@ const confirmLogout = () => {
         </p>
       </section>
 
-      <button
-        ref="logoutButton"
-        type="button"
-        @click="openLogoutConfirmation"
-        aria-label="Keluar dari akun"
-        class="group flex min-h-11 w-full items-center gap-3 rounded-xl border border-rose-100/80 bg-rose-50/45 px-3 py-2.5 text-left text-slate-700 shadow-sm transition-all duration-200 hover:border-rose-200 hover:bg-rose-50/90 hover:text-rose-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
-      >
-        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-rose-600 ring-1 ring-rose-100 transition-colors group-hover:bg-rose-100 group-hover:text-rose-700">
-          <LogOut class="h-4 w-4" />
-        </span>
-        <span class="flex-1 text-xs font-bold">Keluar dari akun</span>
-        <ChevronRight class="h-4 w-4 text-rose-300 transition-transform group-hover:translate-x-0.5 group-hover:text-rose-600" />
-      </button>
-
       <div class="flex items-center justify-between px-1 pt-1 text-[10px] text-slate-400">
         <span class="inline-flex items-center gap-1.5"><Info class="h-3.5 w-3.5" />Durian Monitor</span>
         <span class="font-semibold tabular-nums">Versi 3.0.0</span>
@@ -449,47 +411,4 @@ const confirmLogout = () => {
     </div>
   </aside>
 
-  <Teleport to="body">
-    <div
-      v-if="showLogoutConfirm"
-      class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-[3px]"
-      role="presentation"
-      @click.self="closeLogoutConfirmation"
-      @keydown.esc.stop.prevent="closeLogoutConfirmation"
-    >
-      <section
-        class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="logout-dialog-title"
-        aria-describedby="logout-dialog-description"
-        @click.stop
-      >
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
-          <CircleAlert class="h-6 w-6" />
-        </div>
-        <div class="mt-4 text-center">
-          <h2 id="logout-dialog-title" class="text-lg font-bold text-slate-800">Konfirmasi Keluar</h2>
-          <p id="logout-dialog-description" class="mt-2 text-sm leading-6 text-slate-500">Apakah Anda yakin ingin keluar dari akun?</p>
-        </div>
-        <div class="mt-6 flex items-center justify-end gap-3">
-          <button
-            ref="cancelButton"
-            type="button"
-            @click="closeLogoutConfirmation"
-            class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2"
-          >
-            Batal
-          </button>
-          <button
-            type="button"
-            @click="confirmLogout"
-            class="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
-          >
-            Keluar
-          </button>
-        </div>
-      </section>
-    </div>
-  </Teleport>
 </template>
