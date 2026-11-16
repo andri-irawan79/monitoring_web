@@ -60,10 +60,15 @@ def _b64url_decode(value: str) -> bytes:
     return base64.urlsafe_b64decode((value + padding).encode("ascii"))
 
 
-def create_access_token(user_id: int) -> str:
+def create_access_token(user_id: int, auth_version: int = 0) -> str:
     now = int(time.time())
     header = {"alg": "HS256", "typ": "JWT"}
-    payload = {"sub": str(user_id), "iat": now, "exp": now + TOKEN_TTL_SECONDS}
+    payload = {
+        "sub": str(user_id),
+        "iat": now,
+        "exp": now + TOKEN_TTL_SECONDS,
+        "ver": int(auth_version or 0)
+    }
     signing_input = (
         _b64url(json.dumps(header, separators=(",", ":")).encode("utf-8"))
         + "."
@@ -75,7 +80,7 @@ def create_access_token(user_id: int) -> str:
     return signing_input + "." + _b64url(signature)
 
 
-def decode_access_token(token: str) -> int:
+def decode_access_token_claims(token: str):
     try:
         header_text, payload_text, signature_text = token.split(".")
         signing_input = header_text + "." + payload_text
@@ -94,15 +99,22 @@ def decode_access_token(token: str) -> int:
             raise ValueError("Token telah kedaluwarsa.")
 
         user_id = int(payload.get("sub"))
-        if user_id <= 0:
-            raise ValueError("Identitas pengguna tidak valid.")
-        return user_id
+        auth_version = int(payload.get("ver", 0))
+        if user_id <= 0 or auth_version < 0:
+            raise ValueError("Identitas pengguna atau versi sesi tidak valid.")
+        return user_id, auth_version
     except (ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Sesi tidak valid atau telah berakhir. Silakan masuk kembali.",
             headers={"WWW-Authenticate": "Bearer"}
         ) from exc
+
+
+def decode_access_token(token: str) -> int:
+    # Keep the original helper contract for any existing caller.
+    user_id, _auth_version = decode_access_token_claims(token)
+    return user_id
 
 
 def get_current_user(
@@ -115,7 +127,7 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"}
         )
 
-    user_id = decode_access_token(credentials.credentials)
+    user_id, token_version = decode_access_token_claims(credentials.credentials)
     db = SessionLocal()
     try:
         user = db.query(User).filter(
@@ -126,6 +138,12 @@ def get_current_user(
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Akun tidak ditemukan atau tidak aktif."
+            )
+        if int(user.auth_version or 0) != token_version:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Sesi ini sudah tidak berlaku. Silakan masuk kembali.",
+                headers={"WWW-Authenticate": "Bearer"}
             )
         return user
     finally:
