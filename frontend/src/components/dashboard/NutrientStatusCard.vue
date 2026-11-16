@@ -13,10 +13,10 @@ const nutrients = computed(() => !props.monitoring ? [] : [
 ]);
 
 function getStatus(type, value) {
-  if (type === "nitrogen") return value < 40 ? { text: "Rendah", tone: "rose" } : value <= 70 ? { text: "Normal", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
+  if (type === "nitrogen") return value < 40 ? { text: "Rendah", tone: "rose" } : value <= 70 ? { text: "Sedang", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
   if (type === "phosphorus") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 60 ? { text: "Normal", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
   if (type === "potassium") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 50 ? { text: "Normal", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
-  if (type === "ph") return value < 5.5 ? { text: "Asam", tone: "rose" } : value <= 7 ? { text: "Optimal", tone: "emerald" } : { text: "Basa", tone: "amber" };
+  if (type === "ph") return value < 5.5 ? { text: "Asam", tone: "rose" } : value <= 7 ? { text: "Dalam rentang", tone: "emerald" } : { text: "Basa", tone: "amber" };
   return { text: "-", tone: "slate" };
 }
 
@@ -76,7 +76,7 @@ const iconTone = {
 
       <div class="mt-4 flex items-start gap-2 rounded-xl border border-emerald-100 bg-emerald-50/70 p-3 text-xs leading-5 text-emerald-800">
         <CheckCircle2 class="mt-0.5 h-4 w-4 shrink-0" />
-        <span>Status ditampilkan berdasarkan batas kategori yang digunakan pada sistem.</span>
+        <span>Kategori mengikuti ambang batas yang dikonfigurasi dalam sistem dan bukan diagnosis agronomis kondisi tanah.</span>
       </div>
     </section>
   </BaseCard>
