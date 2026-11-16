@@ -40,15 +40,22 @@ def prepare_application_tables():
     else:
         User.__table__.create(bind=engine, checkfirst=True)
 
-    # Idempotent PostgreSQL schema preparation for session-based simulation.
-    # Existing monitoring rows remain intact; the new columns are nullable.
+    inspector = inspect(engine)
     if not inspector.has_table("monitoring"):
         raise RuntimeError(
             "Tabel 'monitoring' belum tersedia. Siapkan skema monitoring "
             "yang digunakan aplikasi sebelum menjalankan server."
         )
+    if not inspector.has_table("rekomendasi"):
+        raise RuntimeError(
+            "Tabel 'rekomendasi' belum tersedia. Siapkan skema rekomendasi "
+            "yang digunakan aplikasi sebelum menjalankan server."
+        )
 
+    # Create the new session table if needed; all owner columns are nullable
+    # for legacy records whose original account cannot be determined safely.
     SimulationSession.__table__.create(bind=engine, checkfirst=True)
+
     with engine.begin() as connection:
         connection.execute(text(
             "ALTER TABLE monitoring "
@@ -58,6 +65,32 @@ def prepare_application_tables():
             "ALTER TABLE monitoring "
             "ADD COLUMN IF NOT EXISTS session_record_number INTEGER"
         ))
+
+        connection.execute(text(
+            "ALTER TABLE monitoring "
+            "ADD COLUMN IF NOT EXISTS user_id INTEGER "
+            "REFERENCES users(id) ON DELETE CASCADE"
+        ))
+        connection.execute(text(
+            "ALTER TABLE rekomendasi "
+            "ADD COLUMN IF NOT EXISTS user_id INTEGER "
+            "REFERENCES users(id) ON DELETE CASCADE"
+        ))
+        connection.execute(text(
+            "ALTER TABLE simulation_sessions "
+            "ADD COLUMN IF NOT EXISTS user_id INTEGER "
+            "REFERENCES users(id) ON DELETE CASCADE"
+        ))
+
+        connection.execute(text(
+            "UPDATE rekomendasi r "
+            "SET user_id = m.user_id "
+            "FROM monitoring m "
+            "WHERE r.monitoring_id = m.id "
+            "AND r.user_id IS NULL "
+            "AND m.user_id IS NOT NULL"
+        ))
+
         connection.execute(text(
             "CREATE UNIQUE INDEX IF NOT EXISTS uq_monitoring_session_record "
             "ON monitoring (simulation_session_id, session_record_number) "
@@ -65,9 +98,28 @@ def prepare_application_tables():
             "AND session_record_number IS NOT NULL"
         ))
         connection.execute(text(
-            "CREATE UNIQUE INDEX IF NOT EXISTS uq_simulation_sessions_single_active "
-            "ON simulation_sessions ((1)) "
-            "WHERE status IN ('starting', 'running')"
+            "CREATE INDEX IF NOT EXISTS ix_monitoring_user_id "
+            "ON monitoring (user_id)"
+        ))
+        connection.execute(text(
+            "CREATE INDEX IF NOT EXISTS ix_rekomendasi_user_id "
+            "ON rekomendasi (user_id)"
+        ))
+        connection.execute(text(
+            "CREATE INDEX IF NOT EXISTS ix_simulation_sessions_user_id "
+            "ON simulation_sessions (user_id)"
+        ))
+
+        # The old index allowed only one active session for the whole app.
+        # Replace it with a per-user constraint.
+        connection.execute(text(
+            "DROP INDEX IF EXISTS uq_simulation_sessions_single_active"
+        ))
+        connection.execute(text(
+            "CREATE UNIQUE INDEX IF NOT EXISTS uq_simulation_sessions_single_active_user "
+            "ON simulation_sessions (user_id) "
+            "WHERE user_id IS NOT NULL "
+            "AND status IN ('starting', 'running')"
         ))
 
 

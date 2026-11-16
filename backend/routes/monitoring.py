@@ -56,10 +56,13 @@ def _session_payload(session):
     }
 
 
-def _create_session(db, mode):
+def _create_session(db, mode, user_id):
     active = (
         db.query(SimulationSession)
-        .filter(SimulationSession.status.in_(("starting", "running")))
+        .filter(
+            SimulationSession.user_id == user_id,
+            SimulationSession.status.in_(("starting", "running"))
+        )
         .with_for_update()
         .first()
     )
@@ -89,6 +92,7 @@ def _create_session(db, mode):
 
     session = SimulationSession(
         id=str(uuid4()),
+        user_id=user_id,
         mode=mode,
         status="running",
         target_count=SIMULATOR_RECORD_TARGET,
@@ -115,6 +119,7 @@ def latest_monitoring(current_user: User = Depends(get_current_user)):
     try:
         data = (
             db.query(Monitoring)
+            .filter(Monitoring.user_id == current_user.id)
             .order_by(Monitoring.id.desc())
             .first()
         )
@@ -146,6 +151,7 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
     try:
         data = (
             db.query(Monitoring)
+            .filter(Monitoring.user_id == current_user.id)
             .order_by(Monitoring.id.desc())
             .all()
         )
@@ -188,6 +194,7 @@ def simulator_status(
                     func.now().cast(DateTime(timezone=False)) - Monitoring.created_at
                 ).label("age_seconds"),
             )
+            .filter(Monitoring.user_id == current_user.id)
             .order_by(Monitoring.id.desc())
             .first()
         )
@@ -234,6 +241,7 @@ def simulation_session_status(
     try:
         session = (
             db.query(SimulationSession)
+            .filter(SimulationSession.user_id == current_user.id)
             .order_by(SimulationSession.started_at.desc())
             .first()
         )
@@ -276,7 +284,7 @@ def start_website_simulation(
     db = SessionLocal()
 
     try:
-        session = _create_session(db, "website")
+        session = _create_session(db, "website", current_user.id)
         try:
             process = start_simulator_process(session.id)
             session.process_id = process.pid
@@ -311,12 +319,12 @@ def start_website_simulation(
 
 @router.post("/sessions/terminal/start")
 def start_terminal_simulation(
-    simulator_authorized: bool = Depends(verify_simulator_key),
+    current_user: User = Depends(get_current_user),
 ):
     """Create a session for a simulator launched manually from Git Bash."""
     db = SessionLocal()
     try:
-        session = _create_session(db, "terminal")
+        session = _create_session(db, "terminal", current_user.id)
         return {
             "message": "Sesi simulasi Git Bash berhasil dibuat.",
             "session": _session_payload(session),
@@ -335,7 +343,10 @@ def stop_website_simulation(
     try:
         session = (
             db.query(SimulationSession)
-            .filter(SimulationSession.id == session_id)
+            .filter(
+                SimulationSession.id == session_id,
+                SimulationSession.user_id == current_user.id,
+            )
             .with_for_update()
             .first()
         )
@@ -436,16 +447,13 @@ def create_monitoring(
     db = SessionLocal()
 
     try:
-        session = None
-        if (
-            payload.session_record_number is not None
-            and not payload.simulation_session_id
-        ):
+        if not payload.simulation_session_id:
             raise HTTPException(
                 status_code=422,
-                detail="ID sesi wajib dikirim bersama nomor record sesi.",
+                detail="Setiap data simulasi wajib menyertakan ID sesi milik akun.",
             )
 
+        session = None
         if payload.simulation_session_id:
             if payload.session_record_number is None:
                 raise HTTPException(
@@ -461,6 +469,11 @@ def create_monitoring(
             )
             if session is None:
                 raise HTTPException(status_code=404, detail="Sesi simulasi tidak ditemukan.")
+            if session.user_id is None:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Sesi simulasi belum terhubung dengan akun pengguna.",
+                )
 
             if not 1 <= payload.session_record_number <= session.target_count:
                 raise HTTPException(
@@ -507,6 +520,7 @@ def create_monitoring(
             ph=payload.ph,
             rainfall=payload.rainfall,
             simulation_date=payload.simulation_date,
+            user_id=session.user_id,
             simulation_session_id=payload.simulation_session_id,
             session_record_number=payload.session_record_number,
         )

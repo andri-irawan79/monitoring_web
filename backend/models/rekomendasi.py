@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
 from sqlalchemy.sql import func
 
 from database.base import Base
@@ -8,6 +8,7 @@ class Rekomendasi(Base):
     __tablename__ = "rekomendasi"
 
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
     monitoring_id = Column(Integer, nullable=False)
     fase_id = Column(Integer, nullable=False)
     jenis_pupuk = Column(String, nullable=False)
