@@ -1,15 +1,32 @@
+"""Manual monitoring inspection for one account.
+
+Set TEST_USER_ID before running so the output remains account-scoped.
+"""
+import os
+
 from database.session import SessionLocal
 from models.monitoring import Monitoring
 
+user_id = os.getenv("TEST_USER_ID")
+if not user_id:
+    raise RuntimeError("Set TEST_USER_ID to the account ID to inspect.")
+
 db = SessionLocal()
 
-data = db.query(Monitoring).all()
-
-for row in data:
-    print(
-        row.id,
-        row.nitrogen,
-        row.ph
+try:
+    data = (
+        db.query(Monitoring)
+        .filter(Monitoring.user_id == int(user_id))
+        .order_by(Monitoring.id.desc())
+        .all()
     )
 
-db.close()
+    for row in data:
+        print(
+            row.id,
+            row.user_id,
+            row.nitrogen,
+            row.ph
+        )
+finally:
+    db.close()
