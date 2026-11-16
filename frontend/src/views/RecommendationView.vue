@@ -246,7 +246,7 @@ const removeRecommendation = async () => {
     }
 };
 
-onMounted(loadData);
+onMounted(async () => {\n    await loadData();\n    if (window.location.hash) {\n        await nextTick();\n        window.setTimeout(() => document.querySelector(window.location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);\n    }\n});
 onUnmounted(() => {
     if (successTimer.value) window.clearTimeout(successTimer.value);
 });
@@ -574,4 +574,4 @@ onUnmounted(() => {
         animation-duration: 2.5s;
     }
 }
-</style>
+@media (prefers-reduced-motion: reduce) { .recommendation-page { scroll-behavior: auto; } }\n</style>
