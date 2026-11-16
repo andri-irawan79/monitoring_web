@@ -1,13 +1,19 @@
 <script setup>
-import { computed, onMounted } from "vue";
-import { Leaf, UserCircle2, Menu, X } from "lucide-vue-next";
+import { computed, nextTick, onMounted, ref } from "vue";
+import { Leaf, LogOut, Menu, X, CircleAlert } from "lucide-vue-next";
+import { useRouter } from "vue-router";
 import { currentUser } from "../../services/authState";
-import { getCurrentAccount } from "../../services/authService";
+import { getCurrentAccount, logoutAccount } from "../../services/authService";
 
 const props = defineProps({
   sidebarOpen: { type: Boolean, default: false }
 });
 const emit = defineEmits(["toggle-sidebar"]);
+const router = useRouter();
+
+const showLogoutConfirm = ref(false);
+const logoutButton = ref(null);
+const cancelButton = ref(null);
 
 const userName = computed(() => currentUser.value?.full_name || "Pengguna");
 const userEmail = computed(() => currentUser.value?.email || "");
@@ -15,6 +21,24 @@ const userInitials = computed(() => {
   const parts = userName.value.trim().split(/\s+/).filter(Boolean).slice(0, 2);
   return parts.map(part => part[0]?.toUpperCase() || "").join("") || "P";
 });
+
+const openLogoutConfirmation = async () => {
+  showLogoutConfirm.value = true;
+  await nextTick();
+  cancelButton.value?.focus();
+};
+
+const closeLogoutConfirmation = async () => {
+  showLogoutConfirm.value = false;
+  await nextTick();
+  logoutButton.value?.focus();
+};
+
+const confirmLogout = () => {
+  showLogoutConfirm.value = false;
+  logoutAccount();
+  router.replace("/login");
+};
 
 onMounted(async () => {
   if (!currentUser.value) {
@@ -61,7 +85,7 @@ onMounted(async () => {
 
       <div class="flex shrink-0 items-center gap-2 sm:gap-3">
         <div class="hidden h-9 w-px bg-slate-200 md:block"></div>
-        <div class="flex min-w-0 items-center gap-2.5 rounded-2xl border border-slate-200/80 bg-slate-50/80 py-1.5 pl-1.5 pr-3 sm:gap-3 sm:pl-2">
+        <div class="flex min-w-0 items-center gap-2.5 rounded-2xl border border-slate-200/80 bg-slate-50/80 py-1.5 pl-1.5 pr-2 sm:gap-3 sm:pl-2 sm:pr-2.5">
           <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-emerald-200/70">
             {{ userInitials }}
           </div>
@@ -69,9 +93,61 @@ onMounted(async () => {
             <p class="max-w-36 truncate text-xs font-bold text-slate-800 sm:max-w-44">{{ userName }}</p>
             <p class="max-w-36 truncate text-[10px] text-slate-500 sm:max-w-44">{{ userEmail || "Akun pengguna" }}</p>
           </div>
-          <UserCircle2 class="hidden h-4 w-4 shrink-0 text-slate-400 sm:block" />
+          <button
+            ref="logoutButton"
+            type="button"
+            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-rose-100 bg-white text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
+            aria-label="Keluar dari akun"
+            @click="openLogoutConfirmation"
+          >
+            <LogOut class="h-4 w-4" />
+          </button>
         </div>
       </div>
     </div>
   </header>
+
+  <Teleport to="body">
+    <div
+      v-if="showLogoutConfirm"
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-[3px]"
+      role="presentation"
+      @click.self="closeLogoutConfirmation"
+      @keydown.esc.stop.prevent="closeLogoutConfirmation"
+    >
+      <section
+        class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="logout-dialog-title"
+        aria-describedby="logout-dialog-description"
+        @click.stop
+      >
+        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
+          <CircleAlert class="h-6 w-6" />
+        </div>
+        <div class="mt-4 text-center">
+          <h2 id="logout-dialog-title" class="text-lg font-bold text-slate-800">Konfirmasi Keluar</h2>
+          <p id="logout-dialog-description" class="mt-2 text-sm leading-6 text-slate-500">Apakah Anda yakin ingin keluar dari akun?</p>
+        </div>
+        <div class="mt-6 flex items-center justify-end gap-3">
+          <button
+            ref="cancelButton"
+            type="button"
+            @click="closeLogoutConfirmation"
+            class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="confirmLogout"
+            class="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
+          >
+            Keluar
+          </button>
+        </div>
+      </section>
+    </div>
+  </Teleport>
 </template>
