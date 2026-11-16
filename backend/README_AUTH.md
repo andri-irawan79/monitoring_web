@@ -80,3 +80,37 @@ Setiap data monitoring, sesi simulasi, dan rekomendasi baru dikaitkan dengan aku
 Untuk menjalankan simulator dari Git Bash, skrip meminta email dan kata sandi akun terlebih dahulu. Kredensial digunakan untuk memperoleh token login dan tidak disimpan oleh skrip. Sesi yang dibuat dari website otomatis menggunakan akun yang sedang masuk.
 
 Kolom kepemilikan ditambahkan secara nullable agar record historis tetap tersimpan tanpa dihapus. Record lama yang belum memiliki pemilik tidak ditampilkan kepada akun mana pun sampai pemiliknya ditetapkan secara eksplisit. Ini mencegah data lama diberikan kepada akun yang salah. Cadangkan database sebelum migrasi pertama.
+
+
+### Mengaitkan data historis yang sudah ada (opsional)
+
+Record yang dibuat sebelum fitur pemisahan akun belum memiliki informasi pemilik. Record tersebut tidak dihapus, tetapi juga tidak ditampilkan kepada akun mana pun sampai pemilik ditentukan. Jangan menjalankan langkah ini sebelum memastikan akun mana yang seharusnya memiliki seluruh data lama.
+
+1. Lihat ID akun di PostgreSQL:
+
+```sql
+SELECT id, full_name, email
+FROM users
+ORDER BY id;
+```
+
+2. Ganti angka `<ID_AKUN_PEMILIK>` dengan ID akun yang memang memiliki data historis tersebut, lalu jalankan:
+
+```sql
+UPDATE monitoring
+SET user_id = <ID_AKUN_PEMILIK>
+WHERE user_id IS NULL;
+
+UPDATE simulation_sessions
+SET user_id = <ID_AKUN_PEMILIK>
+WHERE user_id IS NULL;
+
+UPDATE rekomendasi r
+SET user_id = m.user_id
+FROM monitoring m
+WHERE r.monitoring_id = m.id
+  AND r.user_id IS NULL
+  AND m.user_id IS NOT NULL;
+```
+
+Karena data historis sebelumnya tersimpan bersama tanpa identitas akun, proses ini mengaitkan seluruh record monitoring lama yang belum memiliki pemilik ke satu akun yang dipilih. Akun lain tidak akan melihat record tersebut.
