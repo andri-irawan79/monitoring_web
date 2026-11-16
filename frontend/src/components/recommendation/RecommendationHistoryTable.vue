@@ -1,89 +1,30 @@
 <script setup>
+import { computed, ref, watch } from "vue";
+import { Download, Trash2, ChevronLeft, ChevronRight, ClipboardList } from "lucide-vue-next";
 import BaseCard from "../ui/BaseCard.vue";
 import { exportRecommendationCSV } from "../../services/recommendationService";
-
-defineProps({
-  recommendations: {
-    type: Array,
-    default: () => []
-  }
-});
-
-function badge(kategori) {
-  if (!kategori) return "bg-slate-100 text-slate-700";
-  const value = kategori.toLowerCase();
-  if (value === "tinggi") return "bg-red-100 text-red-700";
-  if (value === "sedang") return "bg-yellow-100 text-yellow-700";
-  return "bg-green-100 text-green-700";
-}
+const props = defineProps({ recommendations: { type: Array, default: () => [] }, deletingId: { type: [Number, String], default: null } });
+const emit = defineEmits(["delete"]);
+const currentPage = ref(1), perPage = 10;
+const totalItems = computed(() => props.recommendations.length);
+const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPage)));
+const paginatedData = computed(() => props.recommendations.slice((currentPage.value - 1) * perPage, currentPage.value * perPage));
+const startItem = computed(() => totalItems.value ? (currentPage.value - 1) * perPage + 1 : 0);
+const endItem = computed(() => Math.min(currentPage.value * perPage, totalItems.value));
+watch(totalPages, pages => { if (currentPage.value > pages) currentPage.value = pages; });
+function badge(k) { const v = String(k || "").toLowerCase(); if (v === "tinggi") return "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200"; if (v === "sedang") return "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200"; return "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200"; }
+function fmt(value, digits = 2) { const n = Number(value); return Number.isFinite(n) ? n.toFixed(digits) : "-"; }
 </script>
-
 <template>
-  <BaseCard>
-    <div class="mb-5 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 class="text-xl font-bold">Riwayat Rekomendasi</h2>
-        <p class="text-sm text-slate-500">10 rekomendasi terakhir untuk Durian Montong</p>
-      </div>
-      <button
-        type="button"
-        @click="exportRecommendationCSV"
-        class="inline-flex min-h-10 w-full items-center justify-center rounded-xl bg-green-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 sm:w-auto"
-      >
-        Export CSV
-      </button>
-    </div>
-
-    <div class="overflow-x-auto">
-      <table class="min-w-full whitespace-nowrap text-sm">
-        <thead>
-          <tr class="border-b text-left text-slate-500">
-            <th class="px-4 py-3">Tanggal</th>
-            <th class="px-4 py-3">N</th>
-            <th class="px-4 py-3">P</th>
-            <th class="px-4 py-3">K</th>
-            <th class="px-4 py-3">pH</th>
-            <th class="px-4 py-3">Objek Tanaman</th>
-            <th class="px-4 py-3">Fase</th>
-            <th class="px-4 py-3">Pupuk</th>
-            <th class="px-4 py-3">Dosis</th>
-            <th class="px-4 py-3">Kategori</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="item in recommendations"
-            :key="item.id"
-            class="border-b transition hover:bg-slate-50"
-          >
-            <td class="px-4 py-3">{{ item.created_at }}</td>
-            <td class="px-4 py-3">{{ item.nitrogen }}</td>
-            <td class="px-4 py-3">{{ item.phosphorus }}</td>
-            <td class="px-4 py-3">{{ item.potassium }}</td>
-            <td class="px-4 py-3">{{ Number(item.ph).toFixed(1) }}</td>
-            <td class="px-4 py-3">{{ item.objek_tanaman || "Durian Montong" }}</td>
-            <td class="px-4 py-3">{{ item.fase }}</td>
-            <td class="px-4 py-3">{{ item.jenis_pupuk }}</td>
-            <td class="px-4 py-3">{{ item.dosis }} kg</td>
-            <td class="px-4 py-3">
-              <span
-                class="rounded-full px-3 py-1 text-xs font-medium"
-                :class="badge(item.kategori)"
-              >
-                {{ item.kategori }}
-              </span>
-            </td>
-          </tr>
-          <tr v-if="!recommendations.length">
-            <td colspan="10" class="px-4 py-10 text-center">
-              <p class="font-medium text-slate-700">Belum ada riwayat rekomendasi</p>
-              <p class="mt-1 whitespace-normal text-sm text-slate-500">
-                Rekomendasi yang berhasil dibuat akan tersimpan dan ditampilkan pada tabel ini.
-              </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </BaseCard>
+<BaseCard>
+  <div class="mb-5 flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between"><div class="flex items-start gap-3"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><ClipboardList class="h-5 w-5" /></div><div><h2 class="text-lg font-bold tracking-tight text-slate-800">Riwayat Rekomendasi</h2><p class="mt-1 text-sm text-slate-500">Daftar hasil rekomendasi pemupukan Durian Montong</p></div></div><button type="button" @click="exportRecommendationCSV" class="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:w-auto"><Download class="h-4 w-4" /> Export CSV</button></div>
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2"><p class="text-sm text-slate-500">Menampilkan <span class="font-semibold text-slate-700">{{ startItem }}–{{ endItem }}</span> dari <span class="font-semibold text-slate-700">{{ totalItems }}</span> data</p><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">10 data per halaman</span></div>
+  <div class="overflow-hidden rounded-xl border border-slate-200"><div class="overflow-x-auto"><table class="min-w-[1120px] w-full whitespace-nowrap text-sm">
+    <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th class="px-4 py-3.5">Tanggal</th><th class="px-4 py-3.5">N</th><th class="px-4 py-3.5">P</th><th class="px-4 py-3.5">K</th><th class="px-4 py-3.5">pH</th><th class="px-4 py-3.5">Objek Tanaman</th><th class="px-4 py-3.5">Fase</th><th class="px-4 py-3.5">Jenis Pupuk</th><th class="px-4 py-3.5">Dosis</th><th class="px-4 py-3.5">Kategori</th><th class="px-4 py-3.5 text-right">Aksi</th></tr></thead>
+    <tbody class="divide-y divide-slate-100 bg-white"><tr v-for="item in paginatedData" :key="item.id" class="transition-colors hover:bg-emerald-50/40">
+      <td class="px-4 py-3.5 font-medium text-slate-700">{{ item.created_at }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.nitrogen) }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.phosphorus) }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.potassium) }}</td><td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.ph) }}</td><td class="px-4 py-3.5 text-slate-600">{{ item.objek_tanaman || "Durian Montong" }}</td><td class="px-4 py-3.5 text-slate-600">{{ item.fase }}</td><td class="px-4 py-3.5 font-medium text-slate-700">{{ item.jenis_pupuk }}</td><td class="px-4 py-3.5 font-semibold tabular-nums text-slate-700">{{ fmt(item.dosis) }} kg</td><td class="px-4 py-3.5"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold" :class="badge(item.kategori)">{{ item.kategori }}</span></td><td class="px-4 py-3.5 text-right"><button type="button" :disabled="deletingId === item.id" @click="emit('delete', item)" class="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-rose-200 px-3 text-xs font-semibold text-rose-700 transition hover:bg-rose-50 disabled:cursor-wait disabled:opacity-50"><Trash2 class="h-3.5 w-3.5" />{{ deletingId === item.id ? "Menghapus..." : "Hapus" }}</button></td>
+    </tr><tr v-if="!recommendations.length"><td colspan="11" class="px-4 py-12 text-center"><div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-500"><ClipboardList class="h-6 w-6" /></div><p class="mt-3 font-semibold text-slate-700">Belum ada riwayat rekomendasi</p><p class="mt-1 text-sm text-slate-500">Rekomendasi yang berhasil dibuat akan muncul di sini.</p></td></tr></tbody>
+  </table></div></div>
+  <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><p class="text-xs text-slate-500">Halaman {{ currentPage }} dari {{ totalPages }}</p><div class="flex items-center justify-end gap-2"><button type="button" :disabled="currentPage === 1" @click="currentPage--" class="inline-flex min-h-9 items-center gap-1 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft class="h-4 w-4" /> Sebelumnya</button><button type="button" :disabled="currentPage >= totalPages" @click="currentPage++" class="inline-flex min-h-9 items-center gap-1 rounded-lg border border-slate-200 px-3 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Berikutnya <ChevronRight class="h-4 w-4" /></button></div></div>
+</BaseCard>
 </template>
