@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from auth import get_current_user, verify_simulator_key
+from models.user import User
 
 from database.session import SessionLocal
 from models.monitoring import Monitoring
@@ -8,7 +10,7 @@ router = APIRouter()
 
 
 @router.get("/latest")
-def latest_monitoring():
+def latest_monitoring(current_user: User = Depends(get_current_user)):
     db = SessionLocal()
 
     try:
@@ -39,7 +41,7 @@ def latest_monitoring():
 
 
 @router.get("/history")
-def monitoring_history():
+def monitoring_history(current_user: User = Depends(get_current_user)):
     db = SessionLocal()
 
     try:
@@ -70,7 +72,10 @@ def monitoring_history():
 
 
 @router.post("/")
-def create_monitoring(payload: MonitoringCreate):
+def create_monitoring(
+    payload: MonitoringCreate,
+    simulator_authorized: bool = Depends(verify_simulator_key)
+):
     db = SessionLocal()
 
     try:
