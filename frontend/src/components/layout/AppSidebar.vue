@@ -3,7 +3,6 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import {
   LayoutDashboard,
   FlaskConical,
-  Database,
   Info,
   LogOut,
   CircleAlert,
@@ -48,7 +47,7 @@ const refreshSimulatorStatus = async () => {
     const status = await getSimulatorStatus();
     simulatorStatus.value = status || { active: false, last_received_at: null };
     simulatorStatusUnavailable.value = false;
-  } catch (error) {
+  } catch {
     simulatorStatusUnavailable.value = true;
     simulatorStatus.value = { active: false, last_received_at: null };
   } finally {
@@ -98,8 +97,7 @@ const confirmLogout = () => {
   >
     <div class="px-4 pb-5 pt-6">
       <div class="mb-7 overflow-hidden rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-lime-50/70 p-4">
-        <div class="min-w-0">
-          <p class="text-sm font-extrabold tracking-tight text-slate-900">Durian Montong</p>
+        <p class="text-sm font-extrabold tracking-tight text-slate-900">Durian Montong</p>
         <div class="mt-4 flex items-center justify-between gap-2 border-t border-emerald-100 pt-3">
           <span class="text-[10px] font-semibold text-slate-500">Monitoring & pemupukan</span>
           <span class="shrink-0 rounded-full bg-white px-2 py-1 text-[9px] font-bold text-emerald-800 ring-1 ring-emerald-100">Fuzzy Tsukamoto</span>
@@ -178,6 +176,7 @@ const confirmLogout = () => {
           </span>
         </div>
         <p class="mt-2 pl-5 text-[10px] leading-4 text-slate-500">{{ lastReceivedLabel }}</p>
+        <p class="mt-1 pl-5 text-[9px] leading-4 text-slate-400">Simulator Python · data dari CSV, bukan sensor</p>
       </section>
 
       <button
