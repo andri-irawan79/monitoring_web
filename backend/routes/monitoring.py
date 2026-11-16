@@ -1,12 +1,19 @@
+import os
+
 from fastapi import APIRouter, Depends
 from auth import get_current_user, verify_simulator_key
 from models.user import User
+from sqlalchemy import func
 
 from database.session import SessionLocal
 from models.monitoring import Monitoring
 from schemas.monitoring import MonitoringCreate
 
 router = APIRouter()
+
+SIMULATOR_STATUS_TIMEOUT_SECONDS = float(
+    os.getenv("SIMULATOR_STATUS_TIMEOUT_SECONDS", "8")
+)
 
 
 @router.get("/latest")
@@ -66,6 +73,54 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
             }
             for row in data
         ]
+
+    finally:
+        db.close()
+
+
+@router.get("/simulator-status")
+def simulator_status(current_user: User = Depends(get_current_user)):
+    """Report whether a simulator delivery was recently committed."""
+    db = SessionLocal()
+
+    try:
+        latest = (
+            db.query(
+                Monitoring.created_at,
+                func.extract(
+                    "epoch",
+                    func.now() - Monitoring.created_at
+                ).label("age_seconds"),
+            )
+            .order_by(Monitoring.id.desc())
+            .first()
+        )
+
+        last_received_at = latest[0] if latest else None
+        age_seconds = (
+            max(0.0, float(latest[1]))
+            if latest and latest[1] is not None
+            else None
+        )
+        active = (
+            age_seconds is not None
+            and age_seconds <= SIMULATOR_STATUS_TIMEOUT_SECONDS
+        )
+
+        return {
+            "active": active,
+            "last_received_at": (
+                last_received_at.isoformat()
+                if last_received_at
+                else None
+            ),
+            "seconds_since_last_received": (
+                round(age_seconds, 1)
+                if age_seconds is not None
+                else None
+            ),
+            "timeout_seconds": SIMULATOR_STATUS_TIMEOUT_SECONDS,
+        }
 
     finally:
         db.close()
