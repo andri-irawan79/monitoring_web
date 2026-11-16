@@ -277,7 +277,8 @@ onMounted(loadData);
                 <RecommendationForm
                     :fases="fases"
                     v-model:selectedFase="selectedFase"
-                    :loading="loading || pageLoading"
+                    :loading="loading"
+                    :initial-loading="pageLoading"
                     @generate="generate"
                 />
             </div>
