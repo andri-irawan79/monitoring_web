@@ -35,7 +35,7 @@ npm run dev
 
 Token akses ditandatangani menggunakan HMAC-SHA256 dan berlaku sesuai TOKEN_TTL_SECONDS (bawaan 8 jam). Kata sandi disimpan sebagai hash PBKDF2-HMAC-SHA256, bukan teks asli. Token disimpan pada sessionStorage browser.
 
-Endpoint dashboard, master data, monitoring (GET), dan rekomendasi memerlukan header `Authorization: Bearer <token>`. Endpoint penerimaan data simulasi `POST /monitoring/` tidak memakai token pengguna, tetapi memerlukan header `X-Simulator-Key` yang harus sama dengan SIMULATOR_API_KEY di backend dan simulator.
+Endpoint dashboard, master data, monitoring (GET), dan rekomendasi memerlukan header `Authorization: Bearer <token>`. Endpoint penerimaan data simulasi `POST /monitoring/` memakai header `X-Simulator-Key` dan ID sesi yang valid. Sesi tersebut telah dibuat dengan identitas akun melalui login website atau login Git Bash, sehingga setiap record memperoleh pemilik dari sesi di database.
 
 ## Batasan fitur autentikasi
 
@@ -60,17 +60,17 @@ Jalankan perintah berikut dari folder utama repository:
 python backend/simulator/simulator.py
 ```
 
-Skrip akan membuat sesi baru secara otomatis. Tekan `Ctrl+C` pada terminal untuk menghentikan sesi sebelum seluruh data dikirim. Skrip menggunakan `Crop_recommendationV2.csv` bila file tersebut tersedia; jika tidak, skrip menggunakan `Crop_recommendation.csv` yang ada di repository. Nama/lokasi file dapat diatur melalui `SIMULATOR_DATASET_PATH` pada `.env`.
+Sebelum membuat sesi, skrip meminta email dan kata sandi akun untuk login ke API. Token digunakan untuk membuat sesi atas nama akun tersebut dan tidak menyimpan kata sandi. Setelah sesi berhasil dibuat, skrip mengirim data dengan ID sesi. Tekan `Ctrl+C` pada terminal untuk menghentikan sesi sebelum seluruh data dikirim. Skrip menggunakan `Crop_recommendationV2.csv` bila file tersebut tersedia; jika tidak, skrip menggunakan `Crop_recommendation.csv` yang ada di repository. Nama/lokasi file dapat diatur melalui `SIMULATOR_DATASET_PATH` pada `.env`.
 
 ### Aturan hitungan sesi
 
 - Setiap sesi baru memiliki penghitung sendiri, dimulai dari `0/365`.
 - Setiap record dikirim dengan ID sesi dan nomor urut, sehingga pengiriman ulang record yang sama tidak menambah hitungan dua kali.
-- Hanya satu sesi yang boleh aktif pada satu waktu. Sesi website dan Git Bash tidak dapat berjalan bersamaan.
+- Hanya satu sesi yang boleh aktif untuk setiap akun. Dua akun berbeda dapat menjalankan sesi masing-masing tanpa berbagi penghitung.
 - Riwayat monitoring dan sesi sebelumnya tidak dihapus ketika sesi baru dimulai.
 - Indikator penerimaan data memakai `SIMULATOR_STATUS_TIMEOUT_SECONDS` (bawaan 8 detik). Sesi baru ditandai gagal jika tidak menerima data melebihi `SIMULATOR_SESSION_TIMEOUT_SECONDS` (bawaan 45 detik), agar proses retry pengiriman tidak terlalu cepat dianggap gagal. Interval kirim bawaan adalah 2 detik melalui `SIMULATOR_INTERVAL_SECONDS`.
 
-Skema `simulation_sessions` dan kolom penghubung pada `monitoring` disiapkan secara idempoten saat backend mulai. Struktur ini menambahkan kolom nullable dan tidak menghapus record monitoring lama. Skrip SQL cadangan tersedia pada `backend/migration_simulation_sessions.sql` untuk lingkungan yang melakukan migrasi database secara manual.
+Skema `simulation_sessions` dan kolom penghubung pada `monitoring` disiapkan secara idempoten saat backend mulai. Struktur ini menambahkan kolom nullable dan tidak menghapus record monitoring lama. Skrip SQL cadangan tersedia pada `backend/migration_simulation_sessions.sql` dan `backend/migration_user_data_isolation.sql` untuk lingkungan yang melakukan migrasi database secara manual. Jalankan keduanya setelah membuat cadangan database.
 
 
 ## Pemisahan data antar akun
