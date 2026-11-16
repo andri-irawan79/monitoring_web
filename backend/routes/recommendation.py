@@ -2,7 +2,7 @@ import csv
 import io
 from datetime import datetime
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 
@@ -95,6 +95,49 @@ def recommendation_history(
             {"varietas": PLANT_VARIETY}
         )
         return [dict(row._mapping) for row in result]
+    finally:
+        db.close()
+
+
+@router.delete("/{recommendation_id}")
+def delete_recommendation(
+    recommendation_id: int,
+    current_user: User = Depends(get_current_user)
+):
+    db = SessionLocal()
+    try:
+        existing = db.execute(
+            text("SELECT id FROM rekomendasi WHERE id = :id"),
+            {"id": recommendation_id}
+        ).fetchone()
+
+        if existing is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Data rekomendasi tidak ditemukan."
+            )
+
+        # Hapus arsip relasi terlebih dahulu agar tidak melanggar foreign key.
+        db.execute(
+            text("DELETE FROM public.rekomendasi_varietas_archive WHERE rekomendasi_id = :id"),
+            {"id": recommendation_id}
+        )
+        db.execute(
+            text("DELETE FROM rekomendasi WHERE id = :id"),
+            {"id": recommendation_id}
+        )
+        db.commit()
+        return {
+            "success": True,
+            "message": "Data rekomendasi berhasil dihapus.",
+            "id": recommendation_id
+        }
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
 
