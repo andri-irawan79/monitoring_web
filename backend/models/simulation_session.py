@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.sql import func
 
 from database.base import Base
@@ -8,6 +8,7 @@ class SimulationSession(Base):
     __tablename__ = "simulation_sessions"
 
     id = Column(String(36), primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
     mode = Column(String(16), nullable=False)  # website | terminal
     status = Column(
         String(16),
