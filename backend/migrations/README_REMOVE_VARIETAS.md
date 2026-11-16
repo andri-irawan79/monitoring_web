@@ -8,7 +8,7 @@ Perubahan:
 - Hapus kolom `rekomendasi.varietas_id`.
 - Hapus endpoint `/varietas/`.
 - Hapus tabel master `varietas`.
-- Pertahankan informasi varietas lama di `rekomendasi_varietas_archive` sebagai arsip audit.
+- Arsipkan seluruh baris master lama di `varietas_master_archive` serta nama varietas historis per rekomendasi di `rekomendasi_varietas_archive`.
 - Gunakan konstanta aplikasi `PLANT_VARIETY = "Montong"` dan `PLANT_DISPLAY_NAME = "Durian Montong"`.
 
 ## Prosedur database
@@ -36,7 +36,7 @@ Tabel `rekomendasi` menyimpan:
 - `kategori`
 - `created_at`
 
-Nama Durian Montong untuk hasil, riwayat, dan CSV diisi dari konfigurasi aplikasi, tanpa JOIN ke tabel varietas.
+Nama Durian Montong untuk rekomendasi baru diisi dari konfigurasi aplikasi. Untuk rekomendasi historis, endpoint latest/history/export membaca nama lama dari `rekomendasi_varietas_archive`; jika arsip tidak memiliki nama, sistem menggunakan fallback Durian Montong. Dengan demikian, migrasi tidak mengganti label historis yang sebelumnya tersimpan.
 
 ## Perubahan API dan frontend
 
@@ -47,4 +47,4 @@ Nama Durian Montong untuk hasil, riwayat, dan CSV diisi dari konfigurasi aplikas
 
 ## Catatan
 
-Tabel arsip bukan bagian dari transaksi rekomendasi aktif dan tidak dipetakan ke ORM. Jangan menghapus tabel arsip sebelum riwayat lama tidak lagi diperlukan.
+Tabel arsip bukan bagian dari transaksi rekomendasi aktif dan tidak dipetakan ke ORM. API menggunakan `rekomendasi_varietas_archive` hanya untuk membaca label rekomendasi lama. Jangan menghapus kedua tabel arsip sebelum riwayat lama tidak lagi diperlukan.
