@@ -176,7 +176,7 @@ def authenticate_terminal_user() -> str:
     if configured_token:
         return configured_token
 
-    print("\\nMasuk untuk mengaitkan data simulasi dengan akun Anda.")
+    print("\nMasuk untuk mengaitkan data simulasi dengan akun Anda.")
     email = input("Email akun: ").strip()
     if not email:
         raise ValueError("Email akun wajib diisi untuk menjalankan simulasi Git Bash.")
