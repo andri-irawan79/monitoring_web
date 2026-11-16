@@ -10,11 +10,11 @@ const emit = defineEmits(["generate", "update:selectedFase"]);
 </script>
 
 <template>
-  <section class="h-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_3px_18px_-12px_rgba(15,23,42,.25)]">
+  <section class="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_3px_18px_-12px_rgba(15,23,42,.25)]">
     <div class="border-b border-slate-100 bg-gradient-to-r from-emerald-50/80 to-white px-5 py-5 sm:px-6">
       <div class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700"><Sprout class="h-5 w-5" /></span><div><h2 class="text-lg font-bold tracking-tight text-slate-900">Parameter Rekomendasi</h2><p class="mt-0.5 text-xs text-slate-500">Atur parameter untuk memulai perhitungan</p></div></div>
     </div>
-    <div class="flex h-[calc(100%-81px)] flex-col p-5 sm:p-6">
+    <div class="flex flex-1 flex-col p-5 sm:p-6">
       <div class="space-y-5">
         <div>
           <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Objek tanaman</label>
