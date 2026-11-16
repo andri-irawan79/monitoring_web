@@ -478,11 +478,15 @@ onUnmounted(() => {
 }
 
 .recommendation-message-enter-from,
-.recommendation-message-leave-to,
+.recommendation-message-leave-to {
+    opacity: 0;
+    transform: translateX(28px);
+}
+
 .processing-panel-enter-from,
 .processing-panel-leave-to {
     opacity: 0;
-    transform: translateX(28px);
+    transform: translateY(6px);
 }
 
 .recommendation-progress {
