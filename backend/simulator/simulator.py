@@ -15,9 +15,11 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 import pandas as pd
+from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+load_dotenv(BASE_DIR / "backend" / ".env")
 DATASET_PATH = BASE_DIR / "Crop_recommendationV2.csv"
 
 API_URL = os.getenv(
