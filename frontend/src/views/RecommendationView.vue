@@ -27,44 +27,87 @@ const recommendation = ref(null);
 const history = ref([]);
 const selectedFase = ref(1);
 const loading = ref(false);
+const pageLoading = ref(true);
 const successMessage = ref("");
+const errorTitle = ref("");
 const errorMessage = ref("");
+const historyWarning = ref("");
 const fuzzyValues = ref(null);
 const bestRule = ref(null);
 const activeRules = ref([]);
 const defuzzification = ref({});
+const hasGeneratedAnalysis = ref(false);
 
 const loadData = async () => {
-    try {
-        const [latestMonitoring, availablePhases, latestRecommendation, recommendationHistory] =
-            await Promise.all([
-                getLatestMonitoring(),
-                getFase(),
-                getLatestRecommendation(),
-                getRecommendationHistory()
-            ]);
+    pageLoading.value = true;
+    errorTitle.value = "";
+    errorMessage.value = "";
 
-        monitoring.value = latestMonitoring;
-        fases.value = availablePhases;
-        recommendation.value = latestRecommendation;
-        history.value = recommendationHistory;
-    } catch (error) {
-        console.error("Gagal memuat halaman rekomendasi:", error);
-        errorMessage.value =
-            error.response?.data?.detail ||
-            "Data halaman rekomendasi belum dapat dimuat. Periksa koneksi, lalu coba kembali.";
+    const results = await Promise.allSettled([
+        getLatestMonitoring(),
+        getFase(),
+        getLatestRecommendation(),
+        getRecommendationHistory()
+    ]);
+
+    const failedSources = [];
+
+    if (results[0].status === "fulfilled") {
+        monitoring.value = results[0].value || null;
+    } else {
+        console.error("Gagal memuat monitoring:", results[0].reason);
+        failedSources.push("data monitoring");
     }
+
+    if (results[1].status === "fulfilled") {
+        fases.value = Array.isArray(results[1].value) ? results[1].value : [];
+    } else {
+        console.error("Gagal memuat fase pertumbuhan:", results[1].reason);
+        failedSources.push("fase pertumbuhan");
+    }
+
+    if (results[2].status === "fulfilled") {
+        recommendation.value = results[2].value || null;
+    } else {
+        console.error("Gagal memuat rekomendasi terakhir:", results[2].reason);
+        failedSources.push("hasil rekomendasi terakhir");
+    }
+
+    if (results[3].status === "fulfilled") {
+        history.value = Array.isArray(results[3].value) ? results[3].value : [];
+    } else {
+        console.error("Gagal memuat riwayat rekomendasi:", results[3].reason);
+        failedSources.push("riwayat rekomendasi");
+    }
+
+    if (failedSources.length) {
+        errorTitle.value = "Sebagian data halaman belum berhasil dimuat";
+        errorMessage.value =
+            `Data berikut belum dapat dimuat: ${failedSources.join(", ")}. Periksa koneksi ke server, lalu muat ulang halaman.`;
+    }
+
+    pageLoading.value = false;
 };
 
 const generate = async () => {
     if (loading.value) return;
 
     successMessage.value = "";
+    errorTitle.value = "";
     errorMessage.value = "";
+    historyWarning.value = "";
 
     if (!monitoring.value?.id) {
+        errorTitle.value = "Rekomendasi belum dapat dibuat";
         errorMessage.value =
-            "Data monitoring belum tersedia. Pastikan data simulasi sudah dikirim sebelum membuat rekomendasi.";
+            "Data monitoring belum tersedia. Kirim data simulasi terlebih dahulu, kemudian coba buat rekomendasi kembali.";
+        return;
+    }
+
+    if (!selectedFase.value || !fases.value.length) {
+        errorTitle.value = "Fase pertumbuhan belum dipilih";
+        errorMessage.value =
+            "Pilih salah satu fase pertumbuhan Durian Montong sebelum membuat rekomendasi.";
         return;
     }
 
@@ -77,26 +120,45 @@ const generate = async () => {
             selectedFase.value
         );
 
-        fuzzyValues.value = response.fuzzy_values;
-        bestRule.value = response.best_rule;
-        activeRules.value = response.active_rules;
-        defuzzification.value = response.defuzzification;
+        // API dapat mengembalikan HTTP 200 walaupun proses fuzzy gagal.
+        // Karena itu, status bisnis dari response juga harus diperiksa.
+        if (!response?.success || !response?.recommendation) {
+            throw new Error(
+                response?.message ||
+                "Sistem tidak menghasilkan rekomendasi. Periksa data monitoring dan fase pertumbuhan."
+            );
+        }
 
-        const [latestRecommendation, recommendationHistory] = await Promise.all([
-            getLatestRecommendation(),
-            getRecommendationHistory()
-        ]);
-
-        recommendation.value = latestRecommendation;
-        history.value = recommendationHistory;
+        recommendation.value = response.recommendation;
+        fuzzyValues.value = response.fuzzy_values || null;
+        bestRule.value = response.best_rule || null;
+        activeRules.value = Array.isArray(response.active_rules)
+            ? response.active_rules
+            : [];
+        defuzzification.value = response.defuzzification || {};
+        hasGeneratedAnalysis.value = true;
 
         successMessage.value =
-            "Rekomendasi berhasil dibuat dan disimpan ke riwayat.";
+            "Rekomendasi berhasil dihitung dan disimpan. Hasil terbaru sudah ditampilkan.";
+
+        // Kegagalan memuat ulang riwayat tidak boleh mengubah status
+        // rekomendasi yang sudah berhasil disimpan menjadi gagal.
+        try {
+            const updatedHistory = await getRecommendationHistory();
+            history.value = Array.isArray(updatedHistory) ? updatedHistory : [];
+        } catch (refreshError) {
+            console.error("Rekomendasi tersimpan, tetapi riwayat gagal diperbarui:", refreshError);
+            historyWarning.value =
+                "Rekomendasi sudah berhasil disimpan, tetapi riwayat belum dapat diperbarui. Muat ulang halaman untuk menyegarkan riwayat.";
+        }
     } catch (error) {
         console.error("Gagal membuat rekomendasi:", error);
+        errorTitle.value = "Rekomendasi gagal dibuat";
         errorMessage.value =
             error.response?.data?.detail ||
-            "Rekomendasi belum berhasil dibuat. Periksa data monitoring dan koneksi, lalu coba kembali.";
+            error.response?.data?.message ||
+            error.message ||
+            "Terjadi kesalahan saat menghitung rekomendasi. Periksa data monitoring dan koneksi server, lalu coba kembali.";
     } finally {
         // Durasi minimum menjaga agar animasi proses terasa, bukan berkedip.
         const remaining = 1200 - (Date.now() - startedAt);
@@ -171,14 +233,37 @@ onMounted(loadData);
                 aria-live="assertive"
             >
                 <CircleAlert class="mt-0.5 h-5 w-5 shrink-0 text-rose-600" />
-                <p class="min-w-0 flex-1 text-sm leading-relaxed">
-                    {{ errorMessage }}
-                </p>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-semibold">{{ errorTitle || "Terjadi kesalahan" }}</p>
+                    <p class="mt-1 text-sm leading-relaxed text-rose-700">
+                        {{ errorMessage }}
+                    </p>
+                </div>
                 <button
                     type="button"
                     class="rounded-lg p-1 text-rose-700 transition hover:bg-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
                     aria-label="Tutup pesan kesalahan"
-                    @click="errorMessage = ''"
+                    @click="errorMessage = ''; errorTitle = ''"
+                >
+                    <X class="h-4 w-4" />
+                </button>
+            </div>
+        </Transition>
+
+        <Transition name="recommendation-message">
+            <div
+                v-if="historyWarning"
+                class="mb-5 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-800"
+                role="status"
+                aria-live="polite"
+            >
+                <CircleAlert class="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+                <p class="min-w-0 flex-1 text-sm leading-relaxed">{{ historyWarning }}</p>
+                <button
+                    type="button"
+                    class="rounded-lg p-1 text-amber-700 transition hover:bg-amber-100"
+                    aria-label="Tutup pemberitahuan riwayat"
+                    @click="historyWarning = ''"
                 >
                     <X class="h-4 w-4" />
                 </button>
@@ -192,13 +277,16 @@ onMounted(loadData);
                 <RecommendationForm
                     :fases="fases"
                     v-model:selectedFase="selectedFase"
-                    :loading="loading"
+                    :loading="loading || pageLoading"
                     @generate="generate"
                 />
             </div>
 
             <div class="relative min-w-0">
-                <RecommendationResultCard :recommendation="recommendation" />
+                <RecommendationResultCard
+                    :recommendation="recommendation"
+                    :initial-loading="pageLoading"
+                />
 
                 <Transition name="processing-panel">
                     <div
@@ -250,7 +338,7 @@ onMounted(loadData);
             </div>
 
             <div
-                v-if="!loading && fuzzyValues && bestRule && recommendation && defuzzification"
+                v-if="!loading && hasGeneratedAnalysis"
                 class="xl:col-span-2"
             >
                 <RecommendationExplanationCard
@@ -261,19 +349,19 @@ onMounted(loadData);
                 />
             </div>
 
-            <div v-if="!loading" class="xl:col-span-2">
+            <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
                 <FuzzyResultCard :fuzzy="fuzzyValues" />
             </div>
 
-            <div v-if="!loading" class="xl:col-span-2">
+            <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
                 <RuleDominantCard :rule="bestRule" />
             </div>
 
-            <div v-if="!loading" class="xl:col-span-2">
+            <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
                 <ActiveRulesTable :rules="activeRules" />
             </div>
 
-            <div v-if="!loading" class="xl:col-span-2">
+            <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
                 <DefuzzificationCard :result="defuzzification" />
             </div>
 
