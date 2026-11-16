@@ -12,6 +12,14 @@ import {
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { logoutAccount } from "../../services/authService";
 
+const props = defineProps({
+    mobileOpen: {
+        type: Boolean,
+        default: false
+    }
+});
+const emit = defineEmits(["close"]);
+
 const route = useRoute();
 const router = useRouter();
 
@@ -67,7 +75,14 @@ const confirmLogout = () => {
             justify-between
             overflow-y-auto
             z-40
+            transition-transform
+            duration-300
+            ease-in-out
+            lg:translate-x-0
         "
+        id="app-sidebar"
+        :class="mobileOpen ? 'translate-x-0' : '-translate-x-full'"
+        aria-label="Menu navigasi utama"
     >
         <div>
             <div class="px-6 py-6">
@@ -97,6 +112,7 @@ const confirmLogout = () => {
                             : 'text-slate-600 hover:bg-slate-100'
                     "
                     :aria-current="route.path === menu.path ? 'page' : undefined"
+                    @click="emit('close')"
                 >
                     <component :is="menu.icon" class="w-5 h-5 shrink-0" />
                     <span>{{ menu.name }}</span>
