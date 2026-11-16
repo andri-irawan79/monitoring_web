@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from sqlalchemy import inspect
 from database.connection import engine
 from models.user import User
 from routes.auth import router as auth_router
@@ -16,8 +17,28 @@ app = FastAPI(title="Durian Monitoring API")
 
 @app.on_event("startup")
 def create_auth_table():
-    # Membuat tabel akun apabila belum tersedia tanpa mengubah tabel lama.
-    User.__table__.create(bind=engine, checkfirst=True)
+    # Membuat tabel akun baru. Jika ada tabel users versi lama,
+    # hentikan startup dengan pesan yang jelas; create(checkfirst=True)
+    # tidak mengubah struktur tabel yang sudah ada.
+    inspector = inspect(engine)
+    if inspector.has_table("users"):
+        existing_columns = {
+            column["name"] for column in inspector.get_columns("users")
+        }
+        required_columns = {
+            "id", "full_name", "email", "password_hash", "is_active", "created_at"
+        }
+        missing_columns = required_columns - existing_columns
+        if missing_columns:
+            missing_text = ", ".join(sorted(missing_columns))
+            raise RuntimeError(
+                "Tabel 'users' yang sudah ada memakai skema lama. "
+                f"Kolom yang dibutuhkan autentikasi belum tersedia: {missing_text}. "
+                "Cadangkan data terlebih dahulu, lalu lakukan migrasi atau ubah nama "
+                "tabel lama sebelum menjalankan aplikasi."
+            )
+    else:
+        User.__table__.create(bind=engine, checkfirst=True)
 
 app.include_router(auth_router)
 
