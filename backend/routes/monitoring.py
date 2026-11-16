@@ -3,7 +3,7 @@ import os
 from fastapi import APIRouter, Depends
 from auth import get_current_user, verify_simulator_key
 from models.user import User
-from sqlalchemy import func
+from sqlalchemy import DateTime, func
 
 from database.session import SessionLocal
 from models.monitoring import Monitoring
@@ -89,7 +89,7 @@ def simulator_status(current_user: User = Depends(get_current_user)):
                 Monitoring.created_at,
                 func.extract(
                     "epoch",
-                    func.localtimestamp() - Monitoring.created_at
+                    func.now().cast(DateTime(timezone=False)) - Monitoring.created_at
                 ).label("age_seconds"),
             )
             .order_by(Monitoring.id.desc())
