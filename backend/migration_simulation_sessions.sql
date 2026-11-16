@@ -3,6 +3,7 @@
 -- if automatic startup schema preparation is disabled in your environment.
 CREATE TABLE IF NOT EXISTS simulation_sessions (
     id VARCHAR(36) PRIMARY KEY,
+    user_id INTEGER NULL REFERENCES users(id) ON DELETE CASCADE,
     mode VARCHAR(16) NOT NULL,
     status VARCHAR(16) NOT NULL DEFAULT 'starting',
     target_count INTEGER NOT NULL DEFAULT 365,
@@ -25,8 +26,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_monitoring_session_record
     WHERE simulation_session_id IS NOT NULL
       AND session_record_number IS NOT NULL;
 
--- A single active session prevents website and Git Bash simulators from
--- sending records concurrently into the same database.
-CREATE UNIQUE INDEX IF NOT EXISTS uq_simulation_sessions_single_active
-    ON simulation_sessions ((1))
-    WHERE status IN ('starting', 'running');
+-- A session is active independently for each authenticated account.
+CREATE UNIQUE INDEX IF NOT EXISTS uq_simulation_sessions_single_active_user
+    ON simulation_sessions (user_id)
+    WHERE user_id IS NOT NULL
+      AND status IN ('starting', 'running');
