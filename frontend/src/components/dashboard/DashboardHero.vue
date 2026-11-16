@@ -18,7 +18,7 @@ const today = new Date().toLocaleDateString("id-ID", {
     <div class="relative grid gap-8 p-6 sm:p-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(340px,0.75fr)] xl:items-center xl:p-10">
       <div class="max-w-2xl">
         <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-emerald-100 backdrop-blur">
-          <Sprout class="h-3.5 w-3.5" /> SISTEM MONITORING DURian MONTONG
+          <Sprout class="h-3.5 w-3.5" /> SISTEM MONITORING DURIAN MONTONG
         </div>
         <p class="mt-6 text-sm font-medium text-emerald-200">Selamat datang di dashboard</p>
         <h1 class="mt-2 max-w-xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl xl:text-[2.7rem]">
