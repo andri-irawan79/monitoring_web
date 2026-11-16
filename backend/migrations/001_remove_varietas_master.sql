@@ -38,6 +38,27 @@ BEGIN
 
     has_varietas_table := to_regclass('public.varietas') IS NOT NULL;
 
+    IF has_varietas_table THEN
+        -- Arsipkan seluruh baris master, termasuk baris yang belum pernah
+        -- dipakai oleh rekomendasi, sebelum tabel aktif dihapus.
+        EXECUTE $archive$
+            CREATE TABLE IF NOT EXISTS public.varietas_master_archive AS
+            SELECT v.*, NOW() AS archived_at
+            FROM public.varietas AS v
+            WHERE FALSE
+        $archive$;
+
+        CREATE UNIQUE INDEX IF NOT EXISTS uq_varietas_master_archive_id
+            ON public.varietas_master_archive (id);
+
+        EXECUTE $archive$
+            INSERT INTO public.varietas_master_archive
+            SELECT v.*, NOW()
+            FROM public.varietas AS v
+            ON CONFLICT (id) DO NOTHING
+        $archive$;
+    END IF;
+
     IF has_rekomendasi_varietas_id THEN
         IF has_varietas_table THEN
             INSERT INTO public.rekomendasi_varietas_archive (
