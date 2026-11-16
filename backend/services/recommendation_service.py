@@ -1,9 +1,7 @@
-from sqlalchemy import text
-
 from database.session import SessionLocal
-
 from models.monitoring import Monitoring
 from models.rekomendasi import Rekomendasi
+from constants import PLANT_VARIETY, PLANT_DISPLAY_NAME
 
 from fuzzy.tsukamoto import (
     fuzzifikasi,
@@ -20,30 +18,20 @@ FASE_MAP = {
     5: "Pascapanen"
 }
 
-VARIETAS_TETAP = "Montong"
 
-
-def generate_recommendation(
-    monitoring_id,
-    fase_id
-):
+def generate_recommendation(monitoring_id, fase_id):
     """
-    Menghasilkan rekomendasi khusus durian Montong.
-
-    Varietas tidak menjadi variabel fuzzy dan tidak digunakan sebagai
-    faktor pengali dosis. ID Montong hanya disimpan sebagai metadata
-    objek penelitian pada tabel rekomendasi.
+    Menghasilkan rekomendasi untuk objek tetap penelitian, yaitu
+    tanaman durian varietas Montong. Identitas varietas merupakan
+    konfigurasi aplikasi, bukan master data maupun variabel fuzzy.
     """
-
     db = SessionLocal()
-
     try:
         monitoring = (
             db.query(Monitoring)
             .filter(Monitoring.id == monitoring_id)
             .first()
         )
-
         if not monitoring:
             return {
                 "success": False,
@@ -51,36 +39,11 @@ def generate_recommendation(
             }
 
         fase_nama = FASE_MAP.get(fase_id)
-
         if not fase_nama:
             return {
                 "success": False,
-                "message": "Fase tidak valid"
+                "message": "Fase pertumbuhan tidak valid"
             }
-
-        # Cari ID objek varietas Montong untuk metadata riwayat.
-        # Nilai ini tidak digunakan dalam proses perhitungan dosis.
-        montong_row = db.execute(
-            text("""
-                SELECT id
-                FROM varietas
-                WHERE LOWER(TRIM(nama)) = LOWER(:nama)
-                ORDER BY id
-                LIMIT 1
-            """),
-            {"nama": VARIETAS_TETAP}
-        ).first()
-
-        if montong_row is None:
-            return {
-                "success": False,
-                "message": (
-                    "Data master varietas Durian Montong "
-                    "tidak ditemukan"
-                )
-            }
-
-        montong_id = montong_row[0]
 
         fuzzy_values = fuzzifikasi(
             monitoring.nitrogen,
@@ -88,62 +51,51 @@ def generate_recommendation(
             monitoring.potassium,
             monitoring.ph
         )
-
-        results = evaluate_phase(
-            fase_nama,
-            fuzzy_values
-        )
-
+        results = evaluate_phase(fase_nama, fuzzy_values)
         if not results:
             return {
                 "success": False,
-                "message": "Tidak ada rule yang aktif"
+                "message": "Tidak ada rule yang aktif untuk kondisi input tersebut"
             }
 
         defuzz = defuzzifikasi(results)
-        dosis_final = defuzz["hasil"]
+        best_rule = max(results, key=lambda item: item["alpha"])
 
-        best_rule = max(
-            results,
-            key=lambda item: item["alpha"]
-        )
-
-        # Dosis digunakan langsung dari hasil defuzzifikasi.
-        # Tidak ada koreksi atau perkalian berdasarkan varietas.
-        rekomendasi = Rekomendasi(
+        # Dosis berasal langsung dari hasil defuzzifikasi.
+        # Tidak ada pencarian ID varietas atau koreksi varietas.
+        recommendation = Rekomendasi(
             monitoring_id=monitoring_id,
-            varietas_id=montong_id,
             fase_id=fase_id,
             jenis_pupuk=best_rule["pupuk"],
-            dosis=round(dosis_final, 2),
+            dosis=round(defuzz["hasil"], 2),
             kategori=best_rule["output"]
         )
-
-        db.add(rekomendasi)
+        db.add(recommendation)
         db.commit()
-        db.refresh(rekomendasi)
+        db.refresh(recommendation)
 
         return {
             "success": True,
             "recommendation": {
-                "id": rekomendasi.id,
-                "jenis_pupuk": rekomendasi.jenis_pupuk,
-                "dosis": rekomendasi.dosis,
-                "kategori": rekomendasi.kategori,
-                "varietas": VARIETAS_TETAP
+                "id": recommendation.id,
+                "jenis_pupuk": recommendation.jenis_pupuk,
+                "dosis": recommendation.dosis,
+                "kategori": recommendation.kategori,
+                "varietas": PLANT_VARIETY,
+                "objek_tanaman": PLANT_DISPLAY_NAME,
+                "fase": fase_nama,
+                "created_at": recommendation.created_at
             },
             "fuzzy_values": fuzzy_values,
             "best_rule": best_rule,
             "active_rules": results,
             "defuzzification": defuzz
         }
-
     except Exception as error:
         db.rollback()
         return {
             "success": False,
             "message": str(error)
         }
-
     finally:
         db.close()
