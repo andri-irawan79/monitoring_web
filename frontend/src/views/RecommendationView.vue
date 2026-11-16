@@ -576,6 +576,16 @@ onUnmounted(() => {
         transform: none;
     }
 
+    /*
+     * Bar ini merupakan indikator waktu notifikasi, bukan animasi dekoratif.
+     * Pertahankan durasinya agar pengguna tetap dapat melihat sisa waktu
+     * sebelum notifikasi keberhasilan tertutup otomatis.
+     */
+    .success-toast-progress > div {
+        animation-duration: 4.5s !important;
+        animation-iteration-count: 1 !important;
+    }
+
     .recommendation-progress {
         animation-duration: 2.5s;
     }
