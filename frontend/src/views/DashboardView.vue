@@ -1,11 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-
-import {
-  getLatestMonitoring,
-  getMonitoringHistory,
-} from "../services/monitoringService";
-
+import { getLatestMonitoring, getMonitoringHistory } from "../services/monitoringService";
+import { getDashboardSummary } from "../services/dashboardService";
 import DashboardStatGrid from "../components/dashboard/DashboardStatGrid.vue";
 import MonitoringChartCard from "../components/dashboard/MonitoringChartCard.vue";
 import NutrientStatusCard from "../components/dashboard/NutrientStatusCard.vue";
@@ -13,58 +9,47 @@ import MonitoringTableCard from "../components/dashboard/MonitoringTableCard.vue
 import DashboardHero from "../components/dashboard/DashboardHero.vue";
 import MonitoringInsight from "../components/dashboard/MonitoringInsight.vue";
 
-import { getDashboardSummary } from "../services/dashboardService";
-
 const monitoring = ref(null);
 const history = ref([]);
 const summary = ref({});
-
-// Menyimpan ID monitoring terakhir
 const lastMonitoringId = ref(null);
-
-// Menyimpan waktu update terakhir
 const lastUpdate = ref("");
-
 let refreshInterval = null;
 
-// Format waktu Indonesia
 const updateTimestamp = () => {
   lastUpdate.value = new Date().toLocaleTimeString("id-ID");
 };
 
-// Load seluruh data dashboard
 const loadAllData = async () => {
   try {
-    monitoring.value = await getLatestMonitoring();
-    history.value = await getMonitoringHistory();
-    summary.value = await getDashboardSummary();
-
-    lastMonitoringId.value = monitoring.value?.id ?? null;
-
+    const [latest, records, totals] = await Promise.all([
+      getLatestMonitoring(),
+      getMonitoringHistory(),
+      getDashboardSummary()
+    ]);
+    monitoring.value = latest;
+    history.value = Array.isArray(records) ? records : [];
+    summary.value = totals || {};
+    lastMonitoringId.value = latest?.id ?? null;
     updateTimestamp();
   } catch (error) {
     console.error("Gagal memuat dashboard:", error);
   }
 };
 
-// Mengecek apakah ada data baru
 const checkLatestMonitoring = async () => {
   try {
     const latest = await getLatestMonitoring();
-
-    if (!latest) return;
-
-    if (latest.id !== lastMonitoringId.value) {
-      console.log("📥 Data monitoring baru ditemukan");
-
-      monitoring.value = latest;
-      history.value = await getMonitoringHistory();
-      summary.value = await getDashboardSummary();
-
-      lastMonitoringId.value = latest.id;
-
-      updateTimestamp();
-    }
+    if (!latest || latest.id === lastMonitoringId.value) return;
+    const [records, totals] = await Promise.all([
+      getMonitoringHistory(),
+      getDashboardSummary()
+    ]);
+    monitoring.value = latest;
+    history.value = Array.isArray(records) ? records : [];
+    summary.value = totals || {};
+    lastMonitoringId.value = latest.id;
+    updateTimestamp();
   } catch (error) {
     console.error("Auto refresh gagal:", error);
   }
@@ -72,73 +57,58 @@ const checkLatestMonitoring = async () => {
 
 onMounted(async () => {
   await loadAllData();
-
-  refreshInterval = setInterval(() => {
-    checkLatestMonitoring();
-  }, 2000);
+  refreshInterval = setInterval(checkLatestMonitoring, 2000);
 });
 
 onBeforeUnmount(() => {
-  if (refreshInterval) {
-    clearInterval(refreshInterval);
-  }
+  if (refreshInterval) clearInterval(refreshInterval);
 });
 </script>
 
 <template>
-<div>
+  <div class="dashboard-page space-y-7 sm:space-y-8">
+    <DashboardHero :summary="summary" :last-update="lastUpdate" />
 
-    <DashboardHero
-        :summary="summary"
-    />
-
-    <DashboardStatGrid
-        v-if="monitoring"
-        :monitoring="monitoring"
-    />
-
-    <div
-        class="
-            grid
-            grid-cols-1
-            xl:grid-cols-3
-            gap-6
-            mt-8
-        "
-    >
-
-        <div class="xl:col-span-2">
-
-            <MonitoringChartCard
-                :data="history"
-            />
-
-        </div>
-
+    <section v-if="monitoring" aria-labelledby="monitoring-metrics-title">
+      <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-
-            <NutrientStatusCard
-                v-if="monitoring"
-                :monitoring="monitoring"
-            />
-
-            <MonitoringInsight
-                v-if="monitoring"
-                :monitoring="monitoring"
-                :summary="summary"
-            />
-
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Ringkasan kondisi tanah</p>
+          <h2 id="monitoring-metrics-title" class="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Parameter Monitoring</h2>
+          <p class="mt-1 text-sm text-slate-500">Nilai pengukuran dari data simulasi terakhir</p>
         </div>
+        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-white px-3 py-1.5 text-xs font-semibold text-emerald-700 shadow-sm">
+          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+          Data simulasi
+        </span>
+      </div>
+      <DashboardStatGrid :monitoring="monitoring" />
+    </section>
 
-    </div>
+    <section class="grid grid-cols-1 items-start gap-5 2xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,0.8fr)]">
+      <div class="min-w-0">
+        <MonitoringChartCard :data="history" />
+      </div>
+      <aside v-if="monitoring" class="grid min-w-0 gap-5 sm:grid-cols-2 2xl:grid-cols-1">
+        <NutrientStatusCard :monitoring="monitoring" />
+        <MonitoringInsight :monitoring="monitoring" :summary="summary" />
+      </aside>
+    </section>
 
-    <div class="mt-8">
-
-        <MonitoringTableCard
-            :data="history"
-        />
-
-    </div>
-
-</div>
+    <section class="min-w-0">
+      <MonitoringTableCard :data="history" />
+    </section>
+  </div>
 </template>
+
+<style scoped>
+.dashboard-page {
+  animation: dashboard-enter 420ms ease both;
+}
+@keyframes dashboard-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-page { animation: none; }
+}
+</style>
