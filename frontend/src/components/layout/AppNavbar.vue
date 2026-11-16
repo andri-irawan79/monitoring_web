@@ -1,11 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
-import { Leaf, UserCircle2, LogOut } from "lucide-vue-next";
-import { useRouter } from "vue-router";
+import { Leaf, UserCircle2 } from "lucide-vue-next";
 import { currentUser } from "../../services/authState";
-import { getCurrentAccount, logoutAccount } from "../../services/authService";
-
-const router = useRouter();
+import { getCurrentAccount } from "../../services/authService";
 
 onMounted(async () => {
   if (!currentUser.value) {
@@ -16,11 +13,6 @@ onMounted(async () => {
     }
   }
 });
-
-const handleLogout = () => {
-  logoutAccount();
-  router.replace("/login");
-};
 </script>
 
 <template>
@@ -40,7 +32,7 @@ const handleLogout = () => {
         </div>
       </div>
 
-      <div class="flex items-center gap-3 md:gap-5">
+      <div class="flex items-center gap-2 md:gap-5">
         <div class="hidden sm:flex items-center gap-2 min-w-0">
           <UserCircle2 class="w-8 h-8 text-green-700 shrink-0" />
           <div class="min-w-0">
@@ -52,14 +44,6 @@ const handleLogout = () => {
             </p>
           </div>
         </div>
-        <button
-          type="button"
-          @click="handleLogout"
-          class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition"
-        >
-          <LogOut class="w-4 h-4" />
-          <span class="hidden sm:inline">Keluar</span>
-        </button>
       </div>
     </div>
   </header>
