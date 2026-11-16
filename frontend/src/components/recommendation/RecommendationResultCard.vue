@@ -1,6 +1,6 @@
 <script setup>
 import BaseCard from "../ui/BaseCard.vue";
-import { Sprout, LoaderCircle, ClipboardList, CheckCircle2, Scale, Leaf, Sparkles } from "lucide-vue-next";
+import { Sprout, LoaderCircle, ClipboardList, CheckCircle2, Scale, Leaf, Sparkles, Info } from "lucide-vue-next";
 
 defineProps({
   recommendation: { type: Object, default: null },
@@ -27,7 +27,7 @@ function badgeClass(kategori) {
           <h2 class="text-lg font-bold tracking-tight text-slate-900">Hasil Rekomendasi</h2>
           <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-emerald-800">Langkah 2</span>
         </div>
-        <p class="mt-0.5 text-xs text-slate-500">Hasil perhitungan pemupukan Durian Montong</p>
+        <p class="mt-0.5 text-xs text-slate-500">Keluaran perhitungan berdasarkan parameter dan fase terpilih</p>
       </div>
       <span v-if="recommendation" class="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 ring-1 ring-inset ring-emerald-100">
         <CheckCircle2 class="h-3.5 w-3.5" /> Selesai
@@ -77,6 +77,10 @@ function badgeClass(kategori) {
           </div>
         </div>
 
+        <div class="flex items-start gap-2 rounded-xl border border-amber-100 bg-amber-50/70 p-3 text-[11px] leading-5 text-amber-900">
+          <Info class="mt-0.5 h-4 w-4 shrink-0" />
+          <span>Keluaran ini mengikuti data masukan dan basis aturan sistem. Hasilnya bukan jaminan efektivitas pemupukan di lapangan.</span>
+        </div>
         <div class="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-slate-100 pt-4 text-sm">
           <div>
             <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Objek tanaman</p>
