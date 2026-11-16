@@ -108,7 +108,7 @@ const submitChangePassword = async () => {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(260px,0.75fr)]">
+    <div class="mx-auto w-full max-w-3xl">
       <section class="min-w-0 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_-24px_rgba(15,65,48,.35)] sm:p-7">
         <div class="flex items-start gap-3 border-b border-slate-100 pb-5">
           <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
@@ -267,33 +267,27 @@ const submitChangePassword = async () => {
             </button>
           </div>
         </form>
+
+        <div class="mt-6 space-y-3 border-t border-slate-100 pt-5">
+          <div class="flex items-start gap-2.5">
+            <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+            <p class="text-xs leading-5 text-slate-500">
+              <span class="font-semibold text-slate-700">Perlindungan akun.</span>
+              Kata sandi baru disimpan dalam bentuk hash pada server. Kata sandi asli tidak ditampilkan atau disimpan sebagai teks biasa.
+            </p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <MonitorSmartphone class="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+            <p class="text-xs leading-5 text-slate-500">
+              <span class="font-semibold text-slate-700">Sesi akun.</span>
+              Setelah kata sandi diubah, sesi pada perangkat lain akan diminta masuk kembali. Sesi yang sedang digunakan tetap aktif.
+            </p>
+          </div>
+          <p class="pl-6 text-[11px] leading-5 text-slate-400">
+            Perubahan kata sandi hanya memengaruhi keamanan akun. Data monitoring simulasi dan riwayat pengujian tetap tersimpan.
+          </p>
+        </div>
       </section>
-
-      <aside class="space-y-4">
-        <section class="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-lime-50/70 p-5">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
-            <ShieldCheck class="h-5 w-5" />
-          </div>
-          <h2 class="mt-4 text-sm font-extrabold text-slate-800">Perlindungan akun</h2>
-          <p class="mt-2 text-xs leading-5 text-slate-600">
-            Kata sandi baru disimpan dalam bentuk hash pada server. Kata sandi asli tidak ditampilkan atau disimpan sebagai teks biasa.
-          </p>
-        </section>
-
-        <section class="rounded-2xl border border-slate-200 bg-white p-5">
-          <div class="flex items-center gap-2">
-            <MonitorSmartphone class="h-4 w-4 text-emerald-700" />
-            <h2 class="text-xs font-extrabold text-slate-800">Sesi akun</h2>
-          </div>
-          <p class="mt-2 text-xs leading-5 text-slate-500">
-            Setelah kata sandi diubah, sesi pada perangkat lain akan diminta masuk kembali. Sesi yang sedang digunakan tetap aktif.
-          </p>
-        </section>
-
-        <p class="px-1 text-[10px] leading-5 text-slate-400">
-          Perubahan kata sandi hanya memengaruhi keamanan akun. Data monitoring simulasi dan riwayat pengujian tetap tersimpan.
-        </p>
-      </aside>
     </div>
   </div>
 </template>
