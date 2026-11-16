@@ -25,7 +25,7 @@ API_URL = os.getenv(
     "http://127.0.0.1:8000/monitoring/"
 )
 API_URL = API_URL.rstrip("/") + "/"
-
+SIMULATOR_API_KEY = os.getenv(\n    "SIMULATOR_API_KEY",\n    "local-simulator-key-change-before-deployment"\n)\n
 RECORD_LIMIT = 365
 SAMPLE_SEED = 42
 INTERVAL_SECONDS = float(os.getenv("SIMULATOR_INTERVAL_SECONDS", "2"))
@@ -122,7 +122,10 @@ def send_record(payload: dict) -> dict:
     request = Request(
         API_URL,
         data=body,
-        headers={"Content-Type": "application/json",\n            "X-Simulator-Key": SIMULATOR_API_KEY},
+        headers={
+            "Content-Type": "application/json",
+            "X-Simulator-Key": SIMULATOR_API_KEY,
+        },
         method="POST",
     )
 
