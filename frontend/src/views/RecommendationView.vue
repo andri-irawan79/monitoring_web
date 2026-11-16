@@ -121,6 +121,7 @@ const generate = async () => {
     }
 
     const startedAt = Date.now();
+    let recommendationCreated = false;
     loading.value = true;
 
     try {
@@ -147,8 +148,7 @@ const generate = async () => {
         defuzzification.value = response.defuzzification || {};
         hasGeneratedAnalysis.value = true;
 
-        successMessage.value =
-            "Rekomendasi berhasil dihitung dan disimpan. Hasil terbaru sudah ditampilkan.";
+        recommendationCreated = true;
 
         // Kegagalan memuat ulang riwayat tidak boleh mengubah status
         // rekomendasi yang sudah berhasil disimpan menjadi gagal.
@@ -175,6 +175,13 @@ const generate = async () => {
             await new Promise((resolve) => setTimeout(resolve, remaining));
         }
         loading.value = false;
+    }
+
+    // Notifikasi keberhasilan baru ditampilkan setelah animasi proses
+    // benar-benar selesai dan overlay loading sudah ditutup.
+    if (recommendationCreated) {
+        successMessage.value =
+            "Rekomendasi berhasil dihitung dan disimpan. Hasil terbaru sudah ditampilkan.";
     }
 };
 
