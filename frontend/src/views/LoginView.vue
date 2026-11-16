@@ -23,7 +23,7 @@ const submitLogin = async () => {
       email: email.value.trim(),
       password: password.value
     });
-    await router.replace("/");
+    await router.replace(typeof route.query.redirect === "string" ? route.query.redirect : "/");
   } catch (error) {
     errorMessage.value =
       error.response?.data?.detail ||
