@@ -60,7 +60,7 @@ Jalankan perintah berikut dari folder utama repository:
 python backend/simulator/simulator.py
 ```
 
-Skrip akan membuat sesi baru secara otomatis. Tekan `Ctrl+C` pada terminal untuk menghentikan sesi sebelum seluruh data dikirim.
+Skrip akan membuat sesi baru secara otomatis. Tekan `Ctrl+C` pada terminal untuk menghentikan sesi sebelum seluruh data dikirim. Skrip menggunakan `Crop_recommendationV2.csv` bila file tersebut tersedia; jika tidak, skrip menggunakan `Crop_recommendation.csv` yang ada di repository. Nama/lokasi file dapat diatur melalui `SIMULATOR_DATASET_PATH` pada `.env`.
 
 ### Aturan hitungan sesi
 
