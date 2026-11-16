@@ -580,4 +580,5 @@ onUnmounted(() => {
         animation-duration: 2.5s;
     }
 }
-@media (prefers-reduced-motion: reduce) { .recommendation-page { scroll-behavior: auto; } }\n</style>
+@media (prefers-reduced-motion: reduce) { .recommendation-page { scroll-behavior: auto; } }
+</style>
