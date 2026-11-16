@@ -19,7 +19,7 @@ FASE_MAP = {
 }
 
 
-def generate_recommendation(monitoring_id, fase_id):
+def generate_recommendation(monitoring_id, fase_id, user_id):
     """
     Menghasilkan rekomendasi untuk objek tetap penelitian, yaitu
     tanaman durian varietas Montong. Identitas varietas merupakan
@@ -29,7 +29,10 @@ def generate_recommendation(monitoring_id, fase_id):
     try:
         monitoring = (
             db.query(Monitoring)
-            .filter(Monitoring.id == monitoring_id)
+            .filter(
+                Monitoring.id == monitoring_id,
+                Monitoring.user_id == user_id,
+            )
             .first()
         )
         if not monitoring:
@@ -64,6 +67,7 @@ def generate_recommendation(monitoring_id, fase_id):
         # Dosis berasal langsung dari hasil defuzzifikasi.
         # Tidak ada pencarian ID varietas atau koreksi varietas.
         recommendation = Rekomendasi(
+            user_id=user_id,
             monitoring_id=monitoring_id,
             fase_id=fase_id,
             jenis_pupuk=best_rule["pupuk"],
