@@ -87,9 +87,14 @@ const sessionModeLabel = computed(() => {
   return currentSession.value.mode === "website" ? "WEBSITE" : "GIT BASH";
 });
 const lastReceivedLabel = computed(() => {
-  const value = currentSession.value?.last_received_at
-    || simulatorStatus.value.last_received_at;
-  if (!value) return "Belum ada data diterima";
+  const value = currentSession.value
+    ? currentSession.value.last_received_at
+    : simulatorStatus.value.last_received_at;
+  if (!value) {
+    return currentSession.value
+      ? "Menunggu record pertama pada sesi ini"
+      : "Belum ada data diterima";
+  }
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Waktu penerimaan tidak tersedia";
   return "Data terakhir " + date.toLocaleTimeString("id-ID");
