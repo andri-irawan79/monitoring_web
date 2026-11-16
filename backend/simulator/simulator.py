@@ -22,7 +22,19 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 load_dotenv(BASE_DIR / "backend" / ".env")
-DATASET_PATH = BASE_DIR / "Crop_recommendationV2.csv"
+configured_dataset = os.getenv("SIMULATOR_DATASET_PATH")
+if configured_dataset:
+    DATASET_PATH = Path(configured_dataset).expanduser()
+    if not DATASET_PATH.is_absolute():
+        DATASET_PATH = BASE_DIR / DATASET_PATH
+else:
+    preferred_dataset = BASE_DIR / "Crop_recommendationV2.csv"
+    fallback_dataset = BASE_DIR / "Crop_recommendation.csv"
+    DATASET_PATH = (
+        preferred_dataset
+        if preferred_dataset.exists()
+        else fallback_dataset
+    )
 
 API_URL = os.getenv(
     "MONITORING_API_URL",
