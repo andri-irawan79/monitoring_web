@@ -31,15 +31,16 @@ npm run dev
 - `/register`: membuat akun dengan nama lengkap, email, dan kata sandi minimal 8 karakter.
 - `/login`: memverifikasi email dan kata sandi, lalu menerima access token.
 - `/auth/me`: memeriksa identitas akun yang sedang masuk.
+- `/auth/change-password`: mengubah kata sandi setelah memverifikasi kata sandi saat ini. Kata sandi baru minimal 8 karakter dan maksimal 128 karakter.
 - `/logout`: dilakukan di frontend dengan menghapus token sesi.
 
-Token akses ditandatangani menggunakan HMAC-SHA256 dan berlaku sesuai TOKEN_TTL_SECONDS (bawaan 8 jam). Kata sandi disimpan sebagai hash PBKDF2-HMAC-SHA256, bukan teks asli. Token disimpan pada sessionStorage browser.
+Token akses ditandatangani menggunakan HMAC-SHA256 dan berlaku sesuai TOKEN_TTL_SECONDS (bawaan 8 jam). Kata sandi disimpan sebagai hash PBKDF2-HMAC-SHA256, bukan teks asli. Token disimpan pada sessionStorage browser. Setelah kata sandi berhasil diubah, backend menaikkan `auth_version` akun dan menerbitkan token baru untuk browser yang sedang digunakan. Token sesi lain dengan versi sebelumnya otomatis ditolak pada permintaan API berikutnya. Kolom `auth_version` ditambahkan otomatis saat startup backend; akun dan data yang sudah ada tetap dipertahankan.
 
 Endpoint dashboard, master data, monitoring (GET), dan rekomendasi memerlukan header `Authorization: Bearer <token>`. Endpoint penerimaan data simulasi `POST /monitoring/` memakai header `X-Simulator-Key` dan ID sesi yang valid. Sesi tersebut telah dibuat dengan identitas akun melalui login website atau login Git Bash, sehingga setiap record memperoleh pemilik dari sesi di database.
 
 ## Batasan fitur autentikasi
 
-Implementasi ini mencakup pendaftaran, masuk, verifikasi sesi, dan keluar. Belum mencakup pembagian role/hak akses bertingkat, verifikasi email, reset kata sandi, autentikasi multifaktor, maupun pembatasan percobaan masuk (rate limiting). Untuk deployment publik, gunakan HTTPS dan secret acak yang kuat serta pertimbangkan kontrol tambahan tersebut.
+Implementasi ini mencakup pendaftaran, masuk, verifikasi sesi, ubah kata sandi, dan keluar. Belum mencakup pembagian role/hak akses bertingkat, verifikasi email, reset kata sandi melalui email, autentikasi multifaktor, maupun pembatasan percobaan masuk (rate limiting). Untuk deployment publik, gunakan HTTPS dan secret acak yang kuat serta pertimbangkan kontrol tambahan tersebut.
 
 
 ## Kontrol simulasi dan progres per sesi
