@@ -1,6 +1,6 @@
 import os
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from auth import get_current_user, verify_simulator_key
 from models.user import User
 from sqlalchemy import DateTime, func
@@ -79,8 +79,12 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
 
 
 @router.get("/simulator-status")
-def simulator_status(current_user: User = Depends(get_current_user)):
+def simulator_status(
+    response: Response,
+    current_user: User = Depends(get_current_user),
+):
     """Report whether a simulator delivery was recently committed."""
+    response.headers["Cache-Control"] = "no-store"
     db = SessionLocal()
 
     try:
