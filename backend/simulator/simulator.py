@@ -12,6 +12,7 @@ import json
 import os
 import time
 from datetime import date, timedelta
+from getpass import getpass
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -42,6 +43,7 @@ API_URL = os.getenv(
 )
 API_URL = API_URL.rstrip("/") + "/"
 MONITORING_BASE_URL = API_URL.rstrip("/")
+API_ROOT = MONITORING_BASE_URL.rsplit("/monitoring", 1)[0]
 SIMULATOR_API_KEY = os.getenv(
     "SIMULATOR_API_KEY",
     "local-simulator-key-change-before-deployment"
@@ -136,16 +138,24 @@ def stratified_sample(
     )
 
 
-def _request_json(url: str, payload: dict) -> dict:
-    """Send one control request; start is intentionally not auto-retried."""
+def _request_json(
+    url: str,
+    payload: dict,
+    access_token: str = None,
+    include_simulator_key: bool = True,
+) -> dict:
+    """Send one JSON control request with optional account authentication."""
     body = json.dumps(payload).encode("utf-8")
+    headers = {"Content-Type": "application/json"}
+    if include_simulator_key:
+        headers["X-Simulator-Key"] = SIMULATOR_API_KEY
+    if access_token:
+        headers["Authorization"] = f"Bearer {access_token}"
+
     request = Request(
         url,
         data=body,
-        headers={
-            "Content-Type": "application/json",
-            "X-Simulator-Key": SIMULATOR_API_KEY,
-        },
+        headers=headers,
         method="POST",
     )
 
@@ -160,11 +170,39 @@ def _request_json(url: str, payload: dict) -> dict:
         raise RuntimeError(f"Gagal menghubungi API: {error}") from error
 
 
-def create_terminal_session() -> str:
-    """Create a new session when the script is launched manually."""
+def authenticate_terminal_user() -> str:
+    """Sign in as the account that owns records sent by this Git Bash session."""
+    configured_token = os.getenv("SIMULATOR_ACCESS_TOKEN", "").strip()
+    if configured_token:
+        return configured_token
+
+    print("\\nMasuk untuk mengaitkan data simulasi dengan akun Anda.")
+    email = input("Email akun: ").strip()
+    if not email:
+        raise ValueError("Email akun wajib diisi untuk menjalankan simulasi Git Bash.")
+
+    password = getpass("Kata sandi: ")
+    if not password:
+        raise ValueError("Kata sandi wajib diisi untuk menjalankan simulasi Git Bash.")
+
+    result = _request_json(
+        f"{API_ROOT}/auth/login",
+        {"email": email, "password": password},
+        include_simulator_key=False,
+    )
+    access_token = result.get("access_token")
+    if not access_token:
+        raise RuntimeError("Login berhasil dipanggil, tetapi token akun tidak diterima.")
+    return access_token
+
+
+def create_terminal_session(access_token: str) -> str:
+    """Create a new user-owned session when the script is launched manually."""
     result = _request_json(
         f"{MONITORING_BASE_URL}/sessions/terminal/start",
         {},
+        access_token=access_token,
+        include_simulator_key=False,
     )
     session_id = (result.get("session") or {}).get("id")
     if not session_id:
@@ -296,7 +334,14 @@ def main() -> None:
         raise ValueError("SIMULATOR_INTERVAL_SECONDS tidak boleh negatif.")
 
     dataframe = load_sample()
-    session_id = args.session_id or create_terminal_session()
+    access_token = None
+    if args.session_id:
+        # Website-started sessions already carry their authenticated owner.
+        session_id = args.session_id
+    else:
+        # Git Bash sessions must explicitly authenticate the account owner.
+        access_token = authenticate_terminal_user()
+        session_id = create_terminal_session(access_token)
 
     print("=" * 72)
     print("SIMULATOR MONITORING DURIAN - HTTP REST API")
