@@ -21,53 +21,131 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <div class="h-[350px] bg-white rounded-xl shadow-sm p-6 mb-4">
-    <div class="grid gap-6">
-      <div>
-        <label class="block text-sm font-medium">
-          Objek Tanaman
-        </label>
-        <div
-          class="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700"
-          aria-label="Objek tanaman tetap Durian Montong"
-        >
-          Durian Montong
+    <section
+        class="
+            min-h-[350px]
+            h-auto
+            rounded-2xl
+            border
+            border-slate-200
+            bg-white
+            p-5
+            sm:p-6
+            shadow-sm
+        "
+    >
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-slate-800">
+                Parameter Rekomendasi
+            </h2>
+            <p class="mt-1 text-sm text-slate-500">
+                Tentukan fase pertumbuhan untuk menghitung rekomendasi pemupukan.
+            </p>
         </div>
-        <p class="mt-1 text-xs text-gray-500">
-          Objek penelitian ditetapkan khusus untuk varietas Montong.
-        </p>
-      </div>
 
-      <div>
-        <label class="block text-sm font-medium" for="fase-pertumbuhan">
-          Fase Pertumbuhan
-        </label>
-        <select
-          id="fase-pertumbuhan"
-          class="w-full mt-2 border rounded-lg p-3"
-          :value="selectedFase"
-          @change="emit('update:selectedFase', Number($event.target.value))"
-        >
-          <option
-            v-for="fase in fases"
-            :key="fase.id"
-            :value="fase.id"
-          >
-            {{ fase.nama }}
-          </option>
-        </select>
-      </div>
-    </div>
+        <div class="grid grid-cols-1 gap-5">
+            <div>
+                <label class="block text-sm font-medium text-slate-700">
+                    Objek Tanaman
+                </label>
+                <div
+                    class="
+                        mt-2
+                        flex
+                        min-h-11
+                        w-full
+                        items-center
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        px-3
+                        py-2.5
+                        text-sm
+                        text-slate-700
+                    "
+                    aria-label="Objek tanaman tetap Durian Montong"
+                >
+                    Durian Montong
+                </div>
+                <p class="mt-1.5 text-xs leading-relaxed text-slate-500">
+                    Objek penelitian ditetapkan khusus untuk varietas Montong.
+                </p>
+            </div>
 
-    <div class="mt-6">
-      <button
-        type="button"
-        @click="emit('generate')"
-        :disabled="loading"
-        class="bg-green-600 text-white rounded-xl px-8 py-3 hover:bg-green-700 disabled:opacity-60"
-      >
-        {{ loading ? "Menghitung..." : "Hitung Rekomendasi" }}
-      </button>
-    </div>
-  </div>
+            <div>
+                <label
+                    class="block text-sm font-medium text-slate-700"
+                    for="fase-pertumbuhan"
+                >
+                    Fase Pertumbuhan
+                </label>
+                <select
+                    id="fase-pertumbuhan"
+                    class="
+                        mt-2
+                        min-h-11
+                        w-full
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-white
+                        px-3
+                        py-2.5
+                        text-sm
+                        text-slate-700
+                        outline-none
+                        transition
+                        focus:border-green-500
+                        focus:ring-2
+                        focus:ring-green-100
+                    "
+                    :value="selectedFase"
+                    @change="emit('update:selectedFase', Number($event.target.value))"
+                >
+                    <option
+                        v-for="fase in fases"
+                        :key="fase.id"
+                        :value="fase.id"
+                    >
+                        {{ fase.nama }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-stretch sm:justify-end">
+            <button
+                type="button"
+                @click="emit('generate')"
+                :disabled="loading || !fases.length"
+                class="
+                    inline-flex
+                    min-h-11
+                    w-full
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-green-700
+                    px-6
+                    py-3
+                    text-sm
+                    font-semibold
+                    text-white
+                    shadow-sm
+                    transition-colors
+                    hover:bg-green-800
+                    disabled:cursor-not-allowed
+                    disabled:opacity-60
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-green-500
+                    focus-visible:ring-offset-2
+                    sm:w-auto
+                "
+            >
+                {{ loading ? "Menghitung..." : "Hitung Rekomendasi" }}
+            </button>
+        </div>
+    </section>
 </template>
