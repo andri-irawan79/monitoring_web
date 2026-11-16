@@ -29,7 +29,7 @@ onMounted(async () => {
 
 <template>
   <header class="fixed inset-x-0 top-0 z-50 h-20 border-b border-emerald-950/10 bg-white/95 shadow-[0_4px_24px_-18px_rgba(15,65,48,.42)] backdrop-blur-xl after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-gradient-to-r after:from-emerald-700 after:via-emerald-400 after:to-lime-300">
-    <div class="mx-auto flex h-full max-w-screen-2xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto flex h-full w-full items-center justify-between gap-3 px-3 sm:px-5 lg:px-7">
       <div class="flex min-w-0 items-center gap-3 sm:gap-4">
         <button
           type="button"
