@@ -57,6 +57,13 @@ def prepare_application_tables():
     SimulationSession.__table__.create(bind=engine, checkfirst=True)
 
     with engine.begin() as connection:
+        # Older user tables receive a default authentication version without
+        # requiring manual data updates. Existing tokens use version zero.
+        connection.execute(text(
+            "ALTER TABLE users "
+            "ADD COLUMN IF NOT EXISTS auth_version INTEGER NOT NULL DEFAULT 0"
+        ))
+
         connection.execute(text(
             "ALTER TABLE monitoring "
             "ADD COLUMN IF NOT EXISTS simulation_session_id VARCHAR(36)"
