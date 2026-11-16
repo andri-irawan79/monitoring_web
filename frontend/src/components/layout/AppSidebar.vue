@@ -380,6 +380,9 @@ const menus = [
             python backend/simulator/simulator.py
           </code>
           <p class="mt-1.5 text-[9px] leading-4 text-slate-500">
+            Masukkan email dan kata sandi akun saat diminta di terminal.
+          </p>
+          <p class="mt-1 text-[9px] leading-4 text-slate-500">
             Tekan Ctrl+C di Git Bash untuk menghentikan sesi.
           </p>
           <p
