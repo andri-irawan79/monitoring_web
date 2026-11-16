@@ -10,7 +10,12 @@ export const getRecommendationHistory = async () => {
   return response.data;
 };
 
-export const deleteRecommendation = async (recommendationId) => {\n  const response = await api.delete(`/recommendation/${recommendationId}`);\n  return response.data;\n};\n\nexport const generateRecommendation = async (monitoringId, faseId) => {
+export const deleteRecommendation = async (recommendationId) => {
+  const response = await api.delete(`/recommendation/${recommendationId}`);
+  return response.data;
+};
+
+export const generateRecommendation = async (monitoringId, faseId) => {
   const response = await api.post("/recommendation/generate", {
     monitoring_id: monitoringId,
     fase_id: faseId
