@@ -437,6 +437,15 @@ def create_monitoring(
 
     try:
         session = None
+        if (
+            payload.session_record_number is not None
+            and not payload.simulation_session_id
+        ):
+            raise HTTPException(
+                status_code=422,
+                detail="ID sesi wajib dikirim bersama nomor record sesi.",
+            )
+
         if payload.simulation_session_id:
             if payload.session_record_number is None:
                 raise HTTPException(
