@@ -38,8 +38,8 @@ def latest_recommendation(
                     r.id,
                     r.monitoring_id,
                     r.fase_id,
-                    :varietas AS varietas,
-                    :objek_tanaman AS objek_tanaman,
+                    COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas) AS varietas,
+                    CONCAT('Durian ', COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas)) AS objek_tanaman,
                     f.nama AS fase,
                     r.jenis_pupuk,
                     r.dosis,
@@ -47,6 +47,8 @@ def latest_recommendation(
                     r.created_at
                 FROM rekomendasi r
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
+                LEFT JOIN public.rekomendasi_varietas_archive va
+                    ON va.rekomendasi_id = r.id
                 ORDER BY r.id DESC
                 LIMIT 1
             """),
@@ -78,8 +80,8 @@ def recommendation_history(
                     m.temperature,
                     m.humidity,
                     m.rainfall,
-                    :varietas AS varietas,
-                    :objek_tanaman AS objek_tanaman,
+                    COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas) AS varietas,
+                    CONCAT('Durian ', COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas)) AS objek_tanaman,
                     f.nama AS fase,
                     r.jenis_pupuk,
                     r.dosis,
@@ -88,6 +90,8 @@ def recommendation_history(
                 FROM rekomendasi r
                 JOIN monitoring m ON r.monitoring_id = m.id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
+                LEFT JOIN public.rekomendasi_varietas_archive va
+                    ON va.rekomendasi_id = r.id
                 ORDER BY r.id DESC
                 LIMIT 10
             """),
@@ -117,8 +121,8 @@ def export_csv(
                     m.temperature,
                     m.humidity,
                     m.rainfall,
-                    :varietas AS varietas,
-                    :objek_tanaman AS objek_tanaman,
+                    COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas) AS varietas,
+                    CONCAT('Durian ', COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas)) AS objek_tanaman,
                     f.nama AS fase,
                     r.jenis_pupuk,
                     r.dosis,
@@ -127,6 +131,8 @@ def export_csv(
                 FROM rekomendasi r
                 JOIN monitoring m ON r.monitoring_id = m.id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
+                LEFT JOIN public.rekomendasi_varietas_archive va
+                    ON va.rekomendasi_id = r.id
                 ORDER BY r.id DESC
             """),
             {
