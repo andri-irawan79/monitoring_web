@@ -1,312 +1,194 @@
 <script setup>
 import { nextTick, ref } from "vue";
 import {
-    LayoutDashboard,
-    FlaskConical,
-    Wifi,
-    Info,
-    LogOut,
-    CircleAlert
+  LayoutDashboard,
+  FlaskConical,
+  Database,
+  Sprout,
+  Info,
+  LogOut,
+  CircleAlert,
+  ChevronRight
 } from "lucide-vue-next";
-
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { logoutAccount } from "../../services/authService";
 
-const props = defineProps({
-    mobileOpen: {
-        type: Boolean,
-        default: false
-    }
+defineProps({
+  mobileOpen: { type: Boolean, default: false }
 });
 const emit = defineEmits(["close"]);
 
 const route = useRoute();
 const router = useRouter();
-
 const showLogoutConfirm = ref(false);
 const logoutButton = ref(null);
 const cancelButton = ref(null);
 
 const menus = [
-    {
-        name: "Dashboard",
-        icon: LayoutDashboard,
-        path: "/"
-    },
-    {
-        name: "Rekomendasi",
-        icon: FlaskConical,
-        path: "/recommendation"
-    }
+  { name: "Dashboard", description: "Ringkasan kondisi tanah", icon: LayoutDashboard, path: "/" },
+  { name: "Rekomendasi", description: "Pengolahan Fuzzy Tsukamoto", icon: FlaskConical, path: "/recommendation" }
 ];
 
 const openLogoutConfirmation = async () => {
-    showLogoutConfirm.value = true;
-    await nextTick();
-    cancelButton.value?.focus();
+  showLogoutConfirm.value = true;
+  await nextTick();
+  cancelButton.value?.focus();
 };
 
 const closeLogoutConfirmation = async () => {
-    showLogoutConfirm.value = false;
-    await nextTick();
-    logoutButton.value?.focus();
+  showLogoutConfirm.value = false;
+  await nextTick();
+  logoutButton.value?.focus();
 };
 
 const confirmLogout = () => {
-    showLogoutConfirm.value = false;
-    logoutAccount();
-    router.replace("/login");
+  showLogoutConfirm.value = false;
+  logoutAccount();
+  router.replace("/login");
 };
 </script>
 
 <template>
-    <aside
-        class="
-            fixed
-            left-0
-            top-20
-            bottom-0
-            w-72
-            bg-white
-            border-r
-            border-slate-200
-            flex
-            flex-col
-            justify-between
-            overflow-y-auto
-            z-40
-            transition-transform
-            duration-300
-            ease-in-out
-            lg:translate-x-0
-        "
-        id="app-sidebar"
-        :class="mobileOpen ? 'translate-x-0' : '-translate-x-full'"
-        aria-label="Menu navigasi utama"
-    >
-        <div>
-            <div class="px-6 py-6">
-                <p class="text-xs uppercase tracking-widest text-slate-400 font-semibold">
-                    Menu Utama
-                </p>
-            </div>
-
-            <nav class="px-4 space-y-2" aria-label="Navigasi utama">
-                <RouterLink
-                    v-for="menu in menus"
-                    :key="menu.path"
-                    :to="menu.path"
-                    class="
-                        flex
-                        items-center
-                        gap-3
-                        px-4
-                        py-3
-                        rounded-xl
-                        transition-all
-                        duration-200
-                    "
-                    :class="
-                        route.path === menu.path
-                            ? 'bg-green-100 text-green-700 font-semibold'
-                            : 'text-slate-600 hover:bg-slate-100'
-                    "
-                    :aria-current="route.path === menu.path ? 'page' : undefined"
-                    @click="emit('close')"
-                >
-                    <component :is="menu.icon" class="w-5 h-5 shrink-0" />
-                    <span>{{ menu.name }}</span>
-                </RouterLink>
-            </nav>
+  <aside
+    id="app-sidebar"
+    class="fixed bottom-0 left-0 top-20 z-40 flex w-72 flex-col justify-between overflow-y-auto border-r border-emerald-950/10 bg-gradient-to-b from-white via-white to-[#f5faf7] shadow-[10px_0_35px_-30px_rgba(15,65,48,.3)] transition-transform duration-300 ease-in-out lg:translate-x-0"
+    :class="mobileOpen ? 'translate-x-0' : '-translate-x-full'"
+    aria-label="Menu navigasi utama"
+  >
+    <div class="px-4 pb-5 pt-6">
+      <div class="mb-7 overflow-hidden rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-lime-50/70 p-4">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-800 text-white shadow-sm">
+            <Sprout class="h-5 w-5" />
+          </div>
+          <div class="min-w-0">
+            <p class="text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-700">Ruang penelitian</p>
+            <p class="mt-0.5 truncate text-sm font-extrabold tracking-tight text-slate-900">Durian Montong</p>
+          </div>
         </div>
-
-        <div class="p-4 pt-5 border-t border-slate-100 space-y-3">
-            <button
-                ref="logoutButton"
-                type="button"
-                @click="openLogoutConfirmation"
-                aria-label="Keluar"
-                class="
-                    group
-                    w-full
-                    flex
-                    items-center
-                    gap-3
-                    rounded-xl
-                    border
-                    border-rose-100
-                    bg-rose-50/70
-                    px-3
-                    py-3
-                    text-left
-                    text-rose-700
-                    transition-all
-                    duration-200
-                    hover:border-rose-200
-                    hover:bg-rose-100
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-rose-300
-                    focus-visible:ring-offset-2
-                "
-            >
-                <span
-                    class="
-                        flex
-                        h-9
-                        w-9
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-lg
-                        bg-rose-100
-                        text-rose-600
-                        transition-colors
-                        group-hover:bg-rose-200
-                    "
-                >
-                    <LogOut class="h-[18px] w-[18px]" />
-                </span>
-
-                <span class="text-sm font-semibold">
-                    Keluar
-                </span>
-            </button>
-
-            <div class="bg-green-50 rounded-2xl p-4 border border-green-100">
-                <div class="flex items-center gap-2">
-                    <Wifi class="w-5 h-5 text-green-600" />
-                    <span class="font-semibold text-slate-800">
-                        Simulator Online
-                    </span>
-                </div>
-                <p class="text-sm text-slate-500 mt-2">
-                    Backend FastAPI terhubung
-                </p>
-            </div>
-
-            <div class="flex items-center gap-2 px-1 pt-1 text-slate-400 text-sm">
-                <Info class="w-4 h-4" />
-                <span>Versi 1.0.0</span>
-            </div>
+        <div class="mt-4 flex items-center justify-between gap-2 border-t border-emerald-100 pt-3">
+          <span class="text-[10px] font-semibold text-slate-500">Monitoring & pemupukan</span>
+          <span class="shrink-0 rounded-full bg-white px-2 py-1 text-[9px] font-bold text-emerald-800 ring-1 ring-emerald-100">Fuzzy Tsukamoto</span>
         </div>
-    </aside>
+      </div>
 
-    <Teleport to="body">
-        <div
-            v-if="showLogoutConfirm"
-            class="
-                fixed
-                inset-0
-                z-[100]
-                flex
-                items-center
-                justify-center
-                bg-slate-900/40
-                px-4
-                backdrop-blur-[2px]
-            "
-            role="presentation"
-            @click.self="closeLogoutConfirmation"
-            @keydown.esc.stop.prevent="closeLogoutConfirmation"
+      <div class="mb-3 flex items-center justify-between px-2">
+        <p class="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">Menu utama</p>
+        <span class="text-[9px] font-bold text-slate-300">NAVIGASI</span>
+      </div>
+
+      <nav class="space-y-2" aria-label="Navigasi utama">
+        <RouterLink
+          v-for="menu in menus"
+          :key="menu.path"
+          :to="menu.path"
+          class="group relative flex items-center gap-3 overflow-hidden rounded-2xl border px-3 py-3 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          :class="route.path === menu.path
+            ? 'border-emerald-800 bg-gradient-to-r from-emerald-800 to-emerald-700 text-white shadow-[0_8px_18px_-13px_rgba(4,120,87,.9)]'
+            : 'border-transparent text-slate-600 hover:border-emerald-100 hover:bg-emerald-50/80 hover:text-emerald-900'"
+          :aria-current="route.path === menu.path ? 'page' : undefined"
+          @click="emit('close')"
         >
-            <section
-                class="
-                    w-full
-                    max-w-sm
-                    rounded-2xl
-                    bg-white
-                    p-6
-                    shadow-2xl
-                    ring-1
-                    ring-slate-900/5
-                "
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="logout-dialog-title"
-                aria-describedby="logout-dialog-description"
-                @click.stop
-            >
-                <div
-                    class="
-                        mx-auto
-                        flex
-                        h-12
-                        w-12
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-rose-50
-                        text-rose-600
-                    "
-                >
-                    <CircleAlert class="h-6 w-6" />
-                </div>
+          <span
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors"
+            :class="route.path === menu.path
+              ? 'bg-white/15 text-white'
+              : 'bg-slate-100 text-slate-500 group-hover:bg-white group-hover:text-emerald-700'"
+          >
+            <component :is="menu.icon" class="h-[19px] w-[19px]" />
+          </span>
 
-                <div class="mt-4 text-center">
-                    <h2
-                        id="logout-dialog-title"
-                        class="text-lg font-semibold text-slate-800"
-                    >
-                        Konfirmasi Keluar
-                    </h2>
-                    <p
-                        id="logout-dialog-description"
-                        class="mt-2 text-sm leading-6 text-slate-500"
-                    >
-                        Apakah Anda yakin ingin keluar dari akun?
-                    </p>
-                </div>
+          <span class="min-w-0 flex-1">
+            <span class="block text-sm font-bold">{{ menu.name }}</span>
+            <span class="mt-0.5 block truncate text-[10px] font-medium" :class="route.path === menu.path ? 'text-emerald-100/75' : 'text-slate-400 group-hover:text-emerald-700/70'">
+              {{ menu.description }}
+            </span>
+          </span>
 
-                <div class="mt-6 flex items-center justify-end gap-3">
-                    <button
-                        ref="cancelButton"
-                        type="button"
-                        @click="closeLogoutConfirmation"
-                        class="
-                            rounded-xl
-                            border
-                            border-slate-200
-                            bg-white
-                            px-4
-                            py-2.5
-                            text-sm
-                            font-medium
-                            text-slate-600
-                            transition-colors
-                            hover:bg-slate-50
-                            focus-visible:outline-none
-                            focus-visible:ring-2
-                            focus-visible:ring-slate-300
-                            focus-visible:ring-offset-2
-                        "
-                    >
-                        Batal
-                    </button>
+          <span v-if="route.path === menu.path" class="flex shrink-0 items-center gap-1 text-[9px] font-extrabold uppercase tracking-wider text-emerald-100">
+            Aktif
+            <ChevronRight class="h-3.5 w-3.5" />
+          </span>
+          <ChevronRight v-else class="h-4 w-4 shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-emerald-600" />
+        </RouterLink>
+      </nav>
+    </div>
 
-                    <button
-                        type="button"
-                        @click="confirmLogout"
-                        class="
-                            rounded-xl
-                            bg-rose-600
-                            px-4
-                            py-2.5
-                            text-sm
-                            font-semibold
-                            text-white
-                            transition-colors
-                            hover:bg-rose-700
-                            focus-visible:outline-none
-                            focus-visible:ring-2
-                            focus-visible:ring-rose-300
-                            focus-visible:ring-offset-2
-                        "
-                    >
-                        Keluar
-                    </button>
-                </div>
-            </section>
+    <div class="space-y-3 border-t border-slate-200/80 bg-white/70 p-4">
+      <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3.5">
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-700 shadow-sm ring-1 ring-emerald-100">
+            <Database class="h-4 w-4" />
+          </span>
+          <div class="min-w-0">
+            <p class="text-xs font-extrabold text-slate-800">Sumber data simulasi</p>
+            <p class="mt-0.5 text-[10px] leading-4 text-slate-500">Bukan pembacaan sensor langsung</p>
+          </div>
         </div>
-    </Teleport>
+      </div>
+
+      <button
+        ref="logoutButton"
+        type="button"
+        @click="openLogoutConfirmation"
+        aria-label="Keluar dari akun"
+        class="group flex min-h-11 w-full items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left text-slate-600 shadow-sm transition-all duration-200 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
+      >
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-rose-100 group-hover:text-rose-700">
+          <LogOut class="h-4 w-4" />
+        </span>
+        <span class="flex-1 text-xs font-bold">Keluar dari akun</span>
+        <ChevronRight class="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-rose-500" />
+      </button>
+
+      <div class="flex items-center justify-between px-1 pt-1 text-[10px] text-slate-400">
+        <span class="inline-flex items-center gap-1.5"><Info class="h-3.5 w-3.5" />Durian Monitor</span>
+        <span class="font-semibold tabular-nums">Versi 1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <Teleport to="body">
+    <div
+      v-if="showLogoutConfirm"
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/40 px-4 backdrop-blur-[3px]"
+      role="presentation"
+      @click.self="closeLogoutConfirmation"
+      @keydown.esc.stop.prevent="closeLogoutConfirmation"
+    >
+      <section
+        class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="logout-dialog-title"
+        aria-describedby="logout-dialog-description"
+        @click.stop
+      >
+        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
+          <CircleAlert class="h-6 w-6" />
+        </div>
+        <div class="mt-4 text-center">
+          <h2 id="logout-dialog-title" class="text-lg font-bold text-slate-800">Konfirmasi Keluar</h2>
+          <p id="logout-dialog-description" class="mt-2 text-sm leading-6 text-slate-500">Apakah Anda yakin ingin keluar dari akun?</p>
+        </div>
+        <div class="mt-6 flex items-center justify-end gap-3">
+          <button
+            ref="cancelButton"
+            type="button"
+            @click="closeLogoutConfirmation"
+            class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="confirmLogout"
+            class="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
+          >
+            Keluar
+          </button>
+        </div>
+      </section>
+    </div>
+  </Teleport>
 </template>
