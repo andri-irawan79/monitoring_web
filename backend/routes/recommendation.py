@@ -87,7 +87,7 @@ def recommendation_history(
                     r.kategori,
                     r.created_at
                 FROM rekomendasi r
-                JOIN monitoring m ON r.monitoring_id = m.id
+                JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
@@ -129,8 +129,11 @@ def delete_recommendation(
             {"id": recommendation_id}
         )
         db.execute(
-            text("DELETE FROM rekomendasi WHERE id = :id"),
-            {"id": recommendation_id}
+            text(
+                "DELETE FROM rekomendasi "
+                "WHERE id = :id AND user_id = :user_id"
+            ),
+            {"id": recommendation_id, "user_id": current_user.id}
         )
         db.commit()
         return {
@@ -172,7 +175,7 @@ def export_csv(
                     r.kategori,
                     r.created_at
                 FROM rekomendasi r
-                JOIN monitoring m ON r.monitoring_id = m.id
+                JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
