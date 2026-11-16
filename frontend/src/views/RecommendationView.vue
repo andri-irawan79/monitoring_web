@@ -17,7 +17,6 @@ import { getLatestMonitoring } from "../services/monitoringService";
 import { getFase } from "../services/masterService";
 import {
     generateRecommendation,
-    getLatestRecommendation,
     getRecommendationHistory
 } from "../services/recommendationService";
 
@@ -46,7 +45,6 @@ const loadData = async () => {
     const results = await Promise.allSettled([
         getLatestMonitoring(),
         getFase(),
-        getLatestRecommendation(),
         getRecommendationHistory()
     ]);
 
@@ -66,17 +64,19 @@ const loadData = async () => {
         failedSources.push("fase pertumbuhan");
     }
 
-    if (results[2].status === "fulfilled") {
-        recommendation.value = results[2].value || null;
-    } else {
-        console.error("Gagal memuat rekomendasi terakhir:", results[2].reason);
-        failedSources.push("hasil rekomendasi terakhir");
-    }
+    // Hasil utama sengaja dikosongkan setiap kali halaman dibuka.
+    // Riwayat tetap dimuat terpisah agar pengguna dapat melihat rekomendasi sebelumnya.
+    recommendation.value = null;
+    fuzzyValues.value = null;
+    bestRule.value = null;
+    activeRules.value = [];
+    defuzzification.value = {};
+    hasGeneratedAnalysis.value = false;
 
-    if (results[3].status === "fulfilled") {
-        history.value = Array.isArray(results[3].value) ? results[3].value : [];
+    if (results[2].status === "fulfilled") {
+        history.value = Array.isArray(results[2].value) ? results[2].value : [];
     } else {
-        console.error("Gagal memuat riwayat rekomendasi:", results[3].reason);
+        console.error("Gagal memuat riwayat rekomendasi:", results[2].reason);
         failedSources.push("riwayat rekomendasi");
     }
 
@@ -96,6 +96,15 @@ const generate = async () => {
     errorTitle.value = "";
     errorMessage.value = "";
     historyWarning.value = "";
+
+    // Kosongkan hasil sebelumnya agar tidak disalahartikan sebagai hasil
+    // dari permintaan rekomendasi yang sedang/baru dilakukan.
+    recommendation.value = null;
+    fuzzyValues.value = null;
+    bestRule.value = null;
+    activeRules.value = [];
+    defuzzification.value = {};
+    hasGeneratedAnalysis.value = false;
 
     if (!monitoring.value?.id) {
         errorTitle.value = "Rekomendasi belum dapat dibuat";
