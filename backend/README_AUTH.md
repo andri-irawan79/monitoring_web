@@ -71,3 +71,12 @@ Skrip akan membuat sesi baru secara otomatis. Tekan `Ctrl+C` pada terminal untuk
 - Indikator penerimaan data memakai `SIMULATOR_STATUS_TIMEOUT_SECONDS` (bawaan 8 detik). Sesi baru ditandai gagal jika tidak menerima data melebihi `SIMULATOR_SESSION_TIMEOUT_SECONDS` (bawaan 45 detik), agar proses retry pengiriman tidak terlalu cepat dianggap gagal. Interval kirim bawaan adalah 2 detik melalui `SIMULATOR_INTERVAL_SECONDS`.
 
 Skema `simulation_sessions` dan kolom penghubung pada `monitoring` disiapkan secara idempoten saat backend mulai. Struktur ini menambahkan kolom nullable dan tidak menghapus record monitoring lama. Skrip SQL cadangan tersedia pada `backend/migration_simulation_sessions.sql` untuk lingkungan yang melakukan migrasi database secara manual.
+
+
+## Pemisahan data antar akun
+
+Setiap data monitoring, sesi simulasi, dan rekomendasi baru dikaitkan dengan akun yang sedang masuk. Dashboard, riwayat monitoring, riwayat rekomendasi, penghapusan, dan ekspor CSV hanya menampilkan data milik akun tersebut.
+
+Untuk menjalankan simulator dari Git Bash, skrip meminta email dan kata sandi akun terlebih dahulu. Kredensial digunakan untuk memperoleh token login dan tidak disimpan oleh skrip. Sesi yang dibuat dari website otomatis menggunakan akun yang sedang masuk.
+
+Kolom kepemilikan ditambahkan secara nullable agar record historis tetap tersimpan tanpa dihapus. Record lama yang belum memiliki pemilik tidak ditampilkan kepada akun mana pun sampai pemiliknya ditetapkan secara eksplisit. Ini mencegah data lama diberikan kepada akun yang salah. Cadangkan database sebelum migrasi pertama.
