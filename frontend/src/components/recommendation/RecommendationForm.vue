@@ -13,6 +13,10 @@ defineProps({
     loading: {
         type: Boolean,
         default: false
+    },
+    initialLoading: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -120,7 +124,7 @@ const emit = defineEmits([
             <button
                 type="button"
                 @click="emit('generate')"
-                :disabled="loading || !fases.length"
+                :disabled="loading || initialLoading || !fases.length"
                 class="
                     inline-flex
                     min-h-11
