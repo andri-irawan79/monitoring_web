@@ -94,9 +94,10 @@ const lastReceivedLabel = computed(() => {
   if (Number.isNaN(date.getTime())) return "Waktu penerimaan tidak tersedia";
   return "Data terakhir " + date.toLocaleTimeString("id-ID");
 });
-const statusDotActive = computed(
-  () => hasActiveSession.value || simulatorStatus.value.active
-);
+const statusDotActive = computed(() => {
+  if (currentSession.value) return hasActiveSession.value;
+  return simulatorStatus.value.active;
+});
 
 const refreshSimulatorStatus = async () => {
   if (simulatorStatusLoading.value) return;
@@ -259,7 +260,7 @@ const confirmLogout = () => {
       </nav>
     </div>
 
-    <div class="space-y-3 border-t border-slate-200/80 bg-white/70 p-4">
+    <div class="shrink-0 space-y-3 border-t border-slate-200/80 bg-white/70 p-4">
       <section
         class="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-3.5 shadow-sm"
         aria-live="polite"
@@ -276,7 +277,9 @@ const confirmLogout = () => {
                 class="relative h-2.5 w-2.5 rounded-full ring-2 ring-white"
                 :class="statusDotActive
                   ? 'bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,.12)]'
-                  : 'bg-slate-300'"
+                  : currentSession?.status === 'failed'
+                    ? 'bg-rose-500 shadow-[0_0_0_3px_rgba(244,63,94,.10)]'
+                    : 'bg-slate-300'"
               ></span>
             </span>
             <p class="truncate text-xs font-extrabold text-slate-800">Kontrol simulasi</p>
@@ -320,6 +323,12 @@ const confirmLogout = () => {
 
         <p class="mt-2 text-[9px] leading-4 text-slate-400">
           {{ lastReceivedLabel }} · Data CSV, bukan sensor
+        </p>
+        <p
+          v-if="currentSession?.error_message"
+          class="mt-2 rounded-lg bg-rose-50 px-2 py-1.5 text-[9px] leading-4 text-rose-700"
+        >
+          {{ currentSession.error_message }}
         </p>
 
         <div class="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1">
