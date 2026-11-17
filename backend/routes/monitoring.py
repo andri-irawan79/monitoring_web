@@ -9,7 +9,6 @@ from sqlalchemy.exc import IntegrityError
 from auth import get_current_user, verify_simulator_key
 from database.session import SessionLocal
 from models.monitoring import Monitoring
-from models.rekomendasi import Rekomendasi
 from models.simulation_session import SimulationSession
 from models.user import User
 from schemas.monitoring import MonitoringCreate
@@ -173,92 +172,6 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
             for row in data
         ]
 
-    finally:
-        db.close()
-
-
-@router.delete("/history")
-def delete_monitoring_history(
-    current_user: User = Depends(get_current_user),
-):
-    """Delete only the signed-in user's monitoring history."""
-    db = SessionLocal()
-
-    try:
-        active_session = (
-            db.query(SimulationSession.id)
-            .filter(
-                SimulationSession.user_id == current_user.id,
-                SimulationSession.status.in_(("starting", "running")),
-            )
-            .first()
-        )
-        if active_session is not None:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=(
-                    "Riwayat belum dapat dihapus karena simulasi masih berjalan. "
-                    "Hentikan atau selesaikan sesi simulasi terlebih dahulu."
-                ),
-            )
-
-        monitoring_ids = (
-            db.query(Monitoring.id)
-            .filter(Monitoring.user_id == current_user.id)
-            .subquery()
-        )
-        monitoring_query = db.query(Monitoring).filter(
-            Monitoring.user_id == current_user.id
-        )
-        deleted_count = monitoring_query.count()
-
-        # Preserve the recommendation result while detaching its source
-        # monitoring record. RecommendationHistoryTable displays the missing
-        # N/P/K and pH snapshot as "—" after this operation.
-        detached_recommendations = (
-            db.query(Rekomendasi)
-            .filter(
-                Rekomendasi.user_id == current_user.id,
-                Rekomendasi.monitoring_id.in_(monitoring_ids),
-            )
-            .update(
-                {Rekomendasi.monitoring_id: None},
-                synchronize_session=False,
-            )
-        )
-
-        if deleted_count:
-            monitoring_query.delete(synchronize_session=False)
-
-        db.commit()
-        return {
-            "success": True,
-            "deleted_count": deleted_count,
-            "preserved_recommendations": detached_recommendations,
-            "message": (
-                f"{deleted_count} data riwayat monitoring berhasil dihapus. "
-                f"{detached_recommendations} riwayat rekomendasi tetap dipertahankan."
-                if deleted_count
-                else "Tidak ada data riwayat monitoring untuk dihapus."
-            ),
-        }
-
-    except HTTPException:
-        db.rollback()
-        raise
-    except IntegrityError as error:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=(
-                "Riwayat monitoring belum dapat dihapus karena masih memiliki "
-                "relasi data. Pastikan backend sudah menjalankan migrasi terbaru, "
-                "kemudian coba kembali."
-            ),
-        ) from error
-    except Exception:
-        db.rollback()
-        raise
     finally:
         db.close()
 
