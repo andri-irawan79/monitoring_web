@@ -20,6 +20,12 @@ const paginatedData = computed(() => filteredData.value.slice((currentPage.value
 const startItem = computed(() => totalItems.value ? (currentPage.value - 1) * perPage + 1 : 0);
 const endItem = computed(() => Math.min(currentPage.value * perPage, totalItems.value));
 watch(search, () => { currentPage.value = 1; });
+watch(() => props.data.length, length => {
+  if (length === 0) {
+    search.value = "";
+    currentPage.value = 1;
+  }
+});
 watch(totalPages, pages => { if (currentPage.value > pages) currentPage.value = pages; });
 function status(item) {
   if (item.nitrogen < 40 || item.phosphorus < 30 || item.potassium < 30) return { text: "Rendah", class: "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200" };
@@ -40,6 +46,7 @@ function fmt(value) { const n = Number(value); return Number.isFinite(n) ? n.toF
         :aria-busy="props.deletingAll"
         @click="emit('delete-all')"
         class="inline-flex min-h-10 w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-rose-200 bg-white px-3.5 py-2 text-xs font-bold text-rose-700 transition hover:border-rose-300 hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
+        aria-label="Hapus seluruh riwayat monitoring"
         title="Hapus seluruh riwayat monitoring"
       >
         <LoaderCircle v-if="props.deletingAll" class="h-4 w-4 animate-spin" />
