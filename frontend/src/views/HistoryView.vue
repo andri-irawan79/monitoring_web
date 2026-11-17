@@ -227,63 +227,39 @@ onBeforeUnmount(() => {
         <h2 class="text-sm font-extrabold tracking-tight text-slate-800">Kategori riwayat</h2>
         <p class="mt-0.5 text-xs text-slate-500">Pilih catatan yang ingin ditinjau.</p>
       </div>
-      <p class="text-[11px] font-medium text-slate-400">Jumlah data ditampilkan pada setiap kategori</p>
+      <p class="text-[11px] font-medium text-slate-400">Pilih kategori untuk melihat catatan lengkap.</p>
     </div>
 
     <section class="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
       <div class="flex flex-col gap-2 sm:flex-row">
         <button
           type="button"
-          class="flex min-h-12 flex-1 items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          class="flex min-h-14 flex-1 items-center rounded-xl px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
           :class="activeTab === 'monitoring'
             ? 'bg-emerald-800 text-white shadow-sm'
             : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'"
           :aria-pressed="activeTab === 'monitoring'"
           @click="activeTab = 'monitoring'"
         >
-          <span class="flex min-w-0 items-center gap-3">
-            <span
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-              :class="activeTab === 'monitoring' ? 'bg-white/15 text-white' : 'bg-emerald-50 text-emerald-700'"
-            >
-              <Activity class="h-[18px] w-[18px]" />
-            </span>
-            <span class="min-w-0">
-              <span class="block text-sm font-bold">Riwayat Monitoring</span>
-              <span class="mt-0.5 block text-[10px]" :class="activeTab === 'monitoring' ? 'text-emerald-100/75' : 'text-slate-400'">Catatan kondisi tanah</span>
-            </span>
+          <span class="min-w-0">
+            <span class="block text-sm font-bold">Riwayat Monitoring</span>
+            <span class="mt-0.5 block text-[11px]" :class="activeTab === 'monitoring' ? 'text-emerald-100/75' : 'text-slate-400'">Catatan kondisi tanah</span>
           </span>
-          <span
-            class="rounded-full px-2.5 py-1 text-xs font-extrabold tabular-nums"
-            :class="activeTab === 'monitoring' ? 'bg-white/15 text-white' : 'bg-slate-100 text-slate-600'"
-          >{{ totalMonitoring }}</span>
         </button>
 
         <button
           type="button"
-          class="flex min-h-12 flex-1 items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          class="flex min-h-14 flex-1 items-center rounded-xl px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
           :class="activeTab === 'recommendations'
             ? 'bg-emerald-800 text-white shadow-sm'
             : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'"
           :aria-pressed="activeTab === 'recommendations'"
           @click="activeTab = 'recommendations'"
         >
-          <span class="flex min-w-0 items-center gap-3">
-            <span
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-              :class="activeTab === 'recommendations' ? 'bg-white/15 text-white' : 'bg-lime-50 text-lime-700'"
-            >
-              <ClipboardList class="h-4.5 w-4.5" />
-            </span>
-            <span class="min-w-0">
-              <span class="block text-sm font-bold">Riwayat Rekomendasi</span>
-              <span class="mt-0.5 block text-[10px]" :class="activeTab === 'recommendations' ? 'text-emerald-100/75' : 'text-slate-400'">Hasil rekomendasi pemupukan</span>
-            </span>
+          <span class="min-w-0">
+            <span class="block text-sm font-bold">Riwayat Rekomendasi</span>
+            <span class="mt-0.5 block text-[11px]" :class="activeTab === 'recommendations' ? 'text-emerald-100/75' : 'text-slate-400'">Hasil rekomendasi pemupukan</span>
           </span>
-          <span
-            class="rounded-full px-2.5 py-1 text-xs font-extrabold tabular-nums"
-            :class="activeTab === 'recommendations' ? 'bg-white/15 text-white' : 'bg-slate-100 text-slate-600'"
-          >{{ totalRecommendations }}</span>
         </button>
       </div>
     </section>
