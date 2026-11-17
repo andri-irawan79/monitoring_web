@@ -121,7 +121,7 @@ def prepare_application_tables():
                         REFERENCES public.monitoring(id)
                         ON DELETE SET NULL;
                 END IF;
-            END
+            END;
             $migration$;
         """))
         connection.execute(text(
