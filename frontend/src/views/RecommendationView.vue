@@ -1,12 +1,11 @@
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { CheckCircle2, CircleAlert, LoaderCircle, X } from "lucide-vue-next";
 
 import RecommendationHeader from "../components/recommendation/RecommendationHeader.vue";
 import MonitoringSummary from "../components/recommendation/MonitoringSummary.vue";
 import RecommendationForm from "../components/recommendation/RecommendationForm.vue";
 import RecommendationResultCard from "../components/recommendation/RecommendationResultCard.vue";
-import RecommendationHistoryTable from "../components/recommendation/RecommendationHistoryTable.vue";
 import FuzzyResultCard from "../components/recommendation/FuzzyResultCard.vue";
 import RuleDominantCard from "../components/recommendation/RuleDominantCard.vue";
 import ActiveRulesTable from "../components/recommendation/ActiveRulesTable.vue";
@@ -16,29 +15,20 @@ import RecommendationExplanationCard from "../components/recommendation/Recommen
 import { getLatestMonitoring } from "../services/monitoringService";
 import { getFase } from "../services/masterService";
 import {
-    generateRecommendation,
-    getRecommendationHistory,
-    deleteRecommendation
+    generateRecommendation
 } from "../services/recommendationService";
 
 const monitoring = ref(null);
 const fases = ref([]);
 const recommendation = ref(null);
-const history = ref([]);
 const selectedFase = ref(1);
 const loading = ref(false);
 const pageLoading = ref(true);
 const successMessage = ref("");
 const successTitle = ref("Rekomendasi berhasil dibuat!");
 const successTimer = ref(null);
-const showDeleteConfirm = ref(false);
-const showDeleteSuccessDialog = ref(false);
-const selectedDeleteItem = ref(null);
-const cancelDeleteButton = ref(null);
 const errorTitle = ref("");
 const errorMessage = ref("");
-const historyWarning = ref("");
-const deletingId = ref(null);
 const fuzzyValues = ref(null);
 const bestRule = ref(null);
 const activeRules = ref([]);
@@ -52,8 +42,7 @@ const loadData = async () => {
 
     const results = await Promise.allSettled([
         getLatestMonitoring(),
-        getFase(),
-        getRecommendationHistory()
+        getFase()
     ]);
 
     const failedSources = [];
@@ -72,21 +61,13 @@ const loadData = async () => {
         failedSources.push("fase pertumbuhan");
     }
 
-    // Hasil utama sengaja dikosongkan setiap kali halaman dibuka.
-    // Riwayat tetap dimuat terpisah agar pengguna dapat melihat rekomendasi sebelumnya.
+    // Hasil analisis dikosongkan setiap kali halaman dibuka.
     recommendation.value = null;
     fuzzyValues.value = null;
     bestRule.value = null;
     activeRules.value = [];
     defuzzification.value = {};
     hasGeneratedAnalysis.value = false;
-
-    if (results[2].status === "fulfilled") {
-        history.value = Array.isArray(results[2].value) ? results[2].value : [];
-    } else {
-        console.error("Gagal memuat riwayat rekomendasi:", results[2].reason);
-        failedSources.push("riwayat rekomendasi");
-    }
 
     if (failedSources.length) {
         errorTitle.value = "Sebagian data halaman belum berhasil dimuat";
@@ -103,7 +84,6 @@ const generate = async () => {
     successMessage.value = "";
     errorTitle.value = "";
     errorMessage.value = "";
-    historyWarning.value = "";
 
     // Kosongkan hasil sebelumnya agar tidak disalahartikan sebagai hasil
     // dari permintaan rekomendasi yang sedang/baru dilakukan.
@@ -158,16 +138,6 @@ const generate = async () => {
 
         recommendationCreated = true;
 
-        // Kegagalan memuat ulang riwayat tidak boleh mengubah status
-        // rekomendasi yang sudah berhasil disimpan menjadi gagal.
-        try {
-            const updatedHistory = await getRecommendationHistory();
-            history.value = Array.isArray(updatedHistory) ? updatedHistory : [];
-        } catch (refreshError) {
-            console.error("Rekomendasi tersimpan, tetapi riwayat gagal diperbarui:", refreshError);
-            historyWarning.value =
-                "Rekomendasi sudah berhasil disimpan, tetapi riwayat belum dapat diperbarui. Muat ulang halaman untuk menyegarkan riwayat.";
-        }
     } catch (error) {
         console.error("Gagal membuat rekomendasi:", error);
         errorTitle.value = "Rekomendasi gagal dibuat";
@@ -197,62 +167,7 @@ const generate = async () => {
 };
 
 
-const requestDeleteRecommendation = async (item) => {
-    if (!item?.id || deletingId.value !== null) return;
-    selectedDeleteItem.value = item;
-    showDeleteConfirm.value = true;
-    await nextTick();
-    cancelDeleteButton.value?.focus();
-};
-
-const closeDeleteConfirmation = () => {
-    showDeleteConfirm.value = false;
-    selectedDeleteItem.value = null;
-};
-
-const removeRecommendation = async () => {
-    const item = selectedDeleteItem.value;
-    if (!item?.id || deletingId.value !== null) return;
-    showDeleteConfirm.value = false;
-
-    deletingId.value = item.id;
-    historyWarning.value = "";
-    try {
-        await deleteRecommendation(item.id);
-        history.value = history.value.filter((row) => row.id !== item.id);
-
-        if (recommendation.value?.id === item.id) {
-            recommendation.value = null;
-            fuzzyValues.value = null;
-            bestRule.value = null;
-            activeRules.value = [];
-            defuzzification.value = {};
-            hasGeneratedAnalysis.value = false;
-        }
-
-        successMessage.value = "";
-        if (successTimer.value) window.clearTimeout(successTimer.value);
-        showDeleteSuccessDialog.value = true;
-    } catch (error) {
-        console.error("Gagal menghapus rekomendasi:", error);
-        errorTitle.value = "Rekomendasi gagal dihapus";
-        errorMessage.value =
-            error.response?.data?.detail ||
-            error.response?.data?.message ||
-            "Terjadi kesalahan saat menghapus rekomendasi. Silakan coba kembali.";
-    } finally {
-        deletingId.value = null;
-        selectedDeleteItem.value = null;
-    }
-};
-
-onMounted(async () => {
-    await loadData();
-    if (window.location.hash) {
-        await nextTick();
-        window.setTimeout(() => document.querySelector(window.location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
-    }
-});
+onMounted(loadData);
 onUnmounted(() => {
     if (successTimer.value) window.clearTimeout(successTimer.value);
 });
@@ -341,25 +256,6 @@ onUnmounted(() => {
             </div>
         </Transition>
 
-        <Transition name="recommendation-message">
-            <div
-                v-if="historyWarning"
-                class="mb-5 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-800"
-                role="status"
-                aria-live="polite"
-            >
-                <CircleAlert class="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
-                <p class="min-w-0 flex-1 text-sm leading-relaxed">{{ historyWarning }}</p>
-                <button
-                    type="button"
-                    class="rounded-lg p-1 text-amber-700 transition hover:bg-amber-100"
-                    aria-label="Tutup pemberitahuan riwayat"
-                    @click="historyWarning = ''"
-                >
-                    <X class="h-4 w-4" />
-                </button>
-            </div>
-        </Transition>
 
         <MonitoringSummary :monitoring="monitoring" />
 
@@ -457,65 +353,9 @@ onUnmounted(() => {
                 <DefuzzificationCard :result="defuzzification" />
             </div>
 
-            <div v-if="!loading" class="xl:col-span-2">
-                <RecommendationHistoryTable :recommendations="history" :deleting-id="deletingId" @delete="requestDeleteRecommendation" />
-            </div>
         </div>
     </div>
 
-    <Teleport to="body">
-        <div v-if="showDeleteConfirm" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-[2px]" role="presentation" @click.self="closeDeleteConfirmation" @keydown.esc.stop.prevent="closeDeleteConfirmation">
-            <section class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description" @click.stop>
-                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-600"><CircleAlert class="h-6 w-6" /></div>
-                <div class="mt-4 text-center">
-                    <h2 id="delete-dialog-title" class="text-lg font-semibold text-slate-800">Konfirmasi Hapus</h2>
-                    <p id="delete-dialog-description" class="mt-2 text-sm leading-6 text-slate-500">Apakah Anda yakin ingin menghapus rekomendasi untuk fase <strong>{{ selectedDeleteItem?.fase || "-" }}</strong> dengan pupuk <strong>{{ selectedDeleteItem?.jenis_pupuk || "-" }}</strong>? Data yang dihapus tidak dapat dikembalikan.</p>
-                </div>
-                <div class="mt-6 flex items-center justify-end gap-3">
-                    <button ref="cancelDeleteButton" type="button" @click="closeDeleteConfirmation" class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2">Batal</button>
-                    <button type="button" @click="removeRecommendation" class="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2">Hapus</button>
-                </div>
-            </section>
-        </div>
-    </Teleport>
-
-    <Teleport to="body">
-        <div
-            v-if="showDeleteSuccessDialog"
-            class="fixed inset-0 z-[110] flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-[2px]"
-            role="presentation"
-        >
-            <section
-                class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-900/5"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="delete-success-title"
-                aria-describedby="delete-success-description"
-            >
-                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600">
-                    <CheckCircle2 class="h-6 w-6" />
-                </div>
-                <div class="mt-4 text-center">
-                    <h2 id="delete-success-title" class="text-lg font-semibold text-slate-800">
-                        Data berhasil dihapus
-                    </h2>
-                    <p id="delete-success-description" class="mt-2 text-sm leading-6 text-slate-500">
-                        Data riwayat rekomendasi telah berhasil dihapus dari sistem.
-                    </p>
-                </div>
-                <div class="mt-6 flex justify-center">
-                    <button
-                        type="button"
-                        autofocus
-                        @click="showDeleteSuccessDialog = false"
-                        class="min-w-24 rounded-xl bg-green-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300 focus-visible:ring-offset-2"
-                    >
-                        OK
-                    </button>
-                </div>
-            </section>
-        </div>
-    </Teleport>
 </template>
 
 <style scoped>
