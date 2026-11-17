@@ -6,7 +6,6 @@ import { getDashboardSummary } from "../services/dashboardService";
 import DashboardStatGrid from "../components/dashboard/DashboardStatGrid.vue";
 import MonitoringChartCard from "../components/dashboard/MonitoringChartCard.vue";
 import NutrientStatusCard from "../components/dashboard/NutrientStatusCard.vue";
-import MonitoringTableCard from "../components/dashboard/MonitoringTableCard.vue";
 import DashboardHero from "../components/dashboard/DashboardHero.vue";
 import MonitoringInsight from "../components/dashboard/MonitoringInsight.vue";
 
@@ -88,9 +87,6 @@ onBeforeUnmount(() => { if (refreshInterval) clearInterval(refreshInterval); });
       <MonitoringInsight :monitoring="monitoring" :summary="summary" />
     </section>
 
-    <section id="monitoring-history" class="min-w-0 scroll-mt-24">
-      <MonitoringTableCard :data="history" />
-    </section>
   </div>
 </template>
 
