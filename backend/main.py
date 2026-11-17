@@ -146,9 +146,17 @@ app.include_router(
 app.include_router(fase_router)
 app.include_router(dashboard_router)
 
+@app.get("/")
+def root():
+    return {
+        "message": "Durian Monitoring API"
+    }
+
+
 # Wrap the complete ASGI application so CORS headers are also attached to
 # error responses raised outside the route exception handlers (for example,
-# database errors). The regex supports both local hostnames on any Vite port.
+# database errors). Keep this as the final app assignment so route decorators
+# above are registered on the FastAPI instance before it is wrapped.
 app = CORSMiddleware(
     app=app,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -157,10 +165,3 @@ app = CORSMiddleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/")
-def root():
-    return {
-        "message": "Durian Monitoring API"
-    }
