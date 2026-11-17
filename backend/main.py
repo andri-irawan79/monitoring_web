@@ -83,6 +83,7 @@ def prepare_application_tables():
             "ADD COLUMN IF NOT EXISTS user_id INTEGER "
             "REFERENCES users(id) ON DELETE CASCADE"
         ))
+
         connection.execute(text(
             "ALTER TABLE simulation_sessions "
             "ADD COLUMN IF NOT EXISTS user_id INTEGER "

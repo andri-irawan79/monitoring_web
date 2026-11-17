@@ -87,7 +87,7 @@ def recommendation_history(
                     r.kategori,
                     r.created_at
                 FROM rekomendasi r
-                LEFT JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
+                JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id
@@ -175,7 +175,7 @@ def export_csv(
                     r.kategori,
                     r.created_at
                 FROM rekomendasi r
-                LEFT JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
+                JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
                 JOIN fase_pertumbuhan f ON r.fase_id = f.id
                 LEFT JOIN public.rekomendasi_varietas_archive va
                     ON va.rekomendasi_id = r.id

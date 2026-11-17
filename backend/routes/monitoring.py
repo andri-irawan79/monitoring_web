@@ -176,60 +176,6 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
         db.close()
 
 
-@router.delete("/history")
-def delete_monitoring_history(
-    current_user: User = Depends(get_current_user),
-):
-    """Delete only the signed-in user's monitoring history."""
-    db = SessionLocal()
-
-    try:
-        active_session = (
-            db.query(SimulationSession.id)
-            .filter(
-                SimulationSession.user_id == current_user.id,
-                SimulationSession.status.in_(("starting", "running")),
-            )
-            .first()
-        )
-        if active_session is not None:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=(
-                    "Riwayat belum dapat dihapus karena simulasi masih berjalan. "
-                    "Hentikan atau selesaikan sesi simulasi terlebih dahulu."
-                ),
-            )
-
-        monitoring_query = db.query(Monitoring).filter(
-            Monitoring.user_id == current_user.id
-        )
-        deleted_count = monitoring_query.count()
-
-        if deleted_count:
-            monitoring_query.delete(synchronize_session=False)
-
-        db.commit()
-        return {
-            "success": True,
-            "deleted_count": deleted_count,
-            "message": (
-                f"{deleted_count} data riwayat monitoring berhasil dihapus."
-                if deleted_count
-                else "Tidak ada data riwayat monitoring untuk dihapus."
-            ),
-        }
-
-    except HTTPException:
-        db.rollback()
-        raise
-    except Exception:
-        db.rollback()
-        raise
-    finally:
-        db.close()
-
-
 @router.get("/simulator-status")
 def simulator_status(
     response: Response,
