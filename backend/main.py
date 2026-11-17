@@ -143,16 +143,20 @@ app.include_router(
     prefix="/recommendation"
 )
 
-app.add_middleware(
-    CORSMiddleware,
+app.include_router(fase_router)
+app.include_router(dashboard_router)
+
+# Wrap the complete ASGI application so CORS headers are also attached to
+# error responses raised outside the route exception handlers (for example,
+# database errors). The regex supports both local hostnames on any Vite port.
+app = CORSMiddleware(
+    app=app,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origin_regex=r"^https?://(localhost|127\\.0\\.0\\.1)(:\\d+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(fase_router)
-app.include_router(dashboard_router)
 
 
 @app.get("/")
