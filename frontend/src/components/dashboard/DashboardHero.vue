@@ -31,11 +31,25 @@ const userName = computed(() => currentUser.value?.full_name?.trim() || "Penggun
           <div class="flex items-center justify-between"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/15 text-lime-200"><ClipboardList class="h-5 w-5" /></span><ArrowUpRight class="h-4 w-4 text-emerald-100/50 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></div>
           <p class="mt-5 text-xs font-medium text-emerald-100/70">Total rekomendasi</p><p class="mt-1 text-3xl font-bold tracking-tight tabular-nums">{{ summary.total_recommendation ?? 0 }}</p><p class="mt-1 text-[11px] text-emerald-100/55">Lihat riwayat hasil</p>
         </RouterLink>
-        <div class="col-span-2 flex items-center gap-3 rounded-2xl border border-emerald-200/15 bg-emerald-300/10 p-4">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-300/15 text-emerald-200"><Activity class="h-5 w-5" /></div>
-          <div class="min-w-0"><p class="text-sm font-semibold">Sumber data simulasi</p><p class="mt-0.5 text-xs text-emerald-100/65">Parameter disajikan dari data simulasi · Bukan pembacaan sensor langsung</p></div>
-          <span class="ml-auto h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-300 shadow-[0_0_0_5px_rgba(110,231,183,0.12)]"></span>
-        </div>
+        <a
+          href="https://www.kaggle.com/datasets/datasetengineer/smart-farming-data-2024-sf24"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group col-span-2 flex items-center gap-3 rounded-2xl border border-emerald-200/15 bg-emerald-300/10 p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-emerald-200/35 hover:bg-emerald-300/[0.16] hover:shadow-[0_10px_24px_-16px_rgba(110,231,183,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#155342]"
+          aria-label="Buka sumber dataset simulasi di Kaggle pada tab baru"
+        >
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-300/15 text-emerald-200 transition group-hover:bg-emerald-200/20 group-hover:text-emerald-100">
+            <Activity class="h-5 w-5" />
+          </span>
+          <span class="min-w-0 flex-1">
+            <span class="block text-sm font-semibold text-white">Sumber data simulasi</span>
+            <span class="mt-0.5 block text-xs text-emerald-100/65">Parameter disajikan dari data simulasi · Bukan pembacaan sensor langsung</span>
+            <span class="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-200 transition group-hover:text-white">Lihat dataset di Kaggle</span>
+          </span>
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-emerald-200/20 bg-white/[0.06] text-emerald-200 transition group-hover:border-emerald-200/40 group-hover:bg-white/15 group-hover:text-white">
+            <ArrowUpRight class="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </span>
+        </a>
       </div>
     </div>
   </section>
