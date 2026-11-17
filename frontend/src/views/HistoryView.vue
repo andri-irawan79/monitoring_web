@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   CircleAlert,
   ClipboardList,
-  Trash2,
   Database,
   History as HistoryIcon,
   LoaderCircle,
@@ -15,7 +14,7 @@ import {
 
 import MonitoringTableCard from "../components/dashboard/MonitoringTableCard.vue";
 import RecommendationHistoryTable from "../components/recommendation/RecommendationHistoryTable.vue";
-import { getMonitoringHistory, deleteAllMonitoringHistory } from "../services/monitoringService";
+import { getMonitoringHistory } from "../services/monitoringService";
 import {
   getRecommendationHistory,
   deleteRecommendation
@@ -36,10 +35,6 @@ const deletingId = ref(null);
 const selectedDeleteItem = ref(null);
 const showDeleteConfirm = ref(false);
 const showDeleteSuccessDialog = ref(false);
-const deleteSuccessMessage = ref("");
-const deletingAllMonitoring = ref(false);
-const showDeleteMonitoringConfirm = ref(false);
-const cancelClearMonitoringButton = ref(null);
 const cancelDeleteButton = ref(null);
 
 const totalMonitoring = computed(() => monitoringHistory.value.length);
@@ -90,7 +85,7 @@ const loadHistory = async () => {
 };
 
 const refreshMonitoringHistory = async () => {
-  if (refreshingMonitoring.value || pageLoading.value || deletingAllMonitoring.value) return;
+  if (refreshingMonitoring.value || pageLoading.value) return;
   refreshingMonitoring.value = true;
   try {
     const records = await getMonitoringHistory();
@@ -99,44 +94,6 @@ const refreshMonitoringHistory = async () => {
     console.error("Gagal memperbarui riwayat monitoring:", error);
   } finally {
     refreshingMonitoring.value = false;
-  }
-};
-
-const requestDeleteAllMonitoring = async () => {
-  if (deletingAllMonitoring.value || totalMonitoring.value === 0) return;
-  actionError.value = "";
-  showDeleteMonitoringConfirm.value = true;
-  await nextTick();
-  cancelClearMonitoringButton.value?.focus();
-};
-
-const confirmDeleteAllMonitoring = async () => {
-  if (deletingAllMonitoring.value || totalMonitoring.value === 0) return;
-
-  const countBeforeDelete = totalMonitoring.value;
-  deletingAllMonitoring.value = true;
-  actionError.value = "";
-
-  try {
-    const response = await deleteAllMonitoringHistory();
-    const deletedCount = Number(response?.deleted_count ?? countBeforeDelete);
-    const preservedRecommendations = Number(response?.preserved_recommendations ?? 0);
-
-    monitoringHistory.value = [];
-    showDeleteMonitoringConfirm.value = false;
-    deleteSuccessMessage.value = deletedCount > 0
-      ? `${deletedCount} data monitoring berhasil dihapus. ${preservedRecommendations} riwayat rekomendasi tetap tersimpan.`
-      : "Tidak ada data riwayat monitoring yang perlu dihapus.";
-    showDeleteSuccessDialog.value = true;
-  } catch (error) {
-    console.error("Gagal menghapus seluruh riwayat monitoring:", error);
-    showDeleteMonitoringConfirm.value = false;
-    actionError.value =
-      error.response?.data?.detail ||
-      error.response?.data?.message ||
-      "Seluruh riwayat monitoring gagal dihapus. Silakan coba kembali.";
-  } finally {
-    deletingAllMonitoring.value = false;
   }
 };
 
@@ -167,7 +124,6 @@ const removeRecommendation = async () => {
     recommendationHistory.value = recommendationHistory.value.filter(
       (row) => row.id !== item.id
     );
-    deleteSuccessMessage.value = "Data riwayat rekomendasi berhasil dihapus.";
     showDeleteSuccessDialog.value = true;
   } catch (error) {
     console.error("Gagal menghapus rekomendasi:", error);
@@ -377,11 +333,7 @@ onBeforeUnmount(() => {
         v-show="activeTab === 'monitoring'"
         class="scroll-mt-24"
       >
-        <MonitoringTableCard
-          :data="monitoringHistory"
-          :deleting-all="deletingAllMonitoring"
-          @delete-all="requestDeleteAllMonitoring"
-        />
+        <MonitoringTableCard :data="monitoringHistory" />
       </section>
 
       <section v-show="activeTab === 'recommendations'">
@@ -398,75 +350,6 @@ onBeforeUnmount(() => {
     </template>
   </div>
 
-  <Teleport to="body">
-    <div
-      v-if="showDeleteMonitoringConfirm"
-      class="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/45 px-4 py-6 backdrop-blur-[3px]"
-      role="presentation"
-      @click.self="!deletingAllMonitoring && (showDeleteMonitoringConfirm = false)"
-      @keydown.esc.stop.prevent="!deletingAllMonitoring && (showDeleteMonitoringConfirm = false)"
-    >
-      <section
-        class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-900/10"
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="clear-monitoring-title"
-        aria-describedby="clear-monitoring-description"
-        @click.stop
-      >
-        <div class="border-b border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/70 px-6 pb-5 pt-6">
-          <div class="flex items-start gap-4">
-            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-rose-100 text-rose-700 ring-1 ring-rose-200/70">
-              <Trash2 class="h-5 w-5" />
-            </span>
-            <div class="min-w-0 flex-1">
-              <p class="text-[10px] font-extrabold uppercase tracking-[0.16em] text-rose-700">Tindakan permanen</p>
-              <h2 id="clear-monitoring-title" class="mt-1 text-lg font-extrabold tracking-tight text-slate-900">
-                Hapus seluruh riwayat monitoring?
-              </h2>
-              <p id="clear-monitoring-description" class="mt-1.5 text-sm leading-6 text-slate-600">
-                Anda akan menghapus <strong class="text-slate-900">{{ totalMonitoring }} catatan monitoring</strong> milik akun ini. Data yang dihapus tidak dapat dipulihkan.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-3 px-6 py-5">
-          <div class="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-3">
-            <CircleAlert class="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
-            <p class="text-xs leading-5 text-amber-900">
-              Riwayat rekomendasi tetap tersimpan. Namun, nilai N, P, K, pH, suhu, kelembapan, dan curah hujan dari monitoring yang dihapus tidak lagi tersedia pada detail riwayat rekomendasi.
-            </p>
-          </div>
-          <p class="text-xs leading-5 text-slate-500">
-            Pastikan simulasi sudah dihentikan sebelum melanjutkan. Penghapusan akan ditolak jika masih ada sesi simulasi yang berjalan.
-          </p>
-        </div>
-
-        <div class="flex flex-col-reverse gap-2 border-t border-slate-100 bg-slate-50/70 px-6 py-4 sm:flex-row sm:justify-end">
-          <button
-            ref="cancelClearMonitoringButton"
-            type="button"
-            :disabled="deletingAllMonitoring"
-            @click="showDeleteMonitoringConfirm = false"
-            class="inline-flex min-h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Batal
-          </button>
-          <button
-            type="button"
-            :disabled="deletingAllMonitoring"
-            @click="confirmDeleteAllMonitoring"
-            class="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-rose-600 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"
-          >
-            <LoaderCircle v-if="deletingAllMonitoring" class="h-4 w-4 animate-spin" />
-            <Trash2 v-else class="h-4 w-4" />
-            {{ deletingAllMonitoring ? "Menghapus data..." : "Ya, hapus seluruh data" }}
-          </button>
-        </div>
-      </section>
-    </div>
-  </Teleport>
 
   <Teleport to="body">
     <div
@@ -535,7 +418,7 @@ onBeforeUnmount(() => {
         <div class="mt-4 text-center">
           <h2 id="delete-success-title" class="text-lg font-semibold text-slate-800">Data berhasil dihapus</h2>
           <p id="delete-success-description" class="mt-2 text-sm leading-6 text-slate-500">
-            {{ deleteSuccessMessage }}
+            Data riwayat rekomendasi telah berhasil dihapus dari sistem.
           </p>
         </div>
         <div class="mt-6 flex justify-center">
