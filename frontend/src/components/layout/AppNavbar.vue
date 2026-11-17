@@ -29,6 +29,11 @@ const cancelButton = ref(null);
 
 const userName = computed(() => currentUser.value?.full_name || "Pengguna");
 const userEmail = computed(() => currentUser.value?.email || "");
+const userInitials = computed(() => {
+  const parts = userName.value.trim().split(/\s+/).filter(Boolean).slice(0, 2);
+  return parts.map(part => part[0]?.toUpperCase() || "").join("") || "P";
+});
+
 const closeProfileMenu = async (restoreFocus = false) => {
   profileMenuOpen.value = false;
   if (restoreFocus) {
@@ -147,8 +152,8 @@ onBeforeUnmount(() => {
             :aria-label="profileMenuOpen ? 'Tutup menu akun' : 'Buka menu akun'"
             @click="toggleProfileMenu"
           >
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-emerald-800 ring-1 ring-emerald-200/70">
-              <UserRound class="h-[17px] w-[17px]" />
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-emerald-200/70">
+              {{ userInitials }}
             </span>
             <span class="min-w-0 flex-1 truncate text-left text-xs font-bold text-slate-800 sm:text-[13px]">
               {{ userName }}
@@ -170,8 +175,8 @@ onBeforeUnmount(() => {
             >
               <div class="border-b border-slate-100 bg-gradient-to-br from-emerald-50/90 via-white to-lime-50/60 p-4">
                 <div class="flex items-center gap-3">
-                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 text-emerald-800 ring-1 ring-emerald-200/70">
-                    <UserRound class="h-5 w-5" />
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 text-sm font-extrabold text-emerald-800 ring-1 ring-emerald-200/70">
+                    {{ userInitials }}
                   </div>
                   <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-extrabold text-slate-800">{{ userName }}</p>
