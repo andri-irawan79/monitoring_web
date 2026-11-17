@@ -39,6 +39,7 @@ const showDeleteSuccessDialog = ref(false);
 const deleteSuccessMessage = ref("");
 const deletingAllMonitoring = ref(false);
 const showDeleteMonitoringConfirm = ref(false);
+const cancelClearMonitoringButton = ref(null);
 const cancelDeleteButton = ref(null);
 
 const totalMonitoring = computed(() => monitoringHistory.value.length);
@@ -101,10 +102,12 @@ const refreshMonitoringHistory = async () => {
   }
 };
 
-const requestDeleteAllMonitoring = () => {
+const requestDeleteAllMonitoring = async () => {
   if (deletingAllMonitoring.value || totalMonitoring.value === 0) return;
   actionError.value = "";
   showDeleteMonitoringConfirm.value = true;
+  await nextTick();
+  cancelClearMonitoringButton.value?.focus();
 };
 
 const confirmDeleteAllMonitoring = async () => {
@@ -441,6 +444,7 @@ onBeforeUnmount(() => {
 
         <div class="flex flex-col-reverse gap-2 border-t border-slate-100 bg-slate-50/70 px-6 py-4 sm:flex-row sm:justify-end">
           <button
+            ref="cancelClearMonitoringButton"
             type="button"
             :disabled="deletingAllMonitoring"
             @click="showDeleteMonitoringConfirm = false"
