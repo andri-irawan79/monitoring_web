@@ -9,15 +9,12 @@ import {
   Database,
   History as HistoryIcon,
   LoaderCircle,
-  Sprout,
   X
 } from "lucide-vue-next";
 
 import MonitoringTableCard from "../components/dashboard/MonitoringTableCard.vue";
 import RecommendationHistoryTable from "../components/recommendation/RecommendationHistoryTable.vue";
-import {
-  getMonitoringHistory
-} from "../services/monitoringService";
+import { getMonitoringHistory } from "../services/monitoringService";
 import {
   getRecommendationHistory,
   deleteRecommendation
@@ -275,7 +272,7 @@ onBeforeUnmount(() => {
               class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
               :class="activeTab === 'monitoring' ? 'bg-white/15 text-white' : 'bg-emerald-50 text-emerald-700'"
             >
-              <Activity class="h-4.5 w-4.5" />
+              <Activity class="h-[18px] w-[18px]" />
             </span>
             <span class="min-w-0">
               <span class="block text-sm font-bold">Riwayat Monitoring</span>
