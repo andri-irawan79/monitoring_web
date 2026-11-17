@@ -120,11 +120,12 @@ const confirmDeleteAllMonitoring = async () => {
   try {
     const response = await deleteAllMonitoringHistory();
     const deletedCount = Number(response?.deleted_count ?? countBeforeDelete);
+    const preservedRecommendations = Number(response?.preserved_recommendations ?? 0);
 
     monitoringHistory.value = [];
     showDeleteMonitoringConfirm.value = false;
     deleteSuccessMessage.value = deletedCount > 0
-      ? `${deletedCount} data riwayat monitoring berhasil dihapus. Riwayat rekomendasi tetap tersimpan.`
+      ? `${deletedCount} data monitoring berhasil dihapus. ${preservedRecommendations} riwayat rekomendasi tetap tersimpan.`
       : "Tidak ada data riwayat monitoring yang perlu dihapus.";
     showDeleteSuccessDialog.value = true;
   } catch (error) {
