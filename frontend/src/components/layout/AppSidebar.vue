@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   FlaskConical,
   History as HistoryIcon,
-  Sprout,
   Info,
   ChevronRight,
   Play,
@@ -194,15 +193,13 @@ const menus = [
     aria-label="Menu navigasi utama"
   >
     <div class="px-4 pb-5 pt-6">
-      <div class="mb-7 flex items-center gap-3 overflow-hidden rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-lime-50/70 p-4">
-        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-800 text-emerald-50 shadow-sm shadow-emerald-900/15">
-          <Sprout class="h-5 w-5" />
+      <div class="mb-7 overflow-hidden rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-lime-50/70 p-4">
+        <p class="text-sm font-extrabold leading-5 tracking-tight text-slate-900">
+          Monitoring &amp; Rekomendasi
+        </p>
+        <span class="mt-2 inline-flex rounded-full bg-white px-2.5 py-1 text-[9px] font-bold text-emerald-800 ring-1 ring-emerald-100">
+          Metode Fuzzy Tsukamoto
         </span>
-        <div class="min-w-0">
-          <p class="text-xs font-extrabold leading-5 tracking-tight text-slate-900">Monitoring Kondisi Tanah</p>
-          <p class="mt-0.5 text-[11px] font-semibold text-slate-600">Rekomendasi Pemupukan</p>
-          <span class="mt-2 inline-flex rounded-full bg-white px-2.5 py-1 text-[9px] font-bold text-emerald-800 ring-1 ring-emerald-100">Metode Fuzzy Tsukamoto</span>
-        </div>
       </div>
 
       <div class="mb-3 flex items-center justify-between px-2">
