@@ -1,6 +1,16 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from "vue";
-import { Leaf, LogOut, Menu, X, CircleAlert, KeyRound } from "lucide-vue-next";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
+import {
+  Leaf,
+  LogOut,
+  Menu,
+  X,
+  CircleAlert,
+  KeyRound,
+  ChevronDown,
+  Mail,
+  UserRound
+} from "lucide-vue-next";
 import { useRouter } from "vue-router";
 import { currentUser } from "../../services/authState";
 import { getCurrentAccount, logoutAccount } from "../../services/authService";
@@ -11,6 +21,8 @@ const props = defineProps({
 const emit = defineEmits(["toggle-sidebar"]);
 const router = useRouter();
 
+const profileMenuOpen = ref(false);
+const profileMenuRef = ref(null);
 const showLogoutConfirm = ref(false);
 const logoutButton = ref(null);
 const cancelButton = ref(null);
@@ -22,7 +34,37 @@ const userInitials = computed(() => {
   return parts.map(part => part[0]?.toUpperCase() || "").join("") || "P";
 });
 
+const closeProfileMenu = async (restoreFocus = false) => {
+  profileMenuOpen.value = false;
+  if (restoreFocus) {
+    await nextTick();
+    logoutButton.value?.focus();
+  }
+};
+
+const toggleProfileMenu = () => {
+  profileMenuOpen.value = !profileMenuOpen.value;
+};
+
+const handleOutsidePointer = (event) => {
+  if (
+    profileMenuOpen.value &&
+    profileMenuRef.value &&
+    !profileMenuRef.value.contains(event.target)
+  ) {
+    profileMenuOpen.value = false;
+  }
+};
+
+const handleGlobalKeydown = (event) => {
+  if (event.key === "Escape" && profileMenuOpen.value) {
+    event.preventDefault();
+    closeProfileMenu(true);
+  }
+};
+
 const openLogoutConfirmation = async () => {
+  profileMenuOpen.value = false;
   showLogoutConfirm.value = true;
   await nextTick();
   cancelButton.value?.focus();
@@ -35,6 +77,7 @@ const closeLogoutConfirmation = async () => {
 };
 
 const openAccountSecurity = () => {
+  profileMenuOpen.value = false;
   router.push({ name: "account-security" });
 };
 
@@ -45,6 +88,9 @@ const confirmLogout = () => {
 };
 
 onMounted(async () => {
+  document.addEventListener("pointerdown", handleOutsidePointer);
+  document.addEventListener("keydown", handleGlobalKeydown);
+
   if (!currentUser.value) {
     try {
       await getCurrentAccount();
@@ -52,6 +98,11 @@ onMounted(async () => {
       // API interceptor handles invalid sessions and redirects to login.
     }
   }
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("pointerdown", handleOutsidePointer);
+  document.removeEventListener("keydown", handleGlobalKeydown);
 });
 </script>
 
@@ -89,33 +140,91 @@ onMounted(async () => {
 
       <div class="flex shrink-0 items-center gap-2 sm:gap-3">
         <div class="hidden h-9 w-px bg-slate-200 md:block"></div>
-        <div class="flex min-w-0 items-center gap-2.5 rounded-2xl border border-slate-200/80 bg-slate-50/80 py-1.5 pl-1.5 pr-2 sm:gap-3 sm:pl-2 sm:pr-2.5">
-          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-emerald-200/70">
-            {{ userInitials }}
-          </div>
-          <div class="hidden min-w-0 sm:block">
-            <p class="max-w-36 truncate text-xs font-bold text-slate-800 sm:max-w-44">{{ userName }}</p>
-            <p class="max-w-36 truncate text-[10px] text-slate-500 sm:max-w-44">{{ userEmail || "Akun pengguna" }}</p>
-          </div>
-          <button
-            type="button"
-            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-emerald-100 bg-white text-emerald-700 shadow-sm transition-all hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
-            aria-label="Ubah kata sandi"
-            title="Ubah kata sandi"
-            @click="openAccountSecurity"
-          >
-            <KeyRound class="h-4 w-4" />
-          </button>
+
+        <div ref="profileMenuRef" class="relative">
           <button
             ref="logoutButton"
             type="button"
-            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-rose-100 bg-white text-rose-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300 focus-visible:ring-offset-2"
-            aria-label="Keluar dari akun"
-            title="Keluar dari akun"
-            @click="openLogoutConfirmation"
+            class="group flex min-h-10 max-w-[190px] items-center gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/90 py-1.5 pl-1.5 pr-2 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:max-w-[230px] sm:gap-2.5 sm:pl-2 sm:pr-2.5"
+            :aria-expanded="profileMenuOpen"
+            aria-haspopup="menu"
+            aria-controls="account-profile-menu"
+            :aria-label="profileMenuOpen ? 'Tutup menu akun' : 'Buka menu akun'"
+            @click="toggleProfileMenu"
           >
-            <LogOut class="h-4 w-4" />
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-emerald-200/70">
+              {{ userInitials }}
+            </span>
+            <span class="min-w-0 flex-1 truncate text-left text-xs font-bold text-slate-800 sm:text-[13px]">
+              {{ userName }}
+            </span>
+            <ChevronDown
+              class="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 group-hover:text-emerald-700"
+              :class="profileMenuOpen ? 'rotate-180 text-emerald-700' : ''"
+            />
           </button>
+
+          <Transition name="profile-popover">
+            <section
+              v-if="profileMenuOpen"
+              id="account-profile-menu"
+              class="absolute right-0 top-full z-[70] mt-3 w-72 max-w-[calc(100vw-1.5rem)] origin-top-right overflow-hidden rounded-2xl border border-emerald-100/80 bg-white shadow-[0_18px_48px_-18px_rgba(15,65,48,.28)] ring-1 ring-slate-900/5 sm:w-[310px]"
+              role="menu"
+              aria-label="Menu akun"
+              @keydown.esc.stop.prevent="closeProfileMenu(true)"
+            >
+              <div class="border-b border-slate-100 bg-gradient-to-br from-emerald-50/90 via-white to-lime-50/60 p-4">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 text-sm font-extrabold text-emerald-800 ring-1 ring-emerald-200/70">
+                    {{ userInitials }}
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-extrabold text-slate-800">{{ userName }}</p>
+                    <p class="mt-0.5 flex min-w-0 items-center gap-1.5 text-[11px] text-slate-500">
+                      <Mail class="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                      <span class="truncate">{{ userEmail || "Email belum tersedia" }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-3 inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-white/80 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-emerald-800">
+                  <UserRound class="h-3 w-3" />
+                  Akun pengguna
+                </div>
+              </div>
+
+              <div class="space-y-1 p-2.5">
+                <button
+                  type="button"
+                  role="menuitem"
+                  class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-semibold text-slate-700 transition hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  @click="openAccountSecurity"
+                >
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+                    <KeyRound class="h-4 w-4" />
+                  </span>
+                  <span class="flex-1">Ubah kata sandi</span>
+                  <ChevronDown class="h-3.5 w-3.5 -rotate-90 text-slate-300" />
+                </button>
+
+                <div class="my-1 border-t border-slate-100"></div>
+
+                <button
+                  type="button"
+                  role="menuitem"
+                  class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-semibold text-rose-600 transition hover:bg-rose-50 hover:text-rose-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300"
+                  @click="openLogoutConfirmation"
+                >
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                    <LogOut class="h-4 w-4" />
+                  </span>
+                  <span class="flex-1">Keluar dari akun</span>
+                </button>
+              </div>
+              <div class="border-t border-slate-100 bg-slate-50/80 px-4 py-2.5">
+                <p class="text-center text-[10px] font-medium text-slate-400">Durian Monitor · Research</p>
+              </div>
+            </section>
+          </Transition>
         </div>
       </div>
     </div>
@@ -165,3 +274,28 @@ onMounted(async () => {
     </div>
   </Teleport>
 </template>
+
+<style scoped>
+.profile-popover-enter-active,
+.profile-popover-leave-active {
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.profile-popover-enter-from,
+.profile-popover-leave-to {
+  opacity: 0;
+  transform: translateY(-5px) scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-popover-enter-active,
+  .profile-popover-leave-active {
+    transition: none;
+  }
+
+  .profile-popover-enter-from,
+  .profile-popover-leave-to {
+    transform: none;
+  }
+}
+</style>
