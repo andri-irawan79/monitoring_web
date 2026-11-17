@@ -163,9 +163,11 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="history-page space-y-6 sm:space-y-7">
-    <section class="relative isolate overflow-hidden rounded-[1.75rem] border border-emerald-100 bg-white shadow-[0_14px_38px_-28px_rgba(15,65,48,.34)]">
-      <div class="absolute inset-y-0 right-0 -z-10 w-1/2 bg-gradient-to-l from-emerald-50/90 to-transparent"></div>
-      <div class="absolute -right-12 -top-24 -z-10 h-64 w-64 rounded-full bg-emerald-100/60 blur-3xl"></div>
+    <section class="relative isolate overflow-hidden rounded-[1.75rem] border border-emerald-200/80 bg-gradient-to-br from-emerald-50/95 via-white to-emerald-100/75 shadow-[0_16px_42px_-28px_rgba(5,100,70,.38)]">
+      <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-700 via-emerald-500 to-lime-400"></div>
+      <div class="absolute inset-y-0 right-0 -z-10 w-3/5 bg-gradient-to-l from-emerald-100/70 via-emerald-50/40 to-transparent"></div>
+      <div class="absolute -right-12 -top-24 -z-10 h-64 w-64 rounded-full bg-emerald-200/55 blur-3xl"></div>
+      <div class="absolute -bottom-24 left-1/3 -z-10 h-48 w-48 rounded-full bg-lime-100/50 blur-3xl"></div>
       <div class="p-6 sm:p-8 lg:p-9">
         <div class="max-w-3xl">
           <div class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-800">
@@ -218,12 +220,9 @@ onBeforeUnmount(() => {
       </button>
     </div>
 
-    <div class="flex flex-col gap-1 px-1 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <h2 class="text-sm font-extrabold tracking-tight text-slate-800">Kategori riwayat</h2>
-        <p class="mt-0.5 text-xs text-slate-500">Pilih catatan yang ingin ditinjau.</p>
-      </div>
-      <p class="text-[11px] font-medium text-slate-400">Pilih kategori untuk melihat catatan lengkap.</p>
+    <div class="px-1">
+      <h2 class="text-sm font-extrabold tracking-tight text-slate-800">Kategori riwayat</h2>
+      <p class="mt-0.5 text-xs text-slate-500">Pilih catatan yang ingin ditinjau.</p>
     </div>
 
     <section class="border-b border-slate-200">
