@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
           <button
             ref="logoutButton"
             type="button"
-            class="group flex min-h-10 max-w-[190px] items-center gap-2 rounded-2xl bg-transparent py-1.5 pl-1.5 pr-2 transition hover:bg-emerald-50/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:max-w-[230px] sm:gap-2.5 sm:pl-2 sm:pr-2.5"
+            class="group flex min-h-10 max-w-[190px] items-center gap-2 rounded-2xl bg-transparent py-1.5 pl-1.5 pr-2 transition duration-200 hover:bg-emerald-100/90 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:max-w-[230px] sm:gap-2.5 sm:pl-2 sm:pr-2.5"
             :aria-expanded="profileMenuOpen"
             aria-haspopup="menu"
             aria-controls="account-profile-menu"
@@ -159,8 +159,8 @@ onBeforeUnmount(() => {
               {{ userName }}
             </span>
             <ChevronDown
-              class="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 group-hover:text-emerald-700"
-              :class="profileMenuOpen ? 'rotate-180 text-emerald-700' : ''"
+              class="h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200 group-hover:text-emerald-800"
+              :class="profileMenuOpen ? 'rotate-180 text-emerald-800' : ''"
             />
           </button>
 
