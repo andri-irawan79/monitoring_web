@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   CircleAlert,
   ClipboardList,
-  Database,
   History as HistoryIcon,
   LoaderCircle,
   X
@@ -171,8 +170,8 @@ onBeforeUnmount(() => {
     <section class="relative isolate overflow-hidden rounded-[1.75rem] border border-emerald-100 bg-white shadow-[0_14px_38px_-28px_rgba(15,65,48,.34)]">
       <div class="absolute inset-y-0 right-0 -z-10 w-1/2 bg-gradient-to-l from-emerald-50/90 to-transparent"></div>
       <div class="absolute -right-12 -top-24 -z-10 h-64 w-64 rounded-full bg-emerald-100/60 blur-3xl"></div>
-      <div class="flex flex-col gap-5 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
-        <div class="max-w-2xl">
+      <div class="p-6 sm:p-8 lg:p-9">
+        <div class="max-w-3xl">
           <div class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-800">
             <HistoryIcon class="h-3.5 w-3.5" />
             Pusat data tersimpan
@@ -180,43 +179,10 @@ onBeforeUnmount(() => {
           <h1 class="mt-4 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
             Riwayat
           </h1>
-          <p class="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+          <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
             Telusuri catatan kondisi tanah dan hasil rekomendasi pemupukan yang telah tersimpan.
           </p>
         </div>
-        <div class="flex items-center gap-3 rounded-2xl border border-emerald-100 bg-white/90 p-3 shadow-sm sm:min-w-56">
-          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-700 text-white shadow-sm shadow-emerald-900/15">
-            <Database class="h-5 w-5" />
-          </div>
-          <div class="min-w-0">
-            <p class="text-xs font-semibold text-slate-500">Penyimpanan data</p>
-            <p class="mt-0.5 text-sm font-extrabold text-slate-800">Riwayat sistem</p>
-            <p class="mt-0.5 text-[10px] font-medium text-emerald-700">Monitoring & rekomendasi</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-      <div class="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-900/[0.02]">
-        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
-          <Activity class="h-5 w-5" />
-        </div>
-        <div class="min-w-0">
-          <p class="text-xs font-semibold text-slate-500">Total data monitoring</p>
-          <p class="mt-0.5 text-2xl font-extrabold tabular-nums tracking-tight text-slate-900">{{ totalMonitoring }}</p>
-        </div>
-        <span class="ml-auto text-[10px] font-semibold text-slate-400">Catatan tanah</span>
-      </div>
-      <div class="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-900/[0.02]">
-        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime-50 text-lime-700">
-          <ClipboardList class="h-5 w-5" />
-        </div>
-        <div class="min-w-0">
-          <p class="text-xs font-semibold text-slate-500">Total rekomendasi</p>
-          <p class="mt-0.5 text-2xl font-extrabold tabular-nums tracking-tight text-slate-900">{{ totalRecommendations }}</p>
-        </div>
-        <span class="ml-auto text-[10px] font-semibold text-slate-400">Hasil pemupukan</span>
       </div>
     </section>
 
@@ -254,6 +220,14 @@ onBeforeUnmount(() => {
       >
         <X class="h-4 w-4" />
       </button>
+    </div>
+
+    <div class="flex flex-col gap-1 px-1 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h2 class="text-sm font-extrabold tracking-tight text-slate-800">Kategori riwayat</h2>
+        <p class="mt-0.5 text-xs text-slate-500">Pilih catatan yang ingin ditinjau.</p>
+      </div>
+      <p class="text-[11px] font-medium text-slate-400">Jumlah data ditampilkan pada setiap kategori</p>
     </div>
 
     <section class="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
