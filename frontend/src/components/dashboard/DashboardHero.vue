@@ -37,8 +37,7 @@ const userName = computed(() => currentUser.value?.full_name?.trim() || "Penggun
           </span>
           <div class="min-w-0 flex-1">
             <p class="text-sm font-semibold text-white">Sumber data simulasi</p>
-            <p class="mt-0.5 text-xs leading-relaxed text-emerald-100/75">Dataset Smart Farming Data 2024 dari Kaggle digunakan sebagai sumber data untuk simulasi pemantauan kondisi tanah.</p>
-            <p class="mt-1.5 text-[11px] font-medium text-emerald-200/80">Data simulasi, bukan hasil pengukuran langsung dari sensor.</p>
+            <p class="mt-1 text-xs text-emerald-100/75">Smart Farming Data 2024 <span class="text-emerald-300/70">·</span> Kaggle</p>
           </div>
           <a
             href="https://www.kaggle.com/datasets/datasetengineer/smart-farming-data-2024-sf24"
