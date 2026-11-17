@@ -83,6 +83,47 @@ def prepare_application_tables():
             "ADD COLUMN IF NOT EXISTS user_id INTEGER "
             "REFERENCES users(id) ON DELETE CASCADE"
         ))
+
+        # Recommendation records must survive deletion of their monitoring
+        # snapshot. Store the recommendation result, but detach its optional
+        # monitoring reference so historical fertilizer output is preserved.
+        connection.execute(text(
+            "ALTER TABLE rekomendasi "
+            "ALTER COLUMN monitoring_id DROP NOT NULL"
+        ))
+        connection.execute(text("""
+            DO $migration$
+            DECLARE
+                fk_name TEXT;
+            BEGIN
+                FOR fk_name IN
+                    SELECT conname
+                    FROM pg_constraint
+                    WHERE contype = 'f'
+                      AND conrelid = 'public.rekomendasi'::regclass
+                      AND confrelid = 'public.monitoring'::regclass
+                LOOP
+                    EXECUTE format(
+                        'ALTER TABLE public.rekomendasi DROP CONSTRAINT %I',
+                        fk_name
+                    );
+                END LOOP;
+
+                IF NOT EXISTS (
+                    SELECT 1
+                    FROM pg_constraint
+                    WHERE conname = 'fk_rekomendasi_monitoring_set_null'
+                      AND conrelid = 'public.rekomendasi'::regclass
+                ) THEN
+                    ALTER TABLE public.rekomendasi
+                        ADD CONSTRAINT fk_rekomendasi_monitoring_set_null
+                        FOREIGN KEY (monitoring_id)
+                        REFERENCES public.monitoring(id)
+                        ON DELETE SET NULL;
+                END IF;
+            END
+            $migration$;
+        """))
         connection.execute(text(
             "ALTER TABLE simulation_sessions "
             "ADD COLUMN IF NOT EXISTS user_id INTEGER "
