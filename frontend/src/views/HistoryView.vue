@@ -226,35 +226,35 @@ onBeforeUnmount(() => {
       <p class="text-[11px] font-medium text-slate-400">Pilih kategori untuk melihat catatan lengkap.</p>
     </div>
 
-    <section class="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
-      <div class="flex flex-col gap-2 sm:flex-row">
+    <section class="border-b border-slate-200">
+      <div class="flex flex-wrap items-end gap-1">
         <button
           type="button"
-          class="flex min-h-14 flex-1 items-center rounded-xl px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          class="relative flex min-h-14 w-full min-w-0 items-center rounded-t-xl rounded-b-none border border-b-0 px-5 py-3 text-left transition-colors focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:w-auto sm:min-w-[190px]"
           :class="activeTab === 'monitoring'
-            ? 'bg-emerald-800 text-white shadow-sm'
-            : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'"
+            ? 'z-10 border-slate-200 bg-white text-emerald-900 shadow-[0_1px_0_0_white]'
+            : 'border-transparent bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-emerald-800'"
           :aria-pressed="activeTab === 'monitoring'"
           @click="activeTab = 'monitoring'"
         >
           <span class="min-w-0">
             <span class="block text-sm font-bold">Riwayat Monitoring</span>
-            <span class="mt-0.5 block text-[11px]" :class="activeTab === 'monitoring' ? 'text-emerald-100/75' : 'text-slate-400'">Catatan kondisi tanah</span>
+            <span class="mt-0.5 block text-[11px]" :class="activeTab === 'monitoring' ? 'text-emerald-700/75' : 'text-slate-400'">Catatan kondisi tanah</span>
           </span>
         </button>
 
         <button
           type="button"
-          class="flex min-h-14 flex-1 items-center rounded-xl px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          class="relative flex min-h-14 w-full min-w-0 items-center rounded-t-xl rounded-b-none border border-b-0 px-5 py-3 text-left transition-colors focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:w-auto sm:min-w-[190px]"
           :class="activeTab === 'recommendations'
-            ? 'bg-emerald-800 text-white shadow-sm'
-            : 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'"
+            ? 'z-10 border-slate-200 bg-white text-emerald-900 shadow-[0_1px_0_0_white]'
+            : 'border-transparent bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-emerald-800'"
           :aria-pressed="activeTab === 'recommendations'"
           @click="activeTab = 'recommendations'"
         >
           <span class="min-w-0">
             <span class="block text-sm font-bold">Riwayat Rekomendasi</span>
-            <span class="mt-0.5 block text-[11px]" :class="activeTab === 'recommendations' ? 'text-emerald-100/75' : 'text-slate-400'">Hasil rekomendasi pemupukan</span>
+            <span class="mt-0.5 block text-[11px]" :class="activeTab === 'recommendations' ? 'text-emerald-700/75' : 'text-slate-400'">Hasil rekomendasi pemupukan</span>
           </span>
         </button>
       </div>
