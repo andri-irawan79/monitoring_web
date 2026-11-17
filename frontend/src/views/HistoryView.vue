@@ -2,10 +2,8 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import {
-  Activity,
   CheckCircle2,
   CircleAlert,
-  ClipboardList,
   History as HistoryIcon,
   LoaderCircle,
   X
@@ -36,8 +34,6 @@ const showDeleteConfirm = ref(false);
 const showDeleteSuccessDialog = ref(false);
 const cancelDeleteButton = ref(null);
 
-const totalMonitoring = computed(() => monitoringHistory.value.length);
-const totalRecommendations = computed(() => recommendationHistory.value.length);
 const activeTabLabel = computed(() =>
   activeTab.value === "monitoring" ? "Riwayat Monitoring" : "Riwayat Rekomendasi"
 );
