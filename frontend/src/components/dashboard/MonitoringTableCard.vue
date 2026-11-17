@@ -1,8 +1,12 @@
 <script setup>
 import { computed, ref, watch } from "vue";
-import { Search, ChevronLeft, ChevronRight, Database } from "lucide-vue-next";
+import { Search, ChevronLeft, ChevronRight, Database, Trash2, LoaderCircle } from "lucide-vue-next";
 import BaseCard from "../ui/BaseCard.vue";
-const props = defineProps({ data: { type: Array, default: () => [] } });
+const props = defineProps({
+  data: { type: Array, default: () => [] },
+  deletingAll: { type: Boolean, default: false }
+});
+const emit = defineEmits(["delete-all"]);
 const search = ref("");
 const currentPage = ref(1);
 const perPage = 10;
@@ -16,6 +20,12 @@ const paginatedData = computed(() => filteredData.value.slice((currentPage.value
 const startItem = computed(() => totalItems.value ? (currentPage.value - 1) * perPage + 1 : 0);
 const endItem = computed(() => Math.min(currentPage.value * perPage, totalItems.value));
 watch(search, () => { currentPage.value = 1; });
+watch(() => props.data.length, length => {
+  if (length === 0) {
+    search.value = "";
+    currentPage.value = 1;
+  }
+});
 watch(totalPages, pages => { if (currentPage.value > pages) currentPage.value = pages; });
 function status(item) {
   if (item.nitrogen < 40 || item.phosphorus < 30 || item.potassium < 30) return { text: "Rendah", class: "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200" };
@@ -28,7 +38,22 @@ function fmt(value) { const n = Number(value); return Number.isFinite(n) ? n.toF
 <BaseCard>
   <div class="mb-5 flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
     <div class="flex items-start gap-3"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><Database class="h-5 w-5" /></div><div><h2 class="text-lg font-bold tracking-tight text-slate-800">Riwayat Monitoring</h2><p class="mt-1 text-sm text-slate-500">Data kondisi tanah dari simulasi</p></div></div>
-    <div class="relative w-full sm:max-w-xs"><Search class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input v-model="search" type="search" placeholder="Cari tanggal..." class="min-h-10 w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-50"></div>
+    <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+      <div class="relative w-full sm:max-w-xs"><Search class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input v-model="search" type="search" placeholder="Cari tanggal..." class="min-h-10 w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-50"></div>
+      <button
+        type="button"
+        :disabled="!props.data.length || props.deletingAll"
+        :aria-busy="props.deletingAll"
+        @click="emit('delete-all')"
+        class="inline-flex min-h-10 w-full shrink-0 items-center justify-center gap-2 rounded-xl border border-rose-200 bg-white px-3.5 py-2 text-xs font-bold text-rose-700 transition hover:border-rose-300 hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
+        aria-label="Hapus seluruh riwayat monitoring"
+        title="Hapus seluruh riwayat monitoring"
+      >
+        <LoaderCircle v-if="props.deletingAll" class="h-4 w-4 animate-spin" />
+        <Trash2 v-else class="h-4 w-4" />
+        {{ props.deletingAll ? "Menghapus..." : "Hapus semua" }}
+      </button>
+    </div>
   </div>
   <div class="mb-3 flex flex-wrap items-center justify-between gap-2"><p class="text-sm text-slate-500">Menampilkan <span class="font-semibold text-slate-700">{{ startItem }}–{{ endItem }}</span> dari <span class="font-semibold text-slate-700">{{ totalItems }}</span> data</p><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">10 data per halaman</span></div>
   <div class="overflow-hidden rounded-xl border border-slate-200"><div class="overflow-x-auto"><table class="min-w-[950px] w-full whitespace-nowrap text-sm">

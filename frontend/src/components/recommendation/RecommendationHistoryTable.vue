@@ -61,6 +61,7 @@ function badge(k) {
 }
 
 function fmt(value, digits = 2) {
+  if (value === null || value === undefined || value === "") return "-";
   const n = Number(value);
   return Number.isFinite(n) ? n.toFixed(digits) : "-";
 }
