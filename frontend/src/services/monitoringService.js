@@ -31,8 +31,3 @@ export const stopWebsiteSimulation = async (sessionId) => {
   );
   return response.data;
 };
-
-export const deleteAllMonitoringHistory = async () => {
-  const response = await api.delete("/monitoring/history");
-  return response.data;
-};
