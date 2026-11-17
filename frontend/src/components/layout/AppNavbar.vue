@@ -152,7 +152,7 @@ onBeforeUnmount(() => {
             :aria-label="profileMenuOpen ? 'Tutup menu akun' : 'Buka menu akun'"
             @click="toggleProfileMenu"
           >
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-white">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-emerald-300 bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-white">
               {{ userInitials }}
             </span>
             <span class="min-w-0 flex-1 truncate text-left text-xs font-bold text-slate-800 sm:text-[13px]">
@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
             >
               <div class="border-b border-slate-100 bg-gradient-to-br from-emerald-50/90 via-white to-lime-50/60 p-4">
                 <div class="flex items-center gap-3">
-                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-100 to-teal-100 text-sm font-extrabold text-emerald-800 ring-1 ring-white">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-emerald-300 bg-gradient-to-br from-emerald-100 to-teal-100 text-sm font-extrabold text-emerald-800 ring-1 ring-white">
                     {{ userInitials }}
                   </div>
                   <div class="min-w-0 flex-1">

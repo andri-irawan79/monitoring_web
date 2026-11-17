@@ -1,11 +1,14 @@
 <script setup>
+import { computed } from "vue";
 import { Database, ClipboardList, Activity, Clock3, Sprout, ArrowUpRight } from "lucide-vue-next";
+import { currentUser } from "../../services/authState";
 import { RouterLink } from "vue-router";
 defineProps({
   summary: { type: Object, default: () => ({}) },
   lastUpdate: { type: String, default: "" }
 });
 const today = new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+const userName = computed(() => currentUser.value?.full_name?.trim() || "Pengguna");
 </script>
 
 <template>
@@ -14,7 +17,7 @@ const today = new Date().toLocaleDateString("id-ID", { weekday: "long", day: "nu
     <div class="relative grid gap-8 p-6 sm:p-8 xl:grid-cols-[minmax(0,1.25fr)_minmax(340px,0.75fr)] xl:items-center xl:p-10">
       <div class="max-w-2xl">
         <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-emerald-100 backdrop-blur"><Sprout class="h-3.5 w-3.5" /> SISTEM MONITORING DURIAN MONTONG</div>
-        <p class="mt-6 text-sm font-medium text-emerald-200">Selamat datang di dashboard</p>
+        <p class="mt-6 text-sm font-medium text-emerald-200">Selamat datang, {{ userName }}</p>
         <h1 class="mt-2 max-w-xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl xl:text-[2.7rem]">Monitoring kondisi tanah <span class="text-emerald-300">dan rekomendasi pemupukan.</span></h1>
         <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/75 sm:text-base">Ringkasan parameter tanah dari data simulasi dan keluaran pengolahan menggunakan metode Fuzzy Tsukamoto.</p>
         <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-emerald-100/75"><span>{{ today }}</span><span v-if="lastUpdate" class="inline-flex items-center gap-1.5"><Clock3 class="h-3.5 w-3.5" /> Diperbarui {{ lastUpdate }}</span></div>
