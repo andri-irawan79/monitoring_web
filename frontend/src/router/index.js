@@ -5,6 +5,7 @@ import RecommendationView from "../views/RecommendationView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import AccountSecurityView from "../views/AccountSecurityView.vue";
+import HistoryView from "../views/HistoryView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -36,6 +37,12 @@ const router = createRouter({
       path: "/recommendation",
       name: "recommendation",
       component: RecommendationView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/history",
+      name: "history",
+      component: HistoryView,
       meta: { requiresAuth: true }
     },
     {
