@@ -30,6 +30,7 @@ const palette = ["#087f5b", "#2f9e75", "#69b58a", "#9bcf72", "#c2d96b", "#7da99a
 
 const totalRecommendations = computed(() => props.recommendations.length);
 const hasRecommendations = computed(() => totalRecommendations.value > 0);
+const hasLimitedSample = computed(() => totalRecommendations.value > 0 && totalRecommendations.value < 20);
 
 const fertilizerDistribution = computed(() => {
   const counts = new Map();
@@ -255,7 +256,7 @@ const phaseOptions = {
       </article>
     </div>
 
-    <p v-if="hasRecommendations && totalRecommendations < 20" class="rounded-xl border border-amber-100 bg-amber-50/70 px-3.5 py-2.5 text-xs leading-5 text-amber-800">
+    <p v-if="hasLimitedSample" class="rounded-xl border border-amber-100 bg-amber-50/70 px-3.5 py-2.5 text-xs leading-5 text-amber-800">
       Catatan: distribusi saat ini dihitung dari {{ totalRecommendations }} rekomendasi tersimpan. Gunakan sebagai ringkasan aktivitas sistem, bukan sebagai kesimpulan kebutuhan pupuk atau keberhasilan agronomis.
     </p>
     <p v-else-if="hasRecommendations" class="text-[11px] leading-5 text-slate-400">
