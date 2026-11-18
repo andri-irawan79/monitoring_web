@@ -79,7 +79,7 @@ onMounted(async () => {
   await loadRecommendationData();
   await scrollToRequestedSection();
   refreshInterval = setInterval(checkLatestMonitoring, 2000);
-  recommendationRefreshInterval = setInterval(loadRecommendationData, 5000);
+  recommendationRefreshInterval = setInterval(loadRecommendationData, 10000);
 });
 onBeforeUnmount(() => {
   if (refreshInterval) clearInterval(refreshInterval);
