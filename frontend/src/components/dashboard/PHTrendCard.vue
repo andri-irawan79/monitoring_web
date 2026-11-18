@@ -32,10 +32,13 @@ const props = defineProps({
 // Endpoint monitoring mengirim data terbaru lebih dulu.
 // Balik urutan agar grafik dibaca dari data lama ke data terbaru.
 const latestData = computed(() => [...props.data].reverse().slice(-30));
+const getPhValue = (row) => {
+  if (row.ph === null || row.ph === "") return null;
+  const value = Number(row.ph);
+  return Number.isFinite(value) && value >= 0 && value <= 14 ? value : null;
+};
 const validValues = computed(() =>
-  latestData.value
-    .map((row) => (row.ph === null || row.ph === "" ? null : Number(row.ph)))
-    .filter((value) => Number.isFinite(value))
+  latestData.value.map(getPhValue).filter((value) => value !== null)
 );
 
 const formatDate = (value) => {
@@ -53,11 +56,7 @@ const chartData = computed(() => ({
   datasets: [
     {
       label: "pH tanah",
-      data: latestData.value.map((row) => {
-        if (row.ph === null || row.ph === "") return null;
-        const value = Number(row.ph);
-        return Number.isFinite(value) ? value : null;
-      }),
+      data: latestData.value.map(getPhValue),
       borderColor: "#0f8a61",
       backgroundColor: "rgba(16, 185, 129, 0.12)",
       borderWidth: 2.5,
