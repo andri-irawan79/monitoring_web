@@ -16,6 +16,7 @@ const route = useRoute();
 const monitoring = ref(null);
 const history = ref([]);
 const recommendations = ref([]);
+const recommendationLoading = ref(false);
 const summary = ref({});
 const lastMonitoringId = ref(null);
 const lastUpdate = ref("");
@@ -40,11 +41,15 @@ const loadAllData = async () => {
 };
 
 const loadRecommendationData = async () => {
+  if (recommendationLoading.value) return;
+  recommendationLoading.value = true;
   try {
     const records = await getRecommendationHistory();
     recommendations.value = Array.isArray(records) ? records : [];
   } catch (error) {
     console.error("Gagal memperbarui analisis rekomendasi:", error);
+  } finally {
+    recommendationLoading.value = false;
   }
 };
 
