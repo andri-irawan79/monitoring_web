@@ -153,10 +153,14 @@ const recordCount = computed(() => latestData.value.length);
       </span>
     </div>
 
-    <div v-if="!recordCount" class="flex min-h-[260px] flex-col items-center justify-center rounded-xl bg-emerald-50/50 px-4 text-center">
+    <div v-if="!recordCount || !validValues.length" class="flex min-h-[260px] flex-col items-center justify-center rounded-xl bg-emerald-50/50 px-4 text-center">
       <Activity class="h-8 w-8 text-emerald-300" />
-      <p class="mt-3 text-sm font-semibold text-slate-700">Belum ada data pH</p>
-      <p class="mt-1 text-xs text-slate-500">Grafik akan tampil setelah data simulasi tersedia.</p>
+      <p class="mt-3 text-sm font-semibold text-slate-700">
+        {{ recordCount ? "Nilai pH belum tersedia" : "Belum ada data pH" }}
+      </p>
+      <p class="mt-1 text-xs text-slate-500">
+        {{ recordCount ? "Catatan simulasi yang tersedia belum memuat nilai pH." : "Grafik akan tampil setelah data simulasi tersedia." }}
+      </p>
     </div>
     <div v-else class="h-[260px] min-w-0 sm:h-[290px]">
       <Line :data="chartData" :options="chartOptions" />
