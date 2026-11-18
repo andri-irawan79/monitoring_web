@@ -257,10 +257,10 @@ const phaseOptions = {
     </div>
 
     <p v-if="hasLimitedSample" class="rounded-xl border border-amber-100 bg-amber-50/70 px-3.5 py-2.5 text-xs leading-5 text-amber-800">
-      Catatan: distribusi saat ini dihitung dari {{ totalRecommendations }} rekomendasi tersimpan. Gunakan sebagai ringkasan aktivitas sistem, bukan sebagai kesimpulan kebutuhan pupuk atau keberhasilan agronomis.
+      Catatan: distribusi dihitung dari {{ totalRecommendations }} rekomendasi tersimpan. Jumlah per fase mencerminkan frekuensi rekomendasi yang dibuat pada fase tersebut, bukan ukuran kebutuhan pupuk atau keberhasilan agronomis.
     </p>
     <p v-else-if="hasRecommendations" class="text-[11px] leading-5 text-slate-400">
-      Distribusi menunjukkan frekuensi keluaran sistem, bukan jumlah pupuk yang benar-benar diaplikasikan pada tanaman.
+      Distribusi menunjukkan frekuensi keluaran sistem, bukan jumlah pupuk yang diaplikasikan atau tingkat kebutuhan setiap fase.
     </p>
   </section>
 </template>
