@@ -67,7 +67,7 @@ function fmt(value, digits = 2) {
 </script>
 
 <template>
-  <BaseCard id="recommendation-history" class="scroll-mt-24">
+  <BaseCard id="recommendation-history" class="scroll-mt-24 w-full min-w-0">
     <div class="mb-5 flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-start gap-3">
         <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
