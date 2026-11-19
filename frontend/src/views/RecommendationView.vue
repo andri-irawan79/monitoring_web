@@ -174,7 +174,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div>
+    <div class="mx-auto w-full min-w-0 max-w-[1360px]">
         <RecommendationHeader />
 
         <Transition name="recommendation-message">
