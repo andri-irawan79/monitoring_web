@@ -162,7 +162,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="history-page space-y-6 sm:space-y-7">
+  <div class="history-page mx-auto w-full min-w-0 max-w-[1360px] space-y-6 sm:space-y-7">
     <section class="relative isolate overflow-hidden rounded-[1.75rem] border border-emerald-200/80 bg-gradient-to-br from-emerald-50/95 via-white to-emerald-100/75 shadow-[0_16px_42px_-28px_rgba(5,100,70,.38)]">
       <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-700 via-emerald-500 to-lime-400"></div>
       <div class="absolute inset-y-0 right-0 -z-10 w-3/5 bg-gradient-to-l from-emerald-100/70 via-emerald-50/40 to-transparent"></div>
