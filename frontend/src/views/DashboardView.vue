@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="dashboard-page space-y-7 sm:space-y-8">
+  <div class="dashboard-page mx-auto w-full min-w-0 max-w-[1360px] space-y-7 sm:space-y-8">
     <DashboardHero :summary="summary" :last-update="lastUpdate" />
     <section v-if="monitoring" aria-labelledby="monitoring-metrics-title">
       <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
