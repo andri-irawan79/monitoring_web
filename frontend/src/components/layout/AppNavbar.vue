@@ -108,11 +108,11 @@ onBeforeUnmount(() => {
 
 <template>
   <header class="fixed inset-x-0 top-0 z-50 h-20 border-b border-emerald-950/10 bg-white/95 shadow-[0_4px_24px_-18px_rgba(15,65,48,.42)] backdrop-blur-xl after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-gradient-to-r after:from-emerald-700 after:via-emerald-400 after:to-lime-300">
-    <div class="mx-auto flex h-full w-full items-center justify-between gap-3 px-3 sm:px-5 lg:px-7">
-      <div class="flex min-w-0 items-center gap-3 sm:gap-4">
+    <div class="mx-auto flex h-full w-full items-center justify-between gap-2 px-3 sm:gap-3 sm:px-5 lg:px-7">
+      <div class="flex min-w-0 items-center gap-2 sm:gap-4">
         <button
           type="button"
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-600 transition hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 lg:hidden"
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10 text-slate-600 transition hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 lg:hidden"
           :aria-expanded="props.sidebarOpen"
           aria-controls="app-sidebar"
           :aria-label="props.sidebarOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'"
@@ -122,14 +122,14 @@ onBeforeUnmount(() => {
           <Menu v-else class="h-5 w-5" />
         </button>
 
-        <div class="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-600 text-white shadow-[0_5px_14px_-7px_rgba(4,120,87,.8)] ring-1 ring-emerald-900/10 sm:h-12 sm:w-12">
+        <div class="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl sm:h-12 sm:w-12 sm:rounded-2xl bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-600 text-white shadow-[0_5px_14px_-7px_rgba(4,120,87,.8)] ring-1 ring-emerald-900/10 sm:h-12 sm:w-12">
           <span class="absolute -right-3 -top-3 h-8 w-8 rounded-full bg-white/15"></span>
-          <Leaf class="relative h-6 w-6 sm:h-7 sm:w-7" />
+          <Leaf class="relative h-5 w-5 sm:h-7 sm:w-7" />
         </div>
 
         <div class="min-w-0">
           <div class="flex min-w-0 items-center gap-2">
-            <h1 class="truncate text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">Durian Monitor</h1>
+            <h1 class="max-w-[112px] truncate text-sm font-extrabold tracking-tight text-slate-900 sm:max-w-none sm:text-lg">Durian Monitor</h1>
             <span class="hidden rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.14em] text-emerald-800 sm:inline-flex">Research</span>
           </div>
           <p class="hidden truncate text-[11px] font-medium text-slate-500 sm:block sm:text-xs">
@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
           <button
             ref="logoutButton"
             type="button"
-            class="group flex min-h-10 max-w-[190px] items-center gap-2 rounded-2xl bg-transparent py-1.5 pl-1.5 pr-2 transition hover:bg-emerald-50/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:max-w-[230px] sm:gap-2.5 sm:pl-2 sm:pr-2.5"
+            class="group flex min-h-10 max-w-none items-center gap-2 rounded-2xl bg-transparent py-1.5 pl-1.5 pr-2 transition hover:bg-emerald-50/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:max-w-[230px] sm:gap-2.5 sm:pl-2 sm:pr-2.5"
             :aria-expanded="profileMenuOpen"
             aria-haspopup="menu"
             aria-controls="account-profile-menu"
@@ -155,7 +155,7 @@ onBeforeUnmount(() => {
             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-emerald-300 bg-gradient-to-br from-emerald-100 to-teal-100 text-xs font-extrabold text-emerald-800 ring-1 ring-white">
               {{ userInitials }}
             </span>
-            <span class="min-w-0 flex-1 truncate text-left text-xs font-bold text-slate-800 sm:text-[13px]">
+            <span class="hidden min-w-0 flex-1 truncate text-left text-xs font-bold text-slate-800 sm:block sm:text-[13px]">
               {{ userName }}
             </span>
             <ChevronDown
