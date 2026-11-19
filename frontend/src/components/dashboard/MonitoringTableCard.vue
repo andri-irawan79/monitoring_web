@@ -25,7 +25,7 @@ function status(item) {
 function fmt(value) { const n = Number(value); return Number.isFinite(n) ? n.toFixed(2) : "-"; }
 </script>
 <template>
-<BaseCard>
+<BaseCard class="w-full min-w-0">
   <div class="mb-5 flex flex-col gap-4 border-b border-slate-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
     <div class="flex items-start gap-3"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700"><Database class="h-5 w-5" /></div><div><h2 class="text-lg font-bold tracking-tight text-slate-800">Riwayat Monitoring</h2><p class="mt-1 text-sm text-slate-500">Data kondisi tanah dari simulasi</p></div></div>
     <div class="relative w-full sm:max-w-xs"><Search class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input v-model="search" type="search" placeholder="Cari tanggal..." class="min-h-10 w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-50"></div>
