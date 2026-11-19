@@ -26,21 +26,57 @@ const phaseOrder = [
   { key: "pascapanen", label: "Pascapanen" }
 ];
 
-const palette = ["#087f5b", "#2f9e75", "#69b58a", "#9bcf72", "#c2d96b", "#7da99a"];
+const fertilizerOrder = [
+  { key: "UREA", label: "Urea", color: "#79A991" },
+  { key: "SP36", label: "SP 36", color: "#8EA8C8" },
+  { key: "KCL", label: "KCL", color: "#D3B477" },
+  { key: "NPK", label: "NPK", color: "#A99BC5" }
+];
+const additionalFertilizerColors = ["#A6B9AD", "#C5AD99", "#9EAFBF"];
 
 const totalRecommendations = computed(() => props.recommendations.length);
 const hasRecommendations = computed(() => totalRecommendations.value > 0);
 const hasLimitedSample = computed(() => totalRecommendations.value > 0 && totalRecommendations.value < 20);
 
+const normalizeFertilizer = (value) =>
+  String(value || "")
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
+
 const fertilizerDistribution = computed(() => {
-  const counts = new Map();
+  const counts = new Map(fertilizerOrder.map((item) => [item.key, 0]));
+  const additionalCounts = new Map();
+
   for (const item of props.recommendations) {
-    const label = String(item.jenis_pupuk || "Tidak diketahui").trim() || "Tidak diketahui";
-    counts.set(label, (counts.get(label) || 0) + 1);
+    const rawLabel = String(item.jenis_pupuk || "").trim();
+    const key = normalizeFertilizer(rawLabel);
+
+    if (counts.has(key)) {
+      counts.set(key, counts.get(key) + 1);
+    } else {
+      const label = rawLabel || "Tidak diketahui";
+      additionalCounts.set(label, (additionalCounts.get(label) || 0) + 1);
+    }
   }
-  return [...counts.entries()]
-    .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, "id"));
+
+  const ordered = fertilizerOrder.map((item) => ({
+    key: item.key,
+    label: item.label,
+    count: counts.get(item.key),
+    color: item.color
+  }));
+
+  const additional = [...additionalCounts.entries()]
+    .sort(([a], [b]) => a.localeCompare(b, "id"))
+    .map(([label, count], index) => ({
+      key: normalizeFertilizer(label),
+      label,
+      count,
+      color: additionalFertilizerColors[index % additionalFertilizerColors.length]
+    }));
+
+  return [...ordered, ...additional];
 });
 
 const normalizePhase = (value) =>
@@ -72,7 +108,7 @@ const doughnutData = computed(() => ({
   datasets: [
     {
       data: fertilizerDistribution.value.map((item) => item.count),
-      backgroundColor: fertilizerDistribution.value.map((_, index) => palette[index % palette.length]),
+      backgroundColor: fertilizerDistribution.value.map((item) => item.color),
       borderColor: "#ffffff",
       borderWidth: 3,
       hoverOffset: 7
