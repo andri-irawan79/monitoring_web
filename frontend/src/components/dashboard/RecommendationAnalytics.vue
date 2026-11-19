@@ -147,11 +147,11 @@ const doughnutOptions = {
       labels: {
         usePointStyle: true,
         pointStyle: "circle",
-        boxWidth: 8,
-        boxHeight: 8,
-        padding: 14,
-        color: "#64748b",
-        font: { size: 10, weight: "600" }
+        boxWidth: 10,
+        boxHeight: 10,
+        padding: 16,
+        color: "#526579",
+        font: { size: 12, weight: "600" }
       }
     },
     tooltip: {
