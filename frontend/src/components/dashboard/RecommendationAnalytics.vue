@@ -136,6 +136,53 @@ const doughnutCenterPlugin = {
   }
 };
 
+const doughnutPercentagePlugin = {
+  id: "recommendation-doughnut-percentages",
+  afterDatasetsDraw(chart) {
+    const values = (chart.data.datasets[0]?.data || []).map((value) => Math.max(0, Number(value) || 0));
+    const total = values.reduce((sum, value) => sum + value, 0);
+    if (!total) return;
+
+    const arcs = chart.getDatasetMeta(0).data;
+    const { ctx } = chart;
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "700 10px Inter, ui-sans-serif, sans-serif";
+
+    arcs.forEach((arc, index) => {
+      const value = values[index];
+      if (!arc || !value) return;
+
+      const startAngle = arc.startAngle;
+      const endAngle = arc.endAngle;
+      const circumference = Math.abs(endAngle - startAngle);
+      if (circumference < 0.28) return;
+
+      const radius = (arc.innerRadius + arc.outerRadius) / 2;
+      const angle = (startAngle + endAngle) / 2;
+      const x = arc.x + Math.cos(angle) * radius;
+      const y = arc.y + Math.sin(angle) * radius;
+      const percentage = (value / total) * 100;
+      const label = percentage.toFixed(1) + "%";
+      const availableWidth = radius * circumference * 0.82;
+
+      // Leave very narrow slices unlabeled; their exact percentage remains in the legend.
+      if (ctx.measureText(label).width > availableWidth) return;
+
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = "rgba(15, 23, 42, 0.18)";
+      ctx.strokeText(label, x, y);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(label, x, y);
+    });
+
+    ctx.restore();
+  }
+};
+
+const doughnutLegendGenerator = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
+
 const doughnutOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -147,6 +194,17 @@ const doughnutOptions = {
       labels: {
         usePointStyle: true,
         pointStyle: "circle",
+        generateLabels(chart) {
+          const items = doughnutLegendGenerator(chart);
+          const values = chart.data.datasets[0]?.data || [];
+          const total = values.reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0);
+
+          return items.map((item) => {
+            const value = Math.max(0, Number(values[item.index]) || 0);
+            const percentage = total ? ((value / total) * 100).toFixed(1) : "0.0";
+            return { ...item, text: item.text + " · " + percentage + "%" };
+          });
+        },
         boxWidth: 10,
         boxHeight: 10,
         padding: 16,
@@ -258,7 +316,7 @@ const phaseOptions = {
 
         <div v-if="hasRecommendations" class="flex flex-1 items-center justify-center">
           <div class="h-[285px] w-full max-w-[440px]">
-            <Doughnut :data="doughnutData" :options="doughnutOptions" :plugins="[doughnutCenterPlugin]" />
+            <Doughnut :data="doughnutData" :options="doughnutOptions" :plugins="[doughnutCenterPlugin, doughnutPercentagePlugin]" />
           </div>
         </div>
         <div v-else class="flex flex-1 flex-col items-center justify-center rounded-xl bg-emerald-50/40 px-4 text-center">
