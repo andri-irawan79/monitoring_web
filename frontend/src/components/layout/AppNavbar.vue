@@ -130,7 +130,7 @@ onBeforeUnmount(() => {
         <div class="min-w-0">
           <div class="flex min-w-0 items-center gap-2">
             <h1 class="max-w-[112px] truncate text-sm font-extrabold tracking-tight text-slate-900 sm:max-w-none sm:text-lg">Durian Monitor</h1>
-            <span class="hidden rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.14em] text-emerald-800 sm:inline-flex">Research</span>
+            <span class="hidden rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.14em] text-emerald-800 sm:inline-flex">Simulasi</span>
           </div>
           <p class="hidden truncate text-[11px] font-medium text-slate-500 sm:block sm:text-xs">
             Monitoring kondisi tanah & rekomendasi pemupukan
