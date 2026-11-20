@@ -5,19 +5,33 @@ import BaseCard from "../ui/BaseCard.vue";
 
 const props = defineProps({ monitoring: { type: Object, default: null } });
 
-const nutrients = computed(() => !props.monitoring ? [] : [
-  { key: "nitrogen", label: "Nitrogen", short: "N", value: Number(props.monitoring.nitrogen), unit: "mg/kg" },
-  { key: "phosphorus", label: "Fosfor", short: "P", value: Number(props.monitoring.phosphorus), unit: "mg/kg" },
-  { key: "potassium", label: "Kalium", short: "K", value: Number(props.monitoring.potassium), unit: "mg/kg" },
-  { key: "ph", label: "pH Tanah", short: "pH", value: Number(props.monitoring.ph), unit: "skala pH" }
-]);
+const nutrients = computed(() => {
+  if (!props.monitoring) return [];
+  const items = [
+    { key: "nitrogen", label: "Nitrogen", short: "N", value: Number(props.monitoring.nitrogen), unit: "mg/kg" },
+    { key: "phosphorus", label: "Fosfor", short: "P", value: Number(props.monitoring.phosphorus), unit: "mg/kg" },
+    { key: "potassium", label: "Kalium", short: "K", value: Number(props.monitoring.potassium), unit: "mg/kg" },
+    { key: "ph", label: "pH Tanah", short: "pH", value: Number(props.monitoring.ph), unit: "skala pH" }
+  ];
+  if (props.monitoring.soil_moisture !== null && props.monitoring.soil_moisture !== undefined) {
+    items.push({
+      key: "soil_moisture",
+      label: "Kelembapan Tanah",
+      short: "SM",
+      value: Number(props.monitoring.soil_moisture),
+      unit: "%"
+    });
+  }
+  return items;
+});
 
 function getStatus(type, value) {
   const statusKeys = {
     nitrogen: "status_n",
     phosphorus: "status_p",
     potassium: "status_k",
-    ph: "status_ph"
+    ph: "status_ph",
+    soil_moisture: "status_kelembapan_tanah"
   };
   const fuzzyLabel = props.monitoring?.fuzzy_status?.[statusKeys[type]];
   if (fuzzyLabel) {
@@ -26,6 +40,11 @@ function getStatus(type, value) {
       if (label === "masam") return { text: "Masam", tone: "rose" };
       if (label === "basa") return { text: "Basa", tone: "amber" };
       return { text: "Normal", tone: "emerald" };
+    }
+    if (type === "soil_moisture") {
+      if (label === "kering") return { text: "Kering", tone: "rose" };
+      if (label === "basah") return { text: "Basah", tone: "amber" };
+      if (label === "optimal") return { text: "Optimal", tone: "emerald" };
     }
     if (label === "rendah") return { text: "Rendah", tone: "rose" };
     if (label === "sedang") return { text: "Sedang", tone: "amber" };
@@ -37,6 +56,7 @@ function getStatus(type, value) {
   if (type === "phosphorus") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 60 ? { text: "Sedang", tone: "amber" } : { text: "Tinggi", tone: "emerald" };
   if (type === "potassium") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 50 ? { text: "Sedang", tone: "amber" } : { text: "Tinggi", tone: "emerald" };
   if (type === "ph") return value < 5.5 ? { text: "Masam", tone: "rose" } : value <= 6.5 ? { text: "Normal", tone: "emerald" } : { text: "Basa", tone: "amber" };
+  if (type === "soil_moisture") return value <= 15 ? { text: "Kering", tone: "rose" } : value >= 25 ? { text: "Basah", tone: "amber" } : { text: "Optimal", tone: "emerald" };
   return { text: "-", tone: "slate" };
 }
 
@@ -50,7 +70,8 @@ const iconTone = {
   nitrogen: "bg-emerald-50 text-emerald-700",
   phosphorus: "bg-blue-50 text-blue-700",
   potassium: "bg-amber-50 text-amber-700",
-  ph: "bg-violet-50 text-violet-700"
+  ph: "bg-violet-50 text-violet-700",
+  soil_moisture: "bg-teal-50 text-teal-700"
 };
 </script>
 
@@ -60,7 +81,7 @@ const iconTone = {
       <div class="mb-5 flex items-start justify-between gap-3">
         <div class="min-w-0">
           <p class="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700">Kondisi terkini</p>
-          <h2 class="mt-1 text-lg font-bold tracking-tight text-slate-900">Status Nutrisi</h2>
+          <h2 class="mt-1 text-lg font-bold tracking-tight text-slate-900">Status Parameter Tanah</h2>
           <p class="mt-1 text-xs text-slate-500">Interpretasi nilai parameter terakhir</p>
         </div>
         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
