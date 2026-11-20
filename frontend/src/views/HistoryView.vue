@@ -46,7 +46,7 @@ const loadHistory = async () => {
 
   const [monitoringResult, recommendationResult] = await Promise.allSettled([
     getMonitoringHistory(),
-    getRecommendationHistory()
+    getRecommendationHistory(10)
   ]);
 
   const failedSources = [];
