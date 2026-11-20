@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MonitoringCreate(BaseModel):
@@ -13,6 +13,7 @@ class MonitoringCreate(BaseModel):
     humidity: float
 
     ph: float
+    soil_moisture: Optional[float] = Field(default=None, ge=0, le=100)
     rainfall: float
 
     # Tanggal simulasi dikirim oleh simulator.
