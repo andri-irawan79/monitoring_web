@@ -13,10 +13,30 @@ const nutrients = computed(() => !props.monitoring ? [] : [
 ]);
 
 function getStatus(type, value) {
-  if (type === "nitrogen") return value < 40 ? { text: "Rendah", tone: "rose" } : value <= 70 ? { text: "Sedang", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
-  if (type === "phosphorus") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 60 ? { text: "Normal", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
-  if (type === "potassium") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 50 ? { text: "Normal", tone: "emerald" } : { text: "Tinggi", tone: "amber" };
-  if (type === "ph") return value < 5.5 ? { text: "Asam", tone: "rose" } : value <= 7 ? { text: "Dalam rentang", tone: "emerald" } : { text: "Basa", tone: "amber" };
+  const statusKeys = {
+    nitrogen: "status_n",
+    phosphorus: "status_p",
+    potassium: "status_k",
+    ph: "status_ph"
+  };
+  const fuzzyLabel = props.monitoring?.fuzzy_status?.[statusKeys[type]];
+  if (fuzzyLabel) {
+    const label = String(fuzzyLabel).toLowerCase();
+    if (type === "ph") {
+      if (label === "masam") return { text: "Masam", tone: "rose" };
+      if (label === "basa") return { text: "Basa", tone: "amber" };
+      return { text: "Normal", tone: "emerald" };
+    }
+    if (label === "rendah") return { text: "Rendah", tone: "rose" };
+    if (label === "sedang") return { text: "Sedang", tone: "amber" };
+    if (label === "tinggi") return { text: "Tinggi", tone: "emerald" };
+  }
+
+  // Fallback saat membaca data lama dari API yang belum mengirim fuzzy_status.
+  if (type === "nitrogen") return value < 40 ? { text: "Rendah", tone: "rose" } : value <= 70 ? { text: "Sedang", tone: "amber" } : { text: "Tinggi", tone: "emerald" };
+  if (type === "phosphorus") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 60 ? { text: "Sedang", tone: "amber" } : { text: "Tinggi", tone: "emerald" };
+  if (type === "potassium") return value < 30 ? { text: "Rendah", tone: "rose" } : value <= 50 ? { text: "Sedang", tone: "amber" } : { text: "Tinggi", tone: "emerald" };
+  if (type === "ph") return value < 5.5 ? { text: "Masam", tone: "rose" } : value <= 6.5 ? { text: "Normal", tone: "emerald" } : { text: "Basa", tone: "amber" };
   return { text: "-", tone: "slate" };
 }
 
