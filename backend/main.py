@@ -3,6 +3,7 @@ from sqlalchemy import inspect, text
 from database.connection import engine
 from models.user import User
 from models.simulation_session import SimulationSession
+from models.rekomendasi_detail import RekomendasiDetail
 from routes.auth import router as auth_router
 from routes.monitoring import router as monitoring_router
 from routes.fase import router as fase_router
@@ -84,6 +85,25 @@ def prepare_application_tables():
             "REFERENCES users(id) ON DELETE CASCADE"
         ))
 
+        # FIS-1/FIS-2: keep legacy recommendation fields readable while allowing
+        # one recommendation header to contain multiple fertilizer details.
+        connection.execute(text("""
+            ALTER TABLE rekomendasi
+            ADD COLUMN IF NOT EXISTS algorithm_version VARCHAR(40) NOT NULL DEFAULT 'legacy',
+            ADD COLUMN IF NOT EXISTS fuzzy_trace JSONB NOT NULL DEFAULT '{}'::jsonb,
+            ADD COLUMN IF NOT EXISTS z_n DOUBLE PRECISION,
+            ADD COLUMN IF NOT EXISTS z_p DOUBLE PRECISION,
+            ADD COLUMN IF NOT EXISTS z_k DOUBLE PRECISION,
+            ADD COLUMN IF NOT EXISTS z_dolomit DOUBLE PRECISION,
+            ADD COLUMN IF NOT EXISTS z_belerang DOUBLE PRECISION
+        """))
+        connection.execute(text(
+            "ALTER TABLE rekomendasi "
+            "ALTER COLUMN jenis_pupuk DROP NOT NULL, "
+            "ALTER COLUMN dosis DROP NOT NULL, "
+            "ALTER COLUMN kategori DROP NOT NULL"
+        ))
+
         connection.execute(text(
             "ALTER TABLE simulation_sessions "
             "ADD COLUMN IF NOT EXISTS user_id INTEGER "
@@ -129,6 +149,10 @@ def prepare_application_tables():
             "WHERE user_id IS NOT NULL "
             "AND status IN ('starting', 'running')"
         ))
+
+    # The migration is additive and safe to re-run. It is also represented by
+    # backend/migrations/002_fis1_fis2_multi_fertilizer.sql for explicit DB rollout.
+    RekomendasiDetail.__table__.create(bind=engine, checkfirst=True)
 
 
 app.include_router(auth_router)
