@@ -23,7 +23,7 @@ BASE_SELECT = """
         r.z_n, r.z_p, r.z_k, r.z_dolomit, r.z_belerang,
         r.created_at,
         m.nitrogen, m.phosphorus, m.potassium, m.ph,
-        m.temperature, m.humidity, m.rainfall,
+        m.temperature, m.humidity, m.soil_moisture, m.rainfall,
         COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas) AS varietas,
         CONCAT('Durian ', COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas)) AS objek_tanaman,
         f.nama AS fase
@@ -178,7 +178,7 @@ def export_csv(current_user: User = Depends(get_current_user)):
         writer = csv.writer(output)
         writer.writerow([
             "Tanggal", "Nitrogen (mg/kg)", "Fosfor (mg/kg)", "Kalium (mg/kg)", "pH",
-            "Temperatur (°C)", "Kelembapan udara (%)", "Curah hujan (mm)",
+            "Temperatur (°C)", "Kelembapan udara (%)", "Kelembapan tanah (%)", "Curah hujan (mm)",
             "Objek tanaman", "Fase", "Kode pupuk", "Jenis pupuk", "Dosis", "Satuan",
             "Dosis minimum (g/pohon)", "Dosis maksimum (g/pohon)", "Kategori", "Direkomendasikan", "Catatan",
         ])
@@ -191,7 +191,7 @@ def export_csv(current_user: User = Depends(get_current_user)):
                 writer.writerow([
                     record.get("created_at"), record.get("nitrogen"), record.get("phosphorus"),
                     record.get("potassium"), record.get("ph"), record.get("temperature"),
-                    record.get("humidity"), record.get("rainfall"), record.get("objek_tanaman"),
+                    record.get("humidity"), record.get("soil_moisture"), record.get("rainfall"), record.get("objek_tanaman"),
                     record.get("fase"), item.get("kode_pupuk"), item.get("nama_pupuk"),
                     (item.get("dosis_g") if item.get("dosis_g") is not None else item.get("dosis_kg")),
                     item.get("satuan"), item.get("dosis_min_g"), item.get("dosis_maks_g"),
