@@ -53,13 +53,6 @@ watch(totalPages, (pages) => {
   if (currentPage.value > pages) currentPage.value = pages;
 });
 
-function badge(k) {
-  const v = String(k || "").toLowerCase();
-  if (v === "tinggi") return "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-200";
-  if (v === "sedang") return "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200";
-  return "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200";
-}
-
 function fmt(value, digits = 2) {
   const n = Number(value);
   return Number.isFinite(n) ? n.toFixed(digits) : "-";
