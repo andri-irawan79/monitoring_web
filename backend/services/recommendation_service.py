@@ -136,9 +136,13 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
                 hujan=float(monitoring.rainfall or 0),
                 fase=fase_nama,
                 par=par,
-                # Model saat ini belum menyimpan soil_moisture. humidity adalah
-                # kelembapan udara, jadi tidak dipakai sebagai kelembapan tanah.
-                kelembapan_tanah=None,
+                # Gunakan kelembapan tanah bila tersedia; jangan gunakan humidity
+                # karena humidity adalah kelembapan udara.
+                kelembapan_tanah=(
+                    float(monitoring.soil_moisture)
+                    if monitoring.soil_moisture is not None
+                    else None
+                ),
             )
         except (TypeError, ValueError) as error:
             return {"success": False, "message": str(error)}
@@ -146,6 +150,7 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
         calculation["monitoring_context"] = {
             "temperature": float(monitoring.temperature) if monitoring.temperature is not None else None,
             "air_humidity": float(monitoring.humidity) if monitoring.humidity is not None else None,
+            "soil_moisture": float(monitoring.soil_moisture) if monitoring.soil_moisture is not None else None,
             "rainfall_mm": float(monitoring.rainfall) if monitoring.rainfall is not None else None,
             "air_humidity_used_as_soil_moisture": False,
         }
