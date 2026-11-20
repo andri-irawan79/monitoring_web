@@ -318,10 +318,9 @@ onBeforeUnmount(() => {
         <div class="mt-4 text-center">
           <h2 id="delete-dialog-title" class="text-lg font-semibold text-slate-800">Konfirmasi Hapus</h2>
           <p id="delete-dialog-description" class="mt-2 text-sm leading-6 text-slate-500">
-            Apakah Anda yakin ingin menghapus rekomendasi untuk fase
-            <strong>{{ selectedDeleteItem?.fase || "-" }}</strong> dengan pupuk
-            <strong>{{ selectedDeleteItem?.jenis_pupuk || "-" }}</strong>?
-            Data yang dihapus tidak dapat dikembalikan.
+            Apakah Anda yakin ingin menghapus seluruh paket rekomendasi untuk fase
+            <strong>{{ selectedDeleteItem?.fase || "-" }}</strong>?
+            Semua rincian pupuk pada paket ini akan ikut dihapus dan tidak dapat dikembalikan.
           </p>
         </div>
         <div class="mt-6 flex items-center justify-end gap-3">
