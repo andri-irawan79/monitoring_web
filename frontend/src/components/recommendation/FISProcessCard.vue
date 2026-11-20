@@ -43,7 +43,7 @@ function fmt(value, digits = 2) {
           <div class="flex items-center justify-between">
             <span class="text-sm font-extrabold text-slate-800">{{ variable }}</span>
             <span class="rounded-lg bg-white px-2 py-1 text-xs font-bold text-emerald-800 ring-1 ring-slate-200">
-              Z = {{ fmt(fis1[variable]?.z) }}
+              Z akhir = {{ fmt(fis1[variable]?.z) }}
             </span>
           </div>
           <p class="mt-2 text-xs text-slate-500">Prioritas: <strong class="capitalize text-slate-700">{{ fis1[variable]?.priority || "-" }}</strong></p>
@@ -52,6 +52,11 @@ function fmt(value, digits = 2) {
               <span class="capitalize text-slate-500">{{ label }}</span>
               <strong class="tabular-nums text-slate-700">{{ fmt(degree, 4) }}</strong>
             </div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2 border-t border-slate-200 pt-3 text-[10px] text-slate-500">
+            <span>Raw Z: <strong class="text-slate-700">{{ fmt(fis1[variable]?.raw_z, 4) }}</strong></span>
+            <span>Σα: <strong class="text-slate-700">{{ fmt(fis1[variable]?.denominator, 4) }}</strong></span>
+            <span>Σ(αz): <strong class="text-slate-700">{{ fmt(fis1[variable]?.numerator, 4) }}</strong></span>
           </div>
         </article>
       </div>
@@ -65,8 +70,9 @@ function fmt(value, digits = 2) {
       <div class="grid gap-3 sm:grid-cols-2">
         <article v-for="key in ['dolomit', 'belerang']" :key="key" class="rounded-xl border border-slate-200 p-4">
           <p class="text-sm font-bold capitalize text-slate-800">{{ key === "dolomit" ? "Kapur Dolomit" : "Belerang" }}</p>
-          <p class="mt-1 text-xs text-slate-500">Nilai Z: <strong class="text-emerald-800">{{ fmt(fis2.outputs?.[key]?.z) }}</strong></p>
+          <p class="mt-1 text-xs text-slate-500">Z akhir: <strong class="text-emerald-800">{{ fmt(fis2.outputs?.[key]?.z) }}</strong></p>
           <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="rounded-lg bg-slate-50 px-2.5 py-1.5">Raw Z = {{ fmt(fis2.outputs?.[key]?.raw_z, 4) }}</span>
             <span class="rounded-lg bg-slate-50 px-2.5 py-1.5">Σα = {{ fmt(fis2.outputs?.[key]?.denominator, 4) }}</span>
             <span class="rounded-lg bg-slate-50 px-2.5 py-1.5">Σ(αz) = {{ fmt(fis2.outputs?.[key]?.numerator, 4) }}</span>
           </div>
