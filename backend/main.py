@@ -73,6 +73,10 @@ def prepare_application_tables():
             "ALTER TABLE monitoring "
             "ADD COLUMN IF NOT EXISTS session_record_number INTEGER"
         ))
+        connection.execute(text(
+            "ALTER TABLE monitoring "
+            "ADD COLUMN IF NOT EXISTS soil_moisture DOUBLE PRECISION"
+        ))
 
         connection.execute(text(
             "ALTER TABLE monitoring "
