@@ -56,6 +56,9 @@ function doseText(item) {
             <p class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-emerald-800/70">Objek tanaman</p>
             <p class="mt-1 text-lg font-extrabold text-emerald-950">{{ recommendation.objek_tanaman || "Durian Montong" }}</p>
             <p class="mt-1 text-sm text-slate-600">Fase {{ recommendation.fase || "-" }}</p>
+            <p v-if="recommendation.profile" class="mt-1 text-[11px] font-medium text-emerald-800">
+              Profil parameter Fuzzy: {{ recommendation.profile }}
+            </p>
           </div>
           <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-700 shadow-sm">
             <Leaf class="h-5 w-5" />
