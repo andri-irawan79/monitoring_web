@@ -44,18 +44,36 @@ const normalizeFertilizer = (value) =>
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, "");
 
+const canonicalFertilizerKey = (value) => {
+  const key = normalizeFertilizer(value);
+  if (key.startsWith("NPK")) return "NPK";
+  if (key === "UREA") return "UREA";
+  if (key === "SP36") return "SP36";
+  if (key === "KCL") return "KCL";
+  return key;
+};
+
+// Satu header rekomendasi dapat berisi beberapa rincian pupuk.
+const fertilizerRows = computed(() =>
+  props.recommendations.flatMap((recommendation) => {
+    const details = (recommendation.items || []).filter((detail) => detail.direkomendasikan);
+    if (details.length) return details.map((detail) => detail.nama_pupuk || detail.kode_pupuk);
+    return recommendation.jenis_pupuk ? [recommendation.jenis_pupuk] : [];
+  })
+);
+
+const totalFertilizerItems = computed(() => fertilizerRows.value.length);
+
 const fertilizerDistribution = computed(() => {
   const counts = new Map(fertilizerOrder.map((item) => [item.key, 0]));
   const additionalCounts = new Map();
 
-  for (const item of props.recommendations) {
-    const rawLabel = String(item.jenis_pupuk || "").trim();
-    const key = normalizeFertilizer(rawLabel);
-
+  for (const raw of fertilizerRows.value) {
+    const label = String(raw || "").trim() || "Tidak diketahui";
+    const key = canonicalFertilizerKey(label);
     if (counts.has(key)) {
       counts.set(key, counts.get(key) + 1);
     } else {
-      const label = rawLabel || "Tidak diketahui";
       additionalCounts.set(label, (additionalCounts.get(label) || 0) + 1);
     }
   }
@@ -128,10 +146,10 @@ const doughnutCenterPlugin = {
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#64748b";
     ctx.font = "600 10px Inter, ui-sans-serif, sans-serif";
-    ctx.fillText("TOTAL", x, y - 10);
+    ctx.fillText("TOTAL PUPUK", x, y - 10);
     ctx.fillStyle = "#0f172a";
     ctx.font = "800 24px Inter, ui-sans-serif, sans-serif";
-    ctx.fillText(String(totalRecommendations.value), x, y + 13);
+    ctx.fillText(String(totalFertilizerItems.value), x, y + 13);
     ctx.restore();
   }
 };
@@ -221,8 +239,8 @@ const doughnutOptions = {
       callbacks: {
         label: (context) => {
           const value = Number(context.parsed || 0);
-          const percentage = totalRecommendations.value
-            ? ((value / totalRecommendations.value) * 100).toFixed(1)
+          const percentage = totalFertilizerItems.value
+            ? ((value / totalFertilizerItems.value) * 100).toFixed(1)
             : "0.0";
           return " " + context.label + ": " + value + " (" + percentage + "%)";
         }
@@ -314,15 +332,15 @@ const phaseOptions = {
           </div>
         </div>
 
-        <div v-if="hasRecommendations" class="flex flex-1 items-center justify-center">
+        <div v-if="totalFertilizerItems" class="flex flex-1 items-center justify-center">
           <div class="h-[285px] w-full max-w-[440px]">
             <Doughnut :data="doughnutData" :options="doughnutOptions" :plugins="[doughnutCenterPlugin, doughnutPercentagePlugin]" />
           </div>
         </div>
         <div v-else class="flex flex-1 flex-col items-center justify-center rounded-xl bg-emerald-50/40 px-4 text-center">
           <CircleDot class="h-8 w-8 text-emerald-300" />
-          <p class="mt-3 text-sm font-semibold text-slate-700">Belum ada data rekomendasi</p>
-          <p class="mt-1 text-xs text-slate-500">Distribusi pupuk akan tampil setelah rekomendasi dibuat.</p>
+          <p class="mt-3 text-sm font-semibold text-slate-700">Belum ada rincian pupuk aktif</p>
+          <p class="mt-1 text-xs text-slate-500">Distribusi pupuk tampil setelah hasil perhitungan menghasilkan dosis yang disarankan.</p>
         </div>
       </article>
 
