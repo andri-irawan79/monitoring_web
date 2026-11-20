@@ -132,7 +132,7 @@ function fertilizerSummary(item) {
 
     <div class="overflow-hidden rounded-xl border border-slate-200">
       <div class="overflow-x-auto">
-        <table class="min-w-[1120px] w-full whitespace-nowrap text-sm">
+        <table class="min-w-[1220px] w-full whitespace-nowrap text-sm">
           <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th class="px-4 py-3.5">Tanggal</th>
@@ -140,6 +140,7 @@ function fertilizerSummary(item) {
               <th class="px-4 py-3.5">P</th>
               <th class="px-4 py-3.5">K</th>
               <th class="px-4 py-3.5">pH</th>
+              <th class="px-4 py-3.5">Kelembapan Tanah</th>
               <th class="px-4 py-3.5">Objek Tanaman</th>
               <th class="px-4 py-3.5">Fase</th>
               <th class="px-4 py-3.5">Rincian Pupuk</th>
@@ -158,6 +159,7 @@ function fertilizerSummary(item) {
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.phosphorus) }}</td>
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.potassium) }}</td>
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.ph) }}</td>
+              <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ item.soil_moisture === null || item.soil_moisture === undefined ? "-" : fmt(item.soil_moisture) + " %" }}</td>
               <td class="px-4 py-3.5 text-slate-600">{{ item.objek_tanaman || "Durian Montong" }}</td>
               <td class="px-4 py-3.5 text-slate-600">{{ item.fase }}</td>
               <td class="max-w-[460px] whitespace-normal px-4 py-3.5 font-medium leading-6 text-slate-700">
@@ -177,7 +179,7 @@ function fertilizerSummary(item) {
             </tr>
 
             <tr v-if="!paginatedData.length">
-              <td colspan="9" class="px-4 py-12 text-center">
+              <td colspan="10" class="px-4 py-12 text-center">
                 <p class="font-semibold text-slate-700">
                   {{ search ? "Data tidak ditemukan" : "Belum ada riwayat rekomendasi" }}
                 </p>
