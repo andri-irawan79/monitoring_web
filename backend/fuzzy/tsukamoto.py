@@ -8,6 +8,7 @@ from typing import Any
 from .membership import fuzzifikasi, kelas_tertinggi, derajat_hara, derajat_ph
 from .parameter import DEFAULT, FuzzyParameters
 from .rules import FIS1_RULES, FIS2_RULES, PHASES, PHASE_PRIORITY
+from .fertilizer import konversi_kebutuhan_hara
 
 def z_keluaran(kelas: str, alpha: float) -> float:
     if not 0.0 <= alpha <= 1.0:
@@ -90,10 +91,6 @@ def infer_fis2(ph: float, par: FuzzyParameters = DEFAULT) -> dict[str, Any]:
                                 **tsukamoto(active, par.minimum_z)}
     return {"input": ph, "membership": membership, "outputs": outputs, "rules": all_rules}
 
-def _round_dose(value: float, par: FuzzyParameters) -> int:
-    rounded = int(math.floor(value / par.rounding_step_g + 0.5) * par.rounding_step_g)
-    return 0 if rounded < par.minimum_dose_g else rounded
-
 def hitung_rekomendasi(n: float, p: float, k: float, ph: float,
                        hujan: float, fase: str, par: FuzzyParameters = DEFAULT,
                        kelembapan_tanah: float | None = None) -> dict[str, Any]:
@@ -120,16 +117,13 @@ def hitung_rekomendasi(n: float, p: float, k: float, ph: float,
          "dolomit": fis2["outputs"]["dolomit"]["z"],
          "belerang": fis2["outputs"]["belerang"]["z"]}
 
-    target_hara = {h: z[h] / 100.0 * par.dref[h] for h in ("N", "P", "K")}
-    content = par.fertilizer_content
-    npk_dose = (min(target_hara.values()) / content["npk"]
-                if all(z[h] > 0 for h in ("N", "P", "K")) else 0.0)
-    remaining = {h: max(0.0, target_hara[h] - content["npk"] * npk_dose)
-                 for h in ("N", "P", "K")}
-    doses = {"urea": _round_dose(remaining["N"] / content["urea"], par),
-             "sp36": _round_dose(remaining["P"] / content["sp36"], par),
-             "kcl": _round_dose(remaining["K"] / content["kcl"], par),
-             "npk": _round_dose(npk_dose, par)}
+    fertilizer_result = konversi_kebutuhan_hara(
+        {"N": z["N"], "P": z["P"], "K": z["K"]},
+        par,
+    )
+    target_hara = fertilizer_result["target_hara_g"]
+    remaining = fertilizer_result["remaining_hara_g"]
+    doses = fertilizer_result["doses_g"]
 
     corrections = {"dolomit": None, "belerang": None}
     if fase != "Panen":
