@@ -1,87 +1,23 @@
 <script setup>
-import {
-    Leaf,
-    FlaskConical,
-    Droplets,
-    Thermometer,
-    CloudRain,
-    Calendar
-} from "lucide-vue-next";
-
+import { Leaf, FlaskConical, Droplets, Thermometer, CloudRain, Calendar, Waves } from "lucide-vue-next";
 import StatCard from "../ui/StatCard.vue";
 
-defineProps({
-    monitoring: Object
-});
+defineProps({ monitoring: Object });
+const safeFixed = (value, digits = 2) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(digits) : "-";
+};
 </script>
 
 <template>
-
-<div
-    v-if="monitoring"
-     class="
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        lg:grid-cols-4
-        gap-6
-    "
->
-
-    <StatCard
-        title="Nitrogen"
-        :value="monitoring.nitrogen"
-        unit="mg/kg"
-        :icon="Leaf"
-    />
-
-    <StatCard
-        title="Fosfor"
-        :value="monitoring.phosphorus"
-        unit="mg/kg"
-        :icon="FlaskConical"
-    />
-
-    <StatCard
-        title="Kalium"
-        :value="monitoring.potassium"
-        unit="mg/kg"
-        :icon="Droplets"
-    />
-
-   <StatCard
-        title="pH"
-        :value="Number(monitoring.ph).toFixed(1)"
-        :icon="FlaskConical"
-    />
-
-    <StatCard
-        title="Suhu"
-        :value="monitoring.temperature.toFixed(1)"
-        unit="°C"
-        :icon="Thermometer"
-    />
-
-    <StatCard
-        title="Kelembaban"
-        :value="monitoring.humidity.toFixed(1)"
-        unit="%"
-        :icon="Droplets"
-    />
-
-    <StatCard
-        title="Curah Hujan"
-        :value="monitoring.rainfall.toFixed(1)"
-        unit="mm"
-        :icon="CloudRain"
-    />
-
-    <StatCard
-        title="Update Terakhir"
-        :value="monitoring.simulation_date"
-        :icon="Calendar"
-    />
-
-</div>
-
+  <div v-if="monitoring" class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <StatCard title="Nitrogen" :value="safeFixed(monitoring.nitrogen)" unit="mg/kg" :icon="Leaf" color="emerald" />
+    <StatCard title="Fosfor" :value="safeFixed(monitoring.phosphorus)" unit="mg/kg" :icon="FlaskConical" color="blue" />
+    <StatCard title="Kalium" :value="safeFixed(monitoring.potassium)" unit="mg/kg" :icon="Droplets" color="amber" />
+    <StatCard title="pH Tanah" :value="safeFixed(monitoring.ph, 2)" unit="Skala pH" :icon="Waves" color="violet" />
+    <StatCard title="Suhu" :value="safeFixed(monitoring.temperature)" unit="°C" :icon="Thermometer" color="orange" />
+    <StatCard title="Kelembapan" :value="safeFixed(monitoring.humidity)" unit="%" :icon="Droplets" color="cyan" />
+    <StatCard title="Curah Hujan" :value="safeFixed(monitoring.rainfall)" unit="mm" :icon="CloudRain" color="sky" />
+    <StatCard title="Tanggal Simulasi" :value="monitoring.simulation_date || '-'" unit="Data terakhir" :icon="Calendar" color="slate" />
+  </div>
 </template>

@@ -1,7 +1,7 @@
 from database.session import SessionLocal
-
 from models.monitoring import Monitoring
 from models.rekomendasi import Rekomendasi
+from constants import PLANT_VARIETY, PLANT_DISPLAY_NAME
 
 from fuzzy.tsukamoto import (
     fuzzifikasi,
@@ -9,13 +9,8 @@ from fuzzy.tsukamoto import (
     defuzzifikasi
 )
 
-from fuzzy.variety_factor import (
-    koreksi_varietas
-)
-
 
 FASE_MAP = {
-
     1: "Vegetatif",
     2: "Pembungaan",
     3: "Pembuahan",
@@ -24,147 +19,87 @@ FASE_MAP = {
 }
 
 
-def generate_recommendation(
-    monitoring_id,
-    varietas_id,
-    fase_id
-):
-
+def generate_recommendation(monitoring_id, fase_id, user_id):
+    """
+    Menghasilkan rekomendasi untuk objek tetap penelitian, yaitu
+    tanaman durian varietas Montong. Identitas varietas merupakan
+    konfigurasi aplikasi, bukan master data maupun variabel fuzzy.
+    """
     db = SessionLocal()
-
     try:
-
-        # Ambil data monitoring
         monitoring = (
             db.query(Monitoring)
             .filter(
-                Monitoring.id == monitoring_id
+                Monitoring.id == monitoring_id,
+                Monitoring.user_id == user_id,
             )
             .first()
         )
-
         if not monitoring:
-
             return {
                 "success": False,
                 "message": "Data monitoring tidak ditemukan"
             }
 
-        # Fuzzifikasi
-        fuzzy_values = fuzzifikasi(
+        fase_nama = FASE_MAP.get(fase_id)
+        if not fase_nama:
+            return {
+                "success": False,
+                "message": "Fase pertumbuhan tidak valid"
+            }
 
+        fuzzy_values = fuzzifikasi(
             monitoring.nitrogen,
             monitoring.phosphorus,
             monitoring.potassium,
             monitoring.ph
         )
-
-        # Nama fase
-        fase_nama = FASE_MAP.get(fase_id)
-
-        if not fase_nama:
-
+        results = evaluate_phase(fase_nama, fuzzy_values)
+        if not results:
             return {
                 "success": False,
-                "message": "Fase tidak valid"
+                "message": "Tidak ada rule yang aktif untuk kondisi input tersebut"
             }
 
-        # Evaluasi rule
-        results = evaluate_phase(
-
-            fase_nama,
-            fuzzy_values
-        )
-
-        if len(results) == 0:
-
-            return {
-                "success": False,
-                "message": "Tidak ada rule yang aktif"
-            }
-
-        # Defuzzifikasi
         defuzz = defuzzifikasi(results)
-        dosis = defuzz["hasil"]
-        
-        # Rule dominan
-        best_rule = max(
+        best_rule = max(results, key=lambda item: item["alpha"])
 
-            results,
-
-            key=lambda x: x["alpha"]
-        )
-
-        # Koreksi varietas
-        dosis_final = koreksi_varietas(
-
-            dosis,
-
-            varietas_id
-        )
-
-        # Simpan rekomendasi
-        rekomendasi = Rekomendasi(
-
+        # Dosis berasal langsung dari hasil defuzzifikasi.
+        # Tidak ada pencarian ID varietas atau koreksi varietas.
+        recommendation = Rekomendasi(
+            user_id=user_id,
             monitoring_id=monitoring_id,
-
-            varietas_id=varietas_id,
-
             fase_id=fase_id,
-
             jenis_pupuk=best_rule["pupuk"],
-
-            dosis=round(
-                dosis_final,
-                2
-            ),
-
+            dosis=round(defuzz["hasil"], 2),
             kategori=best_rule["output"]
         )
-
-        db.add(rekomendasi)
-
+        db.add(recommendation)
         db.commit()
-
-        db.refresh(rekomendasi)
-
-        return {
-
-                "success": True,
-
-                "recommendation": {
-
-                    "id": rekomendasi.id,
-
-                    "jenis_pupuk": rekomendasi.jenis_pupuk,
-
-                    "dosis": rekomendasi.dosis,
-
-                    "kategori": rekomendasi.kategori
-
-                },
-
-                "fuzzy_values": fuzzy_values,
-
-                "best_rule": best_rule,
-
-                "active_rules": results,
-
-                "defuzzification": defuzz
-
-            }
-
-    except Exception as e:
-
-        db.rollback()
+        db.refresh(recommendation)
 
         return {
-
-            "success": False,
-
-            "message": str(e)
+            "success": True,
+            "recommendation": {
+                "id": recommendation.id,
+                "jenis_pupuk": recommendation.jenis_pupuk,
+                "dosis": recommendation.dosis,
+                "kategori": recommendation.kategori,
+                "varietas": PLANT_VARIETY,
+                "objek_tanaman": PLANT_DISPLAY_NAME,
+                "fase": fase_nama,
+                "created_at": recommendation.created_at
+            },
+            "fuzzy_values": fuzzy_values,
+            "best_rule": best_rule,
+            "active_rules": results,
+            "defuzzification": defuzz
         }
-
+    except Exception as error:
+        db.rollback()
+        return {
+            "success": False,
+            "message": str(error)
+        }
     finally:
-
         db.close()
