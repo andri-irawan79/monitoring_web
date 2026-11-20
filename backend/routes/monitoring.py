@@ -29,7 +29,7 @@ SIMULATOR_RECORD_TARGET = 365
 
 
 def _fuzzy_status(data):
-    """Status Fuzzy untuk N/P/K/pH; humidity adalah kelembapan udara, bukan tanah."""
+    """Status fuzzy N/P/K/pH dan soil moisture; humidity tetap kelembapan udara."""
     values = (data.nitrogen, data.phosphorus, data.potassium, data.ph)
     if any(value is None for value in values):
         return None
