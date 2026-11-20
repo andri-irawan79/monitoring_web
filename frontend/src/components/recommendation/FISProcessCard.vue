@@ -20,6 +20,7 @@ const products = [
 ];
 
 function fmt(value, digits = 2) {
+  if (value === null || value === undefined || value === "") return "-";
   const number = Number(value);
   return Number.isFinite(number) ? number.toFixed(digits) : "-";
 }
