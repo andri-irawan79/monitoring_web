@@ -19,7 +19,7 @@ import {
 const monitoring = ref(null);
 const fases = ref([]);
 const recommendation = ref(null);
-const selectedFase = ref(1);
+const selectedFase = ref(null);
 const loading = ref(false);
 const pageLoading = ref(true);
 const successMessage = ref("");
@@ -59,6 +59,8 @@ const loadData = async () => {
 
     if (results[1].status === "fulfilled") {
         fases.value = Array.isArray(results[1].value) ? results[1].value : [];
+        // Pilihan awal mengikuti urutan fase biologis pertama, bukan asumsi ID = 1.
+        selectedFase.value = fases.value[0]?.id ?? null;
     } else {
         console.error("Gagal memuat fase pertumbuhan:", results[1].reason);
         failedSources.push("fase pertumbuhan");
