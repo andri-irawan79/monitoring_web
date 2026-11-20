@@ -1,9 +1,14 @@
-from database.connection import engine
+"""Manual database connection check."""
 
-try:
-    connection = engine.connect()
-    print("Database Connected!")
-    connection.close()
+def main():
+    from database.connection import engine
+    try:
+        connection = engine.connect()
+        print("Database Connected!")
+        connection.close()
+    except Exception as error:
+        print("Error:", error)
 
-except Exception as e:
-    print("Error:", e)
+
+if __name__ == "__main__":
+    main()
