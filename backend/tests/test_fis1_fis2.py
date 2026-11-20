@@ -1,7 +1,7 @@
 import pytest
 
 from fuzzy.parameter import DEFAULT, get_parameters
-from fuzzy.membership import derajat_hara, derajat_ph, status_monitoring
+from fuzzy.membership import derajat_hara, derajat_ph, derajat_kelembapan, status_monitoring
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 
@@ -64,3 +64,26 @@ def test_status_monitoring_memakai_himpunan_fuzzy_yang_sama():
         "status_k": "Tinggi",
         "status_ph": "Masam",
     }
+
+def test_kelembapan_tanah_memiliki_tiga_status_fuzzy():
+    assert derajat_kelembapan(10, DEFAULT)["kering"] == 1.0
+    assert derajat_kelembapan(20, DEFAULT)["optimal"] == 1.0
+    assert derajat_kelembapan(30, DEFAULT)["basah"] == 1.0
+
+    assert status_monitoring(10, 27, 60, 4.8, 10)["status_kelembapan_tanah"] == "Kering"
+    assert status_monitoring(10, 27, 60, 4.8, 20)["status_kelembapan_tanah"] == "Optimal"
+    assert status_monitoring(10, 27, 60, 4.8, 30)["status_kelembapan_tanah"] == "Basah"
+
+
+def test_soil_moisture_menambah_catatan_tanpa_mengubah_z_atau_dosis():
+    dry = hitung_rekomendasi(40, 45, 30, 6.0, 100, "Vegetatif", kelembapan_tanah=10)
+    optimal = hitung_rekomendasi(40, 45, 30, 6.0, 100, "Vegetatif", kelembapan_tanah=20)
+    wet = hitung_rekomendasi(40, 45, 30, 6.0, 100, "Vegetatif", kelembapan_tanah=30)
+
+    assert dry["z"] == optimal["z"] == wet["z"]
+    assert dry["doses_g"] == optimal["doses_g"] == wet["doses_g"]
+    assert "pastikan tanah cukup lembap" in dry["notes"]
+    assert "tunda atau pecahkan dosis" in wet["notes"]
+    assert "pastikan tanah cukup lembap" not in optimal["notes"]
+    assert "tunda atau pecahkan dosis" not in optimal["notes"]
+
