@@ -34,7 +34,15 @@ def _fuzzy_status(data):
     if any(value is None for value in values):
         return None
     try:
-        return status_monitoring(*(float(value) for value in values))
+        soil_moisture = (
+            float(data.soil_moisture)
+            if data.soil_moisture is not None
+            else None
+        )
+        return status_monitoring(
+            *(float(value) for value in values),
+            kelembapan_tanah=soil_moisture,
+        )
     except (TypeError, ValueError):
         return None
 
@@ -147,6 +155,7 @@ def latest_monitoring(current_user: User = Depends(get_current_user)):
             "temperature": data.temperature,
             "humidity": data.humidity,
             "ph": data.ph,
+            "soil_moisture": data.soil_moisture,
             "rainfall": data.rainfall,
             "created_at": data.created_at,
             "simulation_date": data.simulation_date,
@@ -178,6 +187,7 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
                 "temperature": row.temperature,
                 "humidity": row.humidity,
                 "ph": row.ph,
+                "soil_moisture": row.soil_moisture,
                 "rainfall": row.rainfall,
                 "created_at": row.created_at,
                 "simulation_date": row.simulation_date,
@@ -532,6 +542,7 @@ def create_monitoring(
             temperature=payload.temperature,
             humidity=payload.humidity,
             ph=payload.ph,
+            soil_moisture=payload.soil_moisture,
             rainfall=payload.rainfall,
             simulation_date=payload.simulation_date,
             user_id=session.user_id,
