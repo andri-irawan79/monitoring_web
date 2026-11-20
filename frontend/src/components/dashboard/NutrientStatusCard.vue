@@ -96,7 +96,7 @@ const iconTone = {
 
       <div class="mt-4 flex items-start gap-2 rounded-xl border border-emerald-100 bg-emerald-50/70 p-3 text-xs leading-5 text-emerald-800">
         <CheckCircle2 class="mt-0.5 h-4 w-4 shrink-0" />
-        <span>Kategori mengikuti ambang batas yang dikonfigurasi dalam sistem dan bukan diagnosis agronomis kondisi tanah.</span>
+        <span>Kategori mengikuti fungsi keanggotaan Fuzzy yang dikonfigurasi dalam sistem dan bukan diagnosis agronomis kondisi tanah.</span>
       </div>
     </section>
   </BaseCard>
