@@ -2,7 +2,7 @@ import csv
 import io
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from sqlalchemy import text
 
@@ -125,11 +125,13 @@ def latest_recommendation(current_user: User = Depends(get_current_user)):
 
 
 @router.get("/history")
-def recommendation_history(current_user: User = Depends(get_current_user)):
+def recommendation_history(
+    limit: int | None = Query(default=None, ge=1, le=500),
+    current_user: User = Depends(get_current_user),
+):
     db = SessionLocal()
     try:
-        # Halaman riwayat menampilkan maksimal sepuluh rekomendasi terbaru.
-        return _query_recommendations(db, current_user.id, limit=10)
+        return _query_recommendations(db, current_user.id, limit=limit)
     finally:
         db.close()
 
