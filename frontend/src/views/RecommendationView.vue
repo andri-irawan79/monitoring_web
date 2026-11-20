@@ -7,10 +7,8 @@ import MonitoringSummary from "../components/recommendation/MonitoringSummary.vu
 import RecommendationForm from "../components/recommendation/RecommendationForm.vue";
 import RecommendationResultCard from "../components/recommendation/RecommendationResultCard.vue";
 import FuzzyResultCard from "../components/recommendation/FuzzyResultCard.vue";
-import RuleDominantCard from "../components/recommendation/RuleDominantCard.vue";
 import ActiveRulesTable from "../components/recommendation/ActiveRulesTable.vue";
-import DefuzzificationCard from "../components/recommendation/DefuzzificationCard.vue";
-import RecommendationExplanationCard from "../components/recommendation/RecommendationExplanationCard.vue";
+import FISProcessCard from "../components/recommendation/FISProcessCard.vue";
 
 import { getLatestMonitoring } from "../services/monitoringService";
 import { getFase } from "../services/masterService";
@@ -30,9 +28,14 @@ const successTimer = ref(null);
 const errorTitle = ref("");
 const errorMessage = ref("");
 const fuzzyValues = ref(null);
-const bestRule = ref(null);
+const fis1 = ref({});
+const fis2 = ref({});
+const zValues = ref({});
+const targetHara = ref({});
+const remainingHara = ref({});
+const doses = ref({});
+const corrections = ref({});
 const activeRules = ref([]);
-const defuzzification = ref({});
 const hasGeneratedAnalysis = ref(false);
 
 const loadData = async () => {
@@ -64,9 +67,13 @@ const loadData = async () => {
     // Hasil analisis dikosongkan setiap kali halaman dibuka.
     recommendation.value = null;
     fuzzyValues.value = null;
-    bestRule.value = null;
-    activeRules.value = [];
-    defuzzification.value = {};
+    fis1.value = {};
+    fis2.value = {};
+    zValues.value = {};
+    targetHara.value = {};
+    remainingHara.value = {};
+    doses.value = {};
+    corrections.value = {};    activeRules.value = [];
     hasGeneratedAnalysis.value = false;
 
     if (failedSources.length) {
@@ -89,9 +96,13 @@ const generate = async () => {
     // dari permintaan rekomendasi yang sedang/baru dilakukan.
     recommendation.value = null;
     fuzzyValues.value = null;
-    bestRule.value = null;
-    activeRules.value = [];
-    defuzzification.value = {};
+    fis1.value = {};
+    fis2.value = {};
+    zValues.value = {};
+    targetHara.value = {};
+    remainingHara.value = {};
+    doses.value = {};
+    corrections.value = {};    activeRules.value = [];
     hasGeneratedAnalysis.value = false;
 
     if (!monitoring.value?.id) {
@@ -129,11 +140,16 @@ const generate = async () => {
 
         recommendation.value = response.recommendation;
         fuzzyValues.value = response.fuzzy_values || null;
-        bestRule.value = response.best_rule || null;
+        fis1.value = response.fis1 || {};
+        fis2.value = response.fis2 || {};
         activeRules.value = Array.isArray(response.active_rules)
             ? response.active_rules
             : [];
-        defuzzification.value = response.defuzzification || {};
+        zValues.value = response.z_values || {};
+        targetHara.value = response.target_hara_g || {};
+        remainingHara.value = response.remaining_hara_g || {};
+        doses.value = response.doses_g || {};
+        corrections.value = response.corrections_g || {};
         hasGeneratedAnalysis.value = true;
 
         recommendationCreated = true;
@@ -325,32 +341,24 @@ onUnmounted(() => {
                 </Transition>
             </div>
 
-            <div
-                v-if="!loading && hasGeneratedAnalysis"
-                class="xl:col-span-2"
-            >
-                <RecommendationExplanationCard
-                    :fuzzy="fuzzyValues"
-                    :rule="bestRule"
-                    :recommendation="recommendation"
-                    :defuzzification="defuzzification"
-                />
-            </div>
-
             <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
                 <FuzzyResultCard :fuzzy="fuzzyValues" />
             </div>
 
             <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
-                <RuleDominantCard :rule="bestRule" />
+                <FISProcessCard
+                    :fis1="fis1"
+                    :fis2="fis2"
+                    :z-values="zValues"
+                    :target-hara="targetHara"
+                    :remaining-hara="remainingHara"
+                    :doses="doses"
+                    :corrections="corrections"
+                />
             </div>
 
             <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
                 <ActiveRulesTable :rules="activeRules" />
-            </div>
-
-            <div v-if="!loading && hasGeneratedAnalysis" class="xl:col-span-2">
-                <DefuzzificationCard :result="defuzzification" />
             </div>
 
         </div>
