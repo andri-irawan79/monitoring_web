@@ -179,12 +179,12 @@ def export_csv(current_user: User = Depends(get_current_user)):
             "Tanggal", "Nitrogen (mg/kg)", "Fosfor (mg/kg)", "Kalium (mg/kg)", "pH",
             "Temperatur (°C)", "Kelembapan udara (%)", "Curah hujan (mm)",
             "Objek tanaman", "Fase", "Kode pupuk", "Jenis pupuk", "Dosis (g/pohon)",
-            "Dosis minimum (g/pohon)", "Dosis maksimum (g/pohon)", "Kategori", "Catatan",
+            "Dosis minimum (g/pohon)", "Dosis maksimum (g/pohon)", "Kategori", "Direkomendasikan", "Catatan",
         ])
         for record in records:
             items = record["items"] or [{
                 "kode_pupuk": "-", "nama_pupuk": "Tidak ada rincian", "dosis_g": None,
-                "dosis_min_g": None, "dosis_maks_g": None, "kategori": "-", "catatan": None,
+                "dosis_min_g": None, "dosis_maks_g": None, "kategori": "-", "direkomendasikan": False, "catatan": None,
             }]
             for item in items:
                 writer.writerow([
@@ -193,7 +193,7 @@ def export_csv(current_user: User = Depends(get_current_user)):
                     record.get("humidity"), record.get("rainfall"), record.get("objek_tanaman"),
                     record.get("fase"), item.get("kode_pupuk"), item.get("nama_pupuk"),
                     item.get("dosis_g"), item.get("dosis_min_g"), item.get("dosis_maks_g"),
-                    item.get("kategori"), item.get("catatan"),
+                    item.get("kategori"), "Ya" if item.get("direkomendasikan") else "Tidak", item.get("catatan"),
                 ])
         output.seek(0)
         filename = "riwayat_rekomendasi_" + datetime.now().strftime("%Y%m%d_%H%M%S") + ".csv"
