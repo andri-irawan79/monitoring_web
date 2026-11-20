@@ -67,6 +67,7 @@ REQUIRED_COLUMNS = {
     "humidity",
     "ph",
     "rainfall",
+    "soil_moisture",
     "label",
 }
 
@@ -380,6 +381,7 @@ def main() -> None:
                 "temperature": round(float(row["temperature"]), 2),
                 "humidity": round(float(row["humidity"]), 2),
                 "ph": round(float(row["ph"]), 2),
+                "soil_moisture": round(float(row["soil_moisture"]), 2),
                 "rainfall": round(float(row["rainfall"]), 2),
                 "simulation_date": simulation_date,
                 "simulation_session_id": session_id,
