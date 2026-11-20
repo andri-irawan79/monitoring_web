@@ -14,6 +14,7 @@ from models.user import User
 from schemas.monitoring import MonitoringCreate
 from schemas.simulation_session import SimulationSessionFinish
 from simulator_process import start_simulator_process, stop_simulator_process
+from fuzzy.membership import status_monitoring
 
 
 router = APIRouter()
@@ -25,6 +26,17 @@ SIMULATOR_SESSION_TIMEOUT_SECONDS = float(
     os.getenv("SIMULATOR_SESSION_TIMEOUT_SECONDS", "45")
 )
 SIMULATOR_RECORD_TARGET = 365
+
+
+def _fuzzy_status(data):
+    """Status Fuzzy untuk N/P/K/pH; humidity adalah kelembapan udara, bukan tanah."""
+    values = (data.nitrogen, data.phosphorus, data.potassium, data.ph)
+    if any(value is None for value in values):
+        return None
+    try:
+        return status_monitoring(*(float(value) for value in values))
+    except (TypeError, ValueError):
+        return None
 
 
 def _session_payload(session):
@@ -138,6 +150,7 @@ def latest_monitoring(current_user: User = Depends(get_current_user)):
             "rainfall": data.rainfall,
             "created_at": data.created_at,
             "simulation_date": data.simulation_date,
+            "fuzzy_status": _fuzzy_status(data),
         }
 
     finally:
@@ -168,6 +181,7 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
                 "rainfall": row.rainfall,
                 "created_at": row.created_at,
                 "simulation_date": row.simulation_date,
+                "fuzzy_status": _fuzzy_status(row),
             }
             for row in data
         ]
