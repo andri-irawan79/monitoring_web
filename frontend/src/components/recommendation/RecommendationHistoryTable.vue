@@ -64,6 +64,28 @@ function fmt(value, digits = 2) {
   const n = Number(value);
   return Number.isFinite(n) ? n.toFixed(digits) : "-";
 }
+
+function doseText(detail) {
+  if (detail.dosis_g !== null && detail.dosis_g !== undefined) {
+    return Number(detail.dosis_g).toLocaleString("id-ID") + " g";
+  }
+  if (detail.dosis_min_g !== null && detail.dosis_min_g !== undefined) {
+    return Number(detail.dosis_min_g).toLocaleString("id-ID") + "–" +
+      Number(detail.dosis_maks_g).toLocaleString("id-ID") + " g";
+  }
+  if (detail.dosis_kg !== null && detail.dosis_kg !== undefined) {
+    return Number(detail.dosis_kg).toFixed(2) + " kg";
+  }
+  return "-";
+}
+
+function fertilizerSummary(item) {
+  const details = (item.items || []).filter((detail) => detail.direkomendasikan);
+  if (details.length) {
+    return details.map((detail) => detail.nama_pupuk + " (" + doseText(detail) + ")").join(" · ");
+  }
+  return item.jenis_pupuk || "Tidak ada dosis pupuk yang disarankan";
+}
 </script>
 
 <template>
@@ -127,9 +149,7 @@ function fmt(value, digits = 2) {
               <th class="px-4 py-3.5">pH</th>
               <th class="px-4 py-3.5">Objek Tanaman</th>
               <th class="px-4 py-3.5">Fase</th>
-              <th class="px-4 py-3.5">Jenis Pupuk</th>
-              <th class="px-4 py-3.5">Dosis</th>
-              <th class="px-4 py-3.5">Kategori</th>
+              <th class="px-4 py-3.5">Rincian Pupuk</th>
               <th class="px-4 py-3.5 text-right">Aksi</th>
             </tr>
           </thead>
@@ -147,12 +167,8 @@ function fmt(value, digits = 2) {
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.ph) }}</td>
               <td class="px-4 py-3.5 text-slate-600">{{ item.objek_tanaman || "Durian Montong" }}</td>
               <td class="px-4 py-3.5 text-slate-600">{{ item.fase }}</td>
-              <td class="px-4 py-3.5 font-medium text-slate-700">{{ item.jenis_pupuk }}</td>
-              <td class="px-4 py-3.5 font-semibold tabular-nums text-slate-700">{{ fmt(item.dosis) }} kg</td>
-              <td class="px-4 py-3.5">
-                <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold" :class="badge(item.kategori)">
-                  {{ item.kategori }}
-                </span>
+              <td class="max-w-[460px] whitespace-normal px-4 py-3.5 font-medium leading-6 text-slate-700">
+                {{ fertilizerSummary(item) }}
               </td>
               <td class="px-4 py-3.5 text-right">
                 <button
@@ -168,7 +184,7 @@ function fmt(value, digits = 2) {
             </tr>
 
             <tr v-if="!paginatedData.length">
-              <td colspan="11" class="px-4 py-12 text-center">
+              <td colspan="9" class="px-4 py-12 text-center">
                 <p class="font-semibold text-slate-700">
                   {{ search ? "Data tidak ditemukan" : "Belum ada riwayat rekomendasi" }}
                 </p>
