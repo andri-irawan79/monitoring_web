@@ -16,7 +16,8 @@ const safeFixed = (value, digits = 2) => {
     <StatCard title="Kalium" :value="safeFixed(monitoring.potassium)" unit="mg/kg" :icon="Droplets" color="amber" />
     <StatCard title="pH Tanah" :value="safeFixed(monitoring.ph, 2)" unit="Skala pH" :icon="Waves" color="violet" />
     <StatCard title="Suhu" :value="safeFixed(monitoring.temperature)" unit="°C" :icon="Thermometer" color="orange" />
-    <StatCard title="Kelembapan" :value="safeFixed(monitoring.humidity)" unit="%" :icon="Droplets" color="cyan" />
+    <StatCard title="Kelembapan Udara" :value="safeFixed(monitoring.humidity)" unit="%" :icon="Droplets" color="cyan" />
+    <StatCard v-if="monitoring.soil_moisture !== null && monitoring.soil_moisture !== undefined" title="Kelembapan Tanah" :value="safeFixed(monitoring.soil_moisture)" unit="%" :icon="Droplets" color="teal" />
     <StatCard title="Curah Hujan" :value="safeFixed(monitoring.rainfall)" unit="mm" :icon="CloudRain" color="sky" />
     <StatCard title="Tanggal Simulasi" :value="monitoring.simulation_date || '-'" unit="Data terakhir" :icon="Calendar" color="slate" />
   </div>
