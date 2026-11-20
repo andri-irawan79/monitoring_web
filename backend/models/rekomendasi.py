@@ -1,4 +1,5 @@
-from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, JSON, String
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 
 from database.base import Base
@@ -20,7 +21,7 @@ class Rekomendasi(Base):
     kategori = Column(String, nullable=True)
 
     algorithm_version = Column(String(40), nullable=False, default="legacy", server_default="legacy")
-    fuzzy_trace = Column(JSON, nullable=False, default=dict)
+    fuzzy_trace = Column(JSONB, nullable=False, default=dict)
     z_n = Column(Float, nullable=True)
     z_p = Column(Float, nullable=True)
     z_k = Column(Float, nullable=True)
