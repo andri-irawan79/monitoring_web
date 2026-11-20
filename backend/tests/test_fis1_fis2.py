@@ -1,7 +1,7 @@
 import pytest
 
 from fuzzy.parameter import DEFAULT, get_parameters
-from fuzzy.membership import derajat_hara, derajat_ph
+from fuzzy.membership import derajat_hara, derajat_ph, status_monitoring
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 
@@ -54,3 +54,13 @@ def test_kelembapan_udara_tidak_dianggap_sebagai_kelembapan_tanah():
 def test_fase_tidak_dikenal_ditolak():
     with pytest.raises(ValueError, match="Fase tidak dikenal"):
         hitung_rekomendasi(40, 45, 30, 6.0, 100, "Berbunga")
+
+
+def test_status_monitoring_memakai_himpunan_fuzzy_yang_sama():
+    status = status_monitoring(10, 27, 60, 4.8)
+    assert status == {
+        "status_n": "Rendah",
+        "status_p": "Sedang",
+        "status_k": "Tinggi",
+        "status_ph": "Masam",
+    }
