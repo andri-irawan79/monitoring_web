@@ -1,3 +1,5 @@
+from sqlalchemy import text
+
 from database.session import SessionLocal
 from models.monitoring import Monitoring
 from models.rekomendasi import Rekomendasi
@@ -7,14 +9,48 @@ from fuzzy.parameter import get_parameters
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 
-# ID mengikuti master fase_pertumbuhan yang saat ini digunakan aplikasi.
-FASE_MAP = {
-    1: "Vegetatif",
-    2: "Pembungaan",
-    3: "Pembuahan",
-    4: "Panen",
-    5: "Pascapanen",
+# Nama fase untuk mesin fuzzy dibuat kanonis, tetapi label yang ditampilkan
+# tetap diambil dari master fase_pertumbuhan agar sama persis dengan dropdown.
+FASE_CANONICAL = {
+    "vegetatif": "Vegetatif",
+    "pembungaan": "Pembungaan",
+    "pembuahan": "Pembuahan",
+    "panen": "Panen",
+    "pascapanen": "Pascapanen",
 }
+
+
+def _normalize_fase_name(value):
+    """Normalisasi label master, termasuk variasi 'Pasca Panen'."""
+    normalized = "".join(
+        character for character in str(value or "").casefold()
+        if character.isalnum()
+    )
+    return FASE_CANONICAL.get(normalized)
+
+
+def _resolve_fase(db, fase_id):
+    """Ambil fase berdasarkan ID master, bukan asumsi urutan ID tetap."""
+    try:
+        fase_id = int(fase_id)
+    except (TypeError, ValueError):
+        return None, None, None
+
+    row = db.execute(
+        text("SELECT id, nama FROM fase_pertumbuhan WHERE id = :fase_id"),
+        {"fase_id": fase_id},
+    ).mappings().first()
+
+    if row is None:
+        return None, None, None
+
+    fase_display = str(row["nama"] or "").strip()
+    fase_canonical = _normalize_fase_name(fase_display)
+    if not fase_display or fase_canonical is None:
+        return None, None, None
+
+    return int(row["id"]), fase_display, fase_canonical
+
 
 FERTILIZER_META = {
     "urea": ("UREA", "Urea", "Pupuk hara"),
@@ -69,7 +105,7 @@ def _detail_rows(result, fase_nama):
 
 
 def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
-    """Hitung FIS-1 + FIS-2, lalu simpan satu header dan beberapa detail pupuk."""
+    """Hitung FIS-1 + FIS-2 dengan fase dari master database."""
     db = SessionLocal()
     try:
         monitoring = (
@@ -83,9 +119,12 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
         if not monitoring:
             return {"success": False, "message": "Data monitoring tidak ditemukan"}
 
-        fase_nama = FASE_MAP.get(int(fase_id))
+        resolved_fase_id, fase_display, fase_nama = _resolve_fase(db, fase_id)
         if not fase_nama:
-            return {"success": False, "message": "Fase pertumbuhan tidak valid"}
+            return {
+                "success": False,
+                "message": "Fase pertumbuhan tidak valid atau tidak terdaftar pada master fase.",
+            }
 
         try:
             par = get_parameters(profile)
@@ -115,7 +154,7 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
         recommendation = Rekomendasi(
             user_id=user_id,
             monitoring_id=monitoring_id,
-            fase_id=int(fase_id),
+            fase_id=resolved_fase_id,
             # Field lama dibuat NULL untuk header yang berisi beberapa produk.
             jenis_pupuk=None,
             dosis=None,
@@ -144,7 +183,8 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
                 "id": recommendation.id,
                 "varietas": PLANT_VARIETY,
                 "objek_tanaman": PLANT_DISPLAY_NAME,
-                "fase": fase_nama,
+                # Gunakan label master yang sama dengan opsi dropdown.
+                "fase": fase_display,
                 "created_at": recommendation.created_at,
                 "algorithm_version": recommendation.algorithm_version,
                 "profile": calculation["profile"],
