@@ -17,6 +17,7 @@ class Monitoring(Base):
     humidity = Column(Float)
 
     ph = Column(Float)
+    soil_moisture = Column(Float, nullable=True)
     rainfall = Column(Float)
 
     created_at = Column(DateTime, server_default=func.now())
