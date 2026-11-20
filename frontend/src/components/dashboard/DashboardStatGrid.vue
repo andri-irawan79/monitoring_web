@@ -1,5 +1,5 @@
 <script setup>
-import { Leaf, FlaskConical, Droplets, Thermometer, CloudRain, Calendar, Waves } from "lucide-vue-next";
+import { Leaf, FlaskConical, Droplets, Thermometer, CloudRain, Waves } from "lucide-vue-next";
 import StatCard from "../ui/StatCard.vue";
 
 defineProps({ monitoring: Object });
@@ -19,6 +19,5 @@ const safeFixed = (value, digits = 2) => {
     <StatCard title="Kelembapan Udara" :value="safeFixed(monitoring.humidity)" unit="%" :icon="Droplets" color="cyan" />
     <StatCard v-if="monitoring.soil_moisture !== null && monitoring.soil_moisture !== undefined" title="Kelembapan Tanah" :value="safeFixed(monitoring.soil_moisture)" unit="%" :icon="Droplets" color="teal" />
     <StatCard title="Curah Hujan" :value="safeFixed(monitoring.rainfall)" unit="mm" :icon="CloudRain" color="sky" />
-    <StatCard title="Tanggal Simulasi" :value="monitoring.simulation_date || '-'" unit="Data terakhir" :icon="Calendar" color="slate" />
   </div>
 </template>
