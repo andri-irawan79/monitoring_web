@@ -147,6 +147,7 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
                 "fase": fase_nama,
                 "created_at": recommendation.created_at,
                 "algorithm_version": recommendation.algorithm_version,
+                "profile": calculation["profile"],
                 "items": detail_payloads,
                 "notes": calculation["notes"],
                 "parameter_warnings": calculation["parameter_warnings"],
