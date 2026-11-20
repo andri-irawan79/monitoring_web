@@ -28,6 +28,7 @@ class RecommendationResponse(BaseModel):
     created_at: datetime
     items: list[RecommendationDetailResponse] = Field(default_factory=list)
     algorithm_version: str = "legacy"
+    profile: Optional[str] = None
     fuzzy_trace: dict[str, Any] = Field(default_factory=dict)
 
     # Nullable legacy columns remain available when reading old recommendations.
