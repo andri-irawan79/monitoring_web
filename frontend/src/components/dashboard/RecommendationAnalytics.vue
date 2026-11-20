@@ -146,7 +146,7 @@ const doughnutCenterPlugin = {
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#64748b";
     ctx.font = "600 10px Inter, ui-sans-serif, sans-serif";
-    ctx.fillText("TOTAL PUPUK", x, y - 10);
+    ctx.fillText("TOTAL ITEM", x, y - 10);
     ctx.fillStyle = "#0f172a";
     ctx.font = "800 24px Inter, ui-sans-serif, sans-serif";
     ctx.fillText(String(totalFertilizerItems.value), x, y + 13);
@@ -327,8 +327,8 @@ const phaseOptions = {
             <CircleDot class="h-5 w-5" />
           </span>
           <div>
-            <h3 class="text-base font-bold tracking-tight text-slate-900">Distribusi Jenis Pupuk</h3>
-            <p class="mt-0.5 text-xs text-slate-500">Proporsi jenis pupuk dari hasil rekomendasi.</p>
+            <h3 class="text-base font-bold tracking-tight text-slate-900">Distribusi Komponen Rekomendasi</h3>
+            <p class="mt-0.5 text-xs text-slate-500">Komposisi pupuk hara dan bahan koreksi pH dari hasil rekomendasi.</p>
           </div>
         </div>
 
