@@ -83,6 +83,7 @@ def _serialize_rows(db, rows):
                 "catatan": None,
             }]
         item["items"] = details
+        item["profile"] = (item.get("fuzzy_trace") or {}).get("profile")
         item["varietas"] = item.get("varietas") or PLANT_VARIETY
         item["objek_tanaman"] = item.get("objek_tanaman") or f"Durian {PLANT_VARIETY}"
         serialized.append(item)
