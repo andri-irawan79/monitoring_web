@@ -1,11 +1,20 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Index, Integer, String
+from sqlalchemy import Boolean, CheckConstraint, Column, ForeignKey, Index, Integer, String
 
 from database.base import Base
 
 
 class RekomendasiDetail(Base):
     __tablename__ = "rekomendasi_detail"
-    __table_args__ = (Index("ix_rekomendasi_detail_rekomendasi_id", "rekomendasi_id"),)
+    __table_args__ = (
+        Index("ix_rekomendasi_detail_rekomendasi_id", "rekomendasi_id"),
+        CheckConstraint(
+            "(dosis_g IS NULL OR dosis_g >= 0) AND "
+            "(dosis_min_g IS NULL OR dosis_min_g >= 0) AND "
+            "(dosis_maks_g IS NULL OR dosis_maks_g >= 0) AND "
+            "(dosis_min_g IS NULL OR dosis_maks_g IS NULL OR dosis_min_g <= dosis_maks_g)",
+            name="ck_rekomendasi_detail_dosis_nonnegative",
+        ),
+    )
 
     id = Column(Integer, primary_key=True)
     rekomendasi_id = Column(
