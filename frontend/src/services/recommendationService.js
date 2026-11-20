@@ -5,8 +5,9 @@ export const getLatestRecommendation = async () => {
   return response.data;
 };
 
-export const getRecommendationHistory = async () => {
-  const response = await api.get("/recommendation/history");
+export const getRecommendationHistory = async (limit = null) => {
+  const config = limit ? { params: { limit } } : {};
+  const response = await api.get("/recommendation/history", config);
   return response.data;
 };
 
