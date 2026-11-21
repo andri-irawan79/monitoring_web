@@ -123,7 +123,6 @@ def stratified_sample(
             f"Label kurang: {missing or '-'}; label tidak sesuai: {unexpected or '-'}."
         )
 
-    counts = dataframe[label_column].value_counts()
     if len(dataframe) != EXPECTED_FRUIT_ROWS:
         raise ValueError(
             f"Enam label buah harus berjumlah {EXPECTED_FRUIT_ROWS} baris; "
