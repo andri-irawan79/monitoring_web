@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from backend.simulator.simulator import (
+from simulator.simulator import (
     DATASET_PATH,
     FRUIT_LABELS,
     RECORD_LIMIT,
