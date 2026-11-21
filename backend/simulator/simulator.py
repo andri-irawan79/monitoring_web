@@ -1,8 +1,9 @@
 """
 Simulator data monitoring durian melalui HTTP REST API.
 
-Program ini membaca 365 record dari Crop_recommendationV2.csv dan
-mengirimkannya ke FastAPI. Tanpa --session-id, skrip membuat sesi Git Bash
+Program ini memilih 365 record secara terstratifikasi dari enam label
+tanaman buah pada Crop_recommendationV2.csv, kemudian mengirimkannya ke FastAPI.
+Tanpa --session-id, skrip membuat sesi Git Bash
 sendiri; website meneruskan ID sesi yang sudah dibuat oleh backend.
 MQTT tidak digunakan dalam alur simulasi ini.
 """
@@ -51,6 +52,23 @@ SIMULATOR_API_KEY = os.getenv(
 
 RECORD_LIMIT = 365
 SAMPLE_SEED = 42
+FRUIT_LABELS = (
+    "banana",
+    "coconut",
+    "mango",
+    "orange",
+    "papaya",
+    "pomegranate",
+)
+SAMPLE_QUOTAS = {
+    "banana": 61,
+    "coconut": 61,
+    "mango": 61,
+    "orange": 61,
+    "papaya": 61,
+    "pomegranate": 60,
+}
+EXPECTED_FRUIT_ROWS = 600
 INTERVAL_SECONDS = float(os.getenv("SIMULATOR_INTERVAL_SECONDS", "2"))
 START_DATE = date.fromisoformat(
     os.getenv("SIMULATOR_START_DATE", "2026-01-01")
@@ -74,69 +92,70 @@ REQUIRED_COLUMNS = {
 
 def stratified_sample(
     dataframe: pd.DataFrame,
-    sample_size: int,
+    sample_size: int = RECORD_LIMIT,
     label_column: str = "label",
     random_seed: int = SAMPLE_SEED,
 ) -> pd.DataFrame:
     """
-    Memilih sampel proporsional berdasarkan label tanaman.
+    Ambil sampel terstratifikasi mengikuti proyek ZIP acuan.
 
-    Kolom label hanya digunakan sebagai strata agar urutan data yang
-    berkelompok menurut tanaman tidak menyebabkan sampel hanya memuat
-    sebagian label. Label tidak dikirim ke backend dan tidak menjadi
-    variabel monitoring atau input Fuzzy Tsukamoto.
+    Dataset yang diterima fungsi ini sudah difilter menjadi enam label buah.
+    Kuota tetap: banana/coconut/mango/orange/papaya masing-masing 61 dan
+    pomegranate 60. Setiap kelompok di-sample dengan seed yang sama,
+    lalu seluruh sampel diacak sekali lagi dengan seed yang sama.
     """
     if label_column not in dataframe.columns:
         raise ValueError(
             f"Kolom strata '{label_column}' tidak ditemukan."
         )
-    if sample_size <= 0 or sample_size > len(dataframe):
-        raise ValueError("Ukuran sampel harus antara 1 dan jumlah record.")
-
-    grouped = [
-        (str(label), group)
-        for label, group in dataframe.groupby(label_column, sort=True)
-    ]
-    if not grouped:
-        raise ValueError("Tidak ditemukan kelompok label untuk sampling.")
-
-    exact_quotas = {
-        label: sample_size * len(group) / len(dataframe)
-        for label, group in grouped
-    }
-    quotas = {
-        label: int(value)
-        for label, value in exact_quotas.items()
-    }
-
-    remainder = sample_size - sum(quotas.values())
-    order = sorted(
-        exact_quotas,
-        key=lambda label: (-(exact_quotas[label] - quotas[label]), label)
-    )
-    for label in order[:remainder]:
-        quotas[label] += 1
-
-    sampled_groups = []
-    for index, (label, group) in enumerate(grouped):
-        quota = quotas[label]
-        if quota > len(group):
-            raise ValueError(
-                f"Kuota sampel untuk label '{label}' melebihi jumlah record."
-            )
-        sampled_groups.append(
-            group.sample(
-                n=quota,
-                replace=False,
-                random_state=random_seed + index,
-            )
+    if sample_size != RECORD_LIMIT:
+        raise ValueError(
+            f"Ukuran sampel mengikuti proyek acuan dan harus {RECORD_LIMIT}."
         )
 
-    sampled = pd.concat(sampled_groups, ignore_index=True)
-    return (
-        sampled.sample(frac=1, random_state=random_seed)
+    actual_labels = set(dataframe[label_column].dropna().astype(str).unique())
+    expected_labels = set(FRUIT_LABELS)
+    if actual_labels != expected_labels:
+        missing = sorted(expected_labels - actual_labels)
+        unexpected = sorted(actual_labels - expected_labels)
+        raise ValueError(
+            "Data sampling harus berisi tepat enam label buah. "
+            f"Label kurang: {missing or '-'}; label tidak sesuai: {unexpected or '-'}."
+        )
+
+    counts = dataframe[label_column].value_counts()
+    if len(dataframe) != EXPECTED_FRUIT_ROWS:
+        raise ValueError(
+            f"Enam label buah harus berjumlah {EXPECTED_FRUIT_ROWS} baris; "
+            f"ditemukan {len(dataframe)}."
+        )
+
+    sampled_groups = []
+    for label, group in dataframe.groupby(label_column):
+        quota = SAMPLE_QUOTAS[str(label)]
+        if len(group) < quota:
+            raise ValueError(
+                f"Label '{label}' memiliki {len(group)} baris; "
+                f"minimal {quota} diperlukan."
+            )
+        # Sama dengan siapkan_data.py pada proyek ZIP: seed yang sama
+        # digunakan untuk setiap kelompok, bukan seed berbeda per kelompok.
+        sampled_groups.append(
+            group.sample(n=quota, random_state=random_seed)
+        )
+
+    sampled = (
+        pd.concat(sampled_groups)
+        .sample(frac=1.0, random_state=random_seed)
         .reset_index(drop=True)
     )
+
+    if len(sampled) != RECORD_LIMIT:
+        raise RuntimeError(
+            f"Hasil stratified sampling harus {RECORD_LIMIT} baris, "
+            f"ditemukan {len(sampled)}."
+        )
+    return sampled
 
 
 def _request_json(
@@ -312,8 +331,23 @@ def load_sample() -> pd.DataFrame:
             f"minimal {RECORD_LIMIT} record diperlukan."
         )
 
+    # Samakan ruang sampel dengan proyek acuan: enam kategori buah.
+    fruit_dataframe = dataframe[
+        dataframe["label"].isin(FRUIT_LABELS)
+    ].copy()
+
+    if len(fruit_dataframe) != EXPECTED_FRUIT_ROWS:
+        distribution = (
+            fruit_dataframe["label"].value_counts().sort_index().to_dict()
+        )
+        raise ValueError(
+            "Dataset hasil filter enam tanaman buah harus berisi "
+            f"{EXPECTED_FRUIT_ROWS} baris; ditemukan {len(fruit_dataframe)}. "
+            f"Distribusi aktual: {distribution}"
+        )
+
     return stratified_sample(
-        dataframe,
+        fruit_dataframe,
         sample_size=RECORD_LIMIT,
         label_column="label",
         random_seed=SAMPLE_SEED,
@@ -351,7 +385,9 @@ def main() -> None:
     print(f"Endpoint      : {API_URL}")
     print(f"ID sesi       : {session_id}")
     print(f"Jumlah record : {len(dataframe)}")
-    print("Metode sampel : Stratified sampling berdasarkan label")
+    print("Filter label  : " + ", ".join(FRUIT_LABELS))
+    print("Baris buah    : " + str(EXPECTED_FRUIT_ROWS))
+    print("Metode sampel : Stratified random sampling (kuota tetap)")
     print(f"Random seed   : {SAMPLE_SEED}")
     print("Distribusi sampel:")
     print(dataframe["label"].value_counts().sort_index().to_string())
