@@ -1,0 +1,451 @@
+hari,N,P,K,fase,hara,nilai,status,prioritas,kategori_acuan,g_hara_min,g_hara_maks
+2,111,87,48,Pascapanen,N,111,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Pascapanen,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Pascapanen,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Vegetatif,N,111,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+2,111,87,48,Vegetatif,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Vegetatif,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+2,111,87,48,Pembungaan,N,111,Tinggi,Rendah,Tidak perlu,0.0,0.0
+2,111,87,48,Pembungaan,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Pembungaan,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Pembuahan,N,111,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Pembuahan,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+2,111,87,48,Pembuahan,K,48,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+2,111,87,48,Panen,N,111,Tinggi,Rendah,Tidak perlu,0.0,0.0
+2,111,87,48,Panen,P,87,Tinggi,Rendah,Tidak perlu,0.0,0.0
+2,111,87,48,Panen,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+18,34,65,48,Pascapanen,N,34,Sedang,Sedang,Sedang,143.8,431.2
+18,34,65,48,Pascapanen,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+18,34,65,48,Pascapanen,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+18,34,65,48,Vegetatif,N,34,Sedang,Tinggi,Sedang,143.8,431.2
+18,34,65,48,Vegetatif,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+18,34,65,48,Vegetatif,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+18,34,65,48,Pembungaan,N,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+18,34,65,48,Pembungaan,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+18,34,65,48,Pembungaan,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+18,34,65,48,Pembuahan,N,34,Sedang,Sedang,Sedang,143.8,431.2
+18,34,65,48,Pembuahan,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+18,34,65,48,Pembuahan,K,48,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+18,34,65,48,Panen,N,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+18,34,65,48,Panen,P,65,Tinggi,Rendah,Tidak perlu,0.0,0.0
+18,34,65,48,Panen,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+25,60,58,51,Pascapanen,N,60,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Pascapanen,P,58,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Pascapanen,K,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Vegetatif,N,60,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+25,60,58,51,Vegetatif,P,58,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Vegetatif,K,51,Tinggi,Rendah,Tidak perlu,0.0,0.0
+25,60,58,51,Pembungaan,N,60,Tinggi,Rendah,Tidak perlu,0.0,0.0
+25,60,58,51,Pembungaan,P,58,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Pembungaan,K,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Pembuahan,N,60,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Pembuahan,P,58,Tinggi,Sedang,Tidak perlu,0.0,0.0
+25,60,58,51,Pembuahan,K,51,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+25,60,58,51,Panen,N,60,Tinggi,Rendah,Tidak perlu,0.0,0.0
+25,60,58,51,Panen,P,58,Tinggi,Rendah,Tidak perlu,0.0,0.0
+25,60,58,51,Panen,K,51,Tinggi,Rendah,Tidak perlu,0.0,0.0
+36,30,25,31,Pascapanen,N,30,Sedang,Sedang,Sedang,143.8,431.2
+36,30,25,31,Pascapanen,P,25,Sedang,Sedang,Sedang,61.2,183.8
+36,30,25,31,Pascapanen,K,31,Rendah,Sedang,Sedang,213.8,641.2
+36,30,25,31,Vegetatif,N,30,Sedang,Tinggi,Sedang,143.8,431.2
+36,30,25,31,Vegetatif,P,25,Sedang,Sedang,Sedang,61.2,183.8
+36,30,25,31,Vegetatif,K,31,Rendah,Rendah,Tidak perlu,0.0,0.0
+36,30,25,31,Pembungaan,N,30,Sedang,Rendah,Tidak perlu,0.0,0.0
+36,30,25,31,Pembungaan,P,25,Sedang,Sedang,Sedang,61.2,183.8
+36,30,25,31,Pembungaan,K,31,Rendah,Sedang,Sedang,213.8,641.2
+36,30,25,31,Pembuahan,N,30,Sedang,Sedang,Sedang,143.8,431.2
+36,30,25,31,Pembuahan,P,25,Sedang,Sedang,Sedang,61.2,183.8
+36,30,25,31,Pembuahan,K,31,Rendah,Tinggi,Tinggi,641.2,855.0
+36,30,25,31,Panen,N,30,Sedang,Rendah,Tidak perlu,0.0,0.0
+36,30,25,31,Panen,P,25,Sedang,Rendah,Tidak perlu,0.0,0.0
+36,30,25,31,Panen,K,31,Rendah,Rendah,Tidak perlu,0.0,0.0
+37,26,18,27,Pascapanen,N,26,Sedang,Sedang,Sedang,143.8,431.2
+37,26,18,27,Pascapanen,P,18,Rendah,Sedang,Sedang,61.2,183.8
+37,26,18,27,Pascapanen,K,27,Rendah,Sedang,Sedang,213.8,641.2
+37,26,18,27,Vegetatif,N,26,Sedang,Tinggi,Sedang,143.8,431.2
+37,26,18,27,Vegetatif,P,18,Rendah,Sedang,Sedang,61.2,183.8
+37,26,18,27,Vegetatif,K,27,Rendah,Rendah,Tidak perlu,0.0,0.0
+37,26,18,27,Pembungaan,N,26,Sedang,Rendah,Tidak perlu,0.0,0.0
+37,26,18,27,Pembungaan,P,18,Rendah,Sedang,Sedang,61.2,183.8
+37,26,18,27,Pembungaan,K,27,Rendah,Sedang,Sedang,213.8,641.2
+37,26,18,27,Pembuahan,N,26,Sedang,Sedang,Sedang,143.8,431.2
+37,26,18,27,Pembuahan,P,18,Rendah,Sedang,Sedang,61.2,183.8
+37,26,18,27,Pembuahan,K,27,Rendah,Tinggi,Tinggi,641.2,855.0
+37,26,18,27,Panen,N,26,Sedang,Rendah,Tidak perlu,0.0,0.0
+37,26,18,27,Panen,P,18,Rendah,Rendah,Tidak perlu,0.0,0.0
+37,26,18,27,Panen,K,27,Rendah,Rendah,Tidak perlu,0.0,0.0
+66,23,7,34,Pascapanen,N,23,Rendah,Sedang,Sedang,143.8,431.2
+66,23,7,34,Pascapanen,P,7,Rendah,Sedang,Sedang,61.2,183.8
+66,23,7,34,Pascapanen,K,34,Sedang,Sedang,Sedang,213.8,641.2
+66,23,7,34,Vegetatif,N,23,Rendah,Tinggi,Tinggi,431.2,575.0
+66,23,7,34,Vegetatif,P,7,Rendah,Sedang,Sedang,61.2,183.8
+66,23,7,34,Vegetatif,K,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+66,23,7,34,Pembungaan,N,23,Rendah,Rendah,Tidak perlu,0.0,0.0
+66,23,7,34,Pembungaan,P,7,Rendah,Sedang,Sedang,61.2,183.8
+66,23,7,34,Pembungaan,K,34,Sedang,Sedang,Sedang,213.8,641.2
+66,23,7,34,Pembuahan,N,23,Rendah,Sedang,Sedang,143.8,431.2
+66,23,7,34,Pembuahan,P,7,Rendah,Sedang,Sedang,61.2,183.8
+66,23,7,34,Pembuahan,K,34,Sedang,Tinggi,Sedang,213.8,641.2
+66,23,7,34,Panen,N,23,Rendah,Rendah,Tidak perlu,0.0,0.0
+66,23,7,34,Panen,P,7,Rendah,Rendah,Tidak perlu,0.0,0.0
+66,23,7,34,Panen,K,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+93,15,27,28,Pascapanen,N,15,Rendah,Sedang,Sedang,143.8,431.2
+93,15,27,28,Pascapanen,P,27,Sedang,Sedang,Sedang,61.2,183.8
+93,15,27,28,Pascapanen,K,28,Rendah,Sedang,Sedang,213.8,641.2
+93,15,27,28,Vegetatif,N,15,Rendah,Tinggi,Tinggi,431.2,575.0
+93,15,27,28,Vegetatif,P,27,Sedang,Sedang,Sedang,61.2,183.8
+93,15,27,28,Vegetatif,K,28,Rendah,Rendah,Tidak perlu,0.0,0.0
+93,15,27,28,Pembungaan,N,15,Rendah,Rendah,Tidak perlu,0.0,0.0
+93,15,27,28,Pembungaan,P,27,Sedang,Sedang,Sedang,61.2,183.8
+93,15,27,28,Pembungaan,K,28,Rendah,Sedang,Sedang,213.8,641.2
+93,15,27,28,Pembuahan,N,15,Rendah,Sedang,Sedang,143.8,431.2
+93,15,27,28,Pembuahan,P,27,Sedang,Sedang,Sedang,61.2,183.8
+93,15,27,28,Pembuahan,K,28,Rendah,Tinggi,Tinggi,641.2,855.0
+93,15,27,28,Panen,N,15,Rendah,Rendah,Tidak perlu,0.0,0.0
+93,15,27,28,Panen,P,27,Sedang,Rendah,Tidak perlu,0.0,0.0
+93,15,27,28,Panen,K,28,Rendah,Rendah,Tidak perlu,0.0,0.0
+94,52,51,53,Pascapanen,N,52,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Pascapanen,P,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Pascapanen,K,53,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Vegetatif,N,52,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+94,52,51,53,Vegetatif,P,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Vegetatif,K,53,Tinggi,Rendah,Tidak perlu,0.0,0.0
+94,52,51,53,Pembungaan,N,52,Tinggi,Rendah,Tidak perlu,0.0,0.0
+94,52,51,53,Pembungaan,P,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Pembungaan,K,53,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Pembuahan,N,52,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Pembuahan,P,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+94,52,51,53,Pembuahan,K,53,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+94,52,51,53,Panen,N,52,Tinggi,Rendah,Tidak perlu,0.0,0.0
+94,52,51,53,Panen,P,51,Tinggi,Rendah,Tidak perlu,0.0,0.0
+94,52,51,53,Panen,K,53,Tinggi,Rendah,Tidak perlu,0.0,0.0
+128,35,68,45,Pascapanen,N,35,Sedang,Sedang,Sedang,143.8,431.2
+128,35,68,45,Pascapanen,P,68,Tinggi,Sedang,Tidak perlu,0.0,0.0
+128,35,68,45,Pascapanen,K,45,Tinggi,Sedang,Tidak perlu,0.0,0.0
+128,35,68,45,Vegetatif,N,35,Sedang,Tinggi,Sedang,143.8,431.2
+128,35,68,45,Vegetatif,P,68,Tinggi,Sedang,Tidak perlu,0.0,0.0
+128,35,68,45,Vegetatif,K,45,Tinggi,Rendah,Tidak perlu,0.0,0.0
+128,35,68,45,Pembungaan,N,35,Sedang,Rendah,Tidak perlu,0.0,0.0
+128,35,68,45,Pembungaan,P,68,Tinggi,Sedang,Tidak perlu,0.0,0.0
+128,35,68,45,Pembungaan,K,45,Tinggi,Sedang,Tidak perlu,0.0,0.0
+128,35,68,45,Pembuahan,N,35,Sedang,Sedang,Sedang,143.8,431.2
+128,35,68,45,Pembuahan,P,68,Tinggi,Sedang,Tidak perlu,0.0,0.0
+128,35,68,45,Pembuahan,K,45,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+128,35,68,45,Panen,N,35,Sedang,Rendah,Tidak perlu,0.0,0.0
+128,35,68,45,Panen,P,68,Tinggi,Rendah,Tidak perlu,0.0,0.0
+128,35,68,45,Panen,K,45,Tinggi,Rendah,Tidak perlu,0.0,0.0
+132,112,87,48,Pascapanen,N,112,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Pascapanen,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Pascapanen,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Vegetatif,N,112,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+132,112,87,48,Vegetatif,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Vegetatif,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+132,112,87,48,Pembungaan,N,112,Tinggi,Rendah,Tidak perlu,0.0,0.0
+132,112,87,48,Pembungaan,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Pembungaan,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Pembuahan,N,112,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Pembuahan,P,87,Tinggi,Sedang,Tidak perlu,0.0,0.0
+132,112,87,48,Pembuahan,K,48,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+132,112,87,48,Panen,N,112,Tinggi,Rendah,Tidak perlu,0.0,0.0
+132,112,87,48,Panen,P,87,Tinggi,Rendah,Tidak perlu,0.0,0.0
+132,112,87,48,Panen,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+137,54,65,47,Pascapanen,N,54,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Pascapanen,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Pascapanen,K,47,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Vegetatif,N,54,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+137,54,65,47,Vegetatif,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Vegetatif,K,47,Tinggi,Rendah,Tidak perlu,0.0,0.0
+137,54,65,47,Pembungaan,N,54,Tinggi,Rendah,Tidak perlu,0.0,0.0
+137,54,65,47,Pembungaan,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Pembungaan,K,47,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Pembuahan,N,54,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Pembuahan,P,65,Tinggi,Sedang,Tidak perlu,0.0,0.0
+137,54,65,47,Pembuahan,K,47,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+137,54,65,47,Panen,N,54,Tinggi,Rendah,Tidak perlu,0.0,0.0
+137,54,65,47,Panen,P,65,Tinggi,Rendah,Tidak perlu,0.0,0.0
+137,54,65,47,Panen,K,47,Tinggi,Rendah,Tidak perlu,0.0,0.0
+141,29,8,28,Pascapanen,N,29,Sedang,Sedang,Sedang,143.8,431.2
+141,29,8,28,Pascapanen,P,8,Rendah,Sedang,Sedang,61.2,183.8
+141,29,8,28,Pascapanen,K,28,Rendah,Sedang,Sedang,213.8,641.2
+141,29,8,28,Vegetatif,N,29,Sedang,Tinggi,Sedang,143.8,431.2
+141,29,8,28,Vegetatif,P,8,Rendah,Sedang,Sedang,61.2,183.8
+141,29,8,28,Vegetatif,K,28,Rendah,Rendah,Tidak perlu,0.0,0.0
+141,29,8,28,Pembungaan,N,29,Sedang,Rendah,Tidak perlu,0.0,0.0
+141,29,8,28,Pembungaan,P,8,Rendah,Sedang,Sedang,61.2,183.8
+141,29,8,28,Pembungaan,K,28,Rendah,Sedang,Sedang,213.8,641.2
+141,29,8,28,Pembuahan,N,29,Sedang,Sedang,Sedang,143.8,431.2
+141,29,8,28,Pembuahan,P,8,Rendah,Sedang,Sedang,61.2,183.8
+141,29,8,28,Pembuahan,K,28,Rendah,Tinggi,Tinggi,641.2,855.0
+141,29,8,28,Panen,N,29,Sedang,Rendah,Tidak perlu,0.0,0.0
+141,29,8,28,Panen,P,8,Rendah,Rendah,Tidak perlu,0.0,0.0
+141,29,8,28,Panen,K,28,Rendah,Rendah,Tidak perlu,0.0,0.0
+147,40,16,35,Pascapanen,N,40,Sedang,Sedang,Sedang,143.8,431.2
+147,40,16,35,Pascapanen,P,16,Rendah,Sedang,Sedang,61.2,183.8
+147,40,16,35,Pascapanen,K,35,Sedang,Sedang,Sedang,213.8,641.2
+147,40,16,35,Vegetatif,N,40,Sedang,Tinggi,Sedang,143.8,431.2
+147,40,16,35,Vegetatif,P,16,Rendah,Sedang,Sedang,61.2,183.8
+147,40,16,35,Vegetatif,K,35,Sedang,Rendah,Tidak perlu,0.0,0.0
+147,40,16,35,Pembungaan,N,40,Sedang,Rendah,Tidak perlu,0.0,0.0
+147,40,16,35,Pembungaan,P,16,Rendah,Sedang,Sedang,61.2,183.8
+147,40,16,35,Pembungaan,K,35,Sedang,Sedang,Sedang,213.8,641.2
+147,40,16,35,Pembuahan,N,40,Sedang,Sedang,Sedang,143.8,431.2
+147,40,16,35,Pembuahan,P,16,Rendah,Sedang,Sedang,61.2,183.8
+147,40,16,35,Pembuahan,K,35,Sedang,Tinggi,Sedang,213.8,641.2
+147,40,16,35,Panen,N,40,Sedang,Rendah,Tidak perlu,0.0,0.0
+147,40,16,35,Panen,P,16,Rendah,Rendah,Tidak perlu,0.0,0.0
+147,40,16,35,Panen,K,35,Sedang,Rendah,Tidak perlu,0.0,0.0
+151,49,54,50,Pascapanen,N,49,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Pascapanen,P,54,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Pascapanen,K,50,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Vegetatif,N,49,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+151,49,54,50,Vegetatif,P,54,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Vegetatif,K,50,Tinggi,Rendah,Tidak perlu,0.0,0.0
+151,49,54,50,Pembungaan,N,49,Tinggi,Rendah,Tidak perlu,0.0,0.0
+151,49,54,50,Pembungaan,P,54,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Pembungaan,K,50,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Pembuahan,N,49,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Pembuahan,P,54,Tinggi,Sedang,Tidak perlu,0.0,0.0
+151,49,54,50,Pembuahan,K,50,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+151,49,54,50,Panen,N,49,Tinggi,Rendah,Tidak perlu,0.0,0.0
+151,49,54,50,Panen,P,54,Tinggi,Rendah,Tidak perlu,0.0,0.0
+151,49,54,50,Panen,K,50,Tinggi,Rendah,Tidak perlu,0.0,0.0
+158,108,89,53,Pascapanen,N,108,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Pascapanen,P,89,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Pascapanen,K,53,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Vegetatif,N,108,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+158,108,89,53,Vegetatif,P,89,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Vegetatif,K,53,Tinggi,Rendah,Tidak perlu,0.0,0.0
+158,108,89,53,Pembungaan,N,108,Tinggi,Rendah,Tidak perlu,0.0,0.0
+158,108,89,53,Pembungaan,P,89,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Pembungaan,K,53,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Pembuahan,N,108,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Pembuahan,P,89,Tinggi,Sedang,Tidak perlu,0.0,0.0
+158,108,89,53,Pembuahan,K,53,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+158,108,89,53,Panen,N,108,Tinggi,Rendah,Tidak perlu,0.0,0.0
+158,108,89,53,Panen,P,89,Tinggi,Rendah,Tidak perlu,0.0,0.0
+158,108,89,53,Panen,K,53,Tinggi,Rendah,Tidak perlu,0.0,0.0
+169,22,23,44,Pascapanen,N,22,Rendah,Sedang,Sedang,143.8,431.2
+169,22,23,44,Pascapanen,P,23,Sedang,Sedang,Sedang,61.2,183.8
+169,22,23,44,Pascapanen,K,44,Tinggi,Sedang,Tidak perlu,0.0,0.0
+169,22,23,44,Vegetatif,N,22,Rendah,Tinggi,Tinggi,431.2,575.0
+169,22,23,44,Vegetatif,P,23,Sedang,Sedang,Sedang,61.2,183.8
+169,22,23,44,Vegetatif,K,44,Tinggi,Rendah,Tidak perlu,0.0,0.0
+169,22,23,44,Pembungaan,N,22,Rendah,Rendah,Tidak perlu,0.0,0.0
+169,22,23,44,Pembungaan,P,23,Sedang,Sedang,Sedang,61.2,183.8
+169,22,23,44,Pembungaan,K,44,Tinggi,Sedang,Tidak perlu,0.0,0.0
+169,22,23,44,Pembuahan,N,22,Rendah,Sedang,Sedang,143.8,431.2
+169,22,23,44,Pembuahan,P,23,Sedang,Sedang,Sedang,61.2,183.8
+169,22,23,44,Pembuahan,K,44,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+169,22,23,44,Panen,N,22,Rendah,Rendah,Tidak perlu,0.0,0.0
+169,22,23,44,Panen,P,23,Sedang,Rendah,Tidak perlu,0.0,0.0
+169,22,23,44,Panen,K,44,Tinggi,Rendah,Tidak perlu,0.0,0.0
+177,18,9,40,Pascapanen,N,18,Rendah,Sedang,Sedang,143.8,431.2
+177,18,9,40,Pascapanen,P,9,Rendah,Sedang,Sedang,61.2,183.8
+177,18,9,40,Pascapanen,K,40,Sedang,Sedang,Sedang,213.8,641.2
+177,18,9,40,Vegetatif,N,18,Rendah,Tinggi,Tinggi,431.2,575.0
+177,18,9,40,Vegetatif,P,9,Rendah,Sedang,Sedang,61.2,183.8
+177,18,9,40,Vegetatif,K,40,Sedang,Rendah,Tidak perlu,0.0,0.0
+177,18,9,40,Pembungaan,N,18,Rendah,Rendah,Tidak perlu,0.0,0.0
+177,18,9,40,Pembungaan,P,9,Rendah,Sedang,Sedang,61.2,183.8
+177,18,9,40,Pembungaan,K,40,Sedang,Sedang,Sedang,213.8,641.2
+177,18,9,40,Pembuahan,N,18,Rendah,Sedang,Sedang,143.8,431.2
+177,18,9,40,Pembuahan,P,9,Rendah,Sedang,Sedang,61.2,183.8
+177,18,9,40,Pembuahan,K,40,Sedang,Tinggi,Sedang,213.8,641.2
+177,18,9,40,Panen,N,18,Rendah,Rendah,Tidak perlu,0.0,0.0
+177,18,9,40,Panen,P,9,Rendah,Rendah,Tidak perlu,0.0,0.0
+177,18,9,40,Panen,K,40,Sedang,Rendah,Tidak perlu,0.0,0.0
+190,5,21,38,Pascapanen,N,5,Rendah,Sedang,Sedang,143.8,431.2
+190,5,21,38,Pascapanen,P,21,Rendah,Sedang,Sedang,61.2,183.8
+190,5,21,38,Pascapanen,K,38,Sedang,Sedang,Sedang,213.8,641.2
+190,5,21,38,Vegetatif,N,5,Rendah,Tinggi,Tinggi,431.2,575.0
+190,5,21,38,Vegetatif,P,21,Rendah,Sedang,Sedang,61.2,183.8
+190,5,21,38,Vegetatif,K,38,Sedang,Rendah,Tidak perlu,0.0,0.0
+190,5,21,38,Pembungaan,N,5,Rendah,Rendah,Tidak perlu,0.0,0.0
+190,5,21,38,Pembungaan,P,21,Rendah,Sedang,Sedang,61.2,183.8
+190,5,21,38,Pembungaan,K,38,Sedang,Sedang,Sedang,213.8,641.2
+190,5,21,38,Pembuahan,N,5,Rendah,Sedang,Sedang,143.8,431.2
+190,5,21,38,Pembuahan,P,21,Rendah,Sedang,Sedang,61.2,183.8
+190,5,21,38,Pembuahan,K,38,Sedang,Tinggi,Sedang,213.8,641.2
+190,5,21,38,Panen,N,5,Rendah,Rendah,Tidak perlu,0.0,0.0
+190,5,21,38,Panen,P,21,Rendah,Rendah,Tidak perlu,0.0,0.0
+190,5,21,38,Panen,K,38,Sedang,Rendah,Tidak perlu,0.0,0.0
+193,4,20,41,Pascapanen,N,4,Rendah,Sedang,Sedang,143.8,431.2
+193,4,20,41,Pascapanen,P,20,Rendah,Sedang,Sedang,61.2,183.8
+193,4,20,41,Pascapanen,K,41,Sedang,Sedang,Sedang,213.8,641.2
+193,4,20,41,Vegetatif,N,4,Rendah,Tinggi,Tinggi,431.2,575.0
+193,4,20,41,Vegetatif,P,20,Rendah,Sedang,Sedang,61.2,183.8
+193,4,20,41,Vegetatif,K,41,Sedang,Rendah,Tidak perlu,0.0,0.0
+193,4,20,41,Pembungaan,N,4,Rendah,Rendah,Tidak perlu,0.0,0.0
+193,4,20,41,Pembungaan,P,20,Rendah,Sedang,Sedang,61.2,183.8
+193,4,20,41,Pembungaan,K,41,Sedang,Sedang,Sedang,213.8,641.2
+193,4,20,41,Pembuahan,N,4,Rendah,Sedang,Sedang,143.8,431.2
+193,4,20,41,Pembuahan,P,20,Rendah,Sedang,Sedang,61.2,183.8
+193,4,20,41,Pembuahan,K,41,Sedang,Tinggi,Sedang,213.8,641.2
+193,4,20,41,Panen,N,4,Rendah,Rendah,Tidak perlu,0.0,0.0
+193,4,20,41,Panen,P,20,Rendah,Rendah,Tidak perlu,0.0,0.0
+193,4,20,41,Panen,K,41,Sedang,Rendah,Tidak perlu,0.0,0.0
+195,16,29,13,Pascapanen,N,16,Rendah,Sedang,Sedang,143.8,431.2
+195,16,29,13,Pascapanen,P,29,Sedang,Sedang,Sedang,61.2,183.8
+195,16,29,13,Pascapanen,K,13,Rendah,Sedang,Sedang,213.8,641.2
+195,16,29,13,Vegetatif,N,16,Rendah,Tinggi,Tinggi,431.2,575.0
+195,16,29,13,Vegetatif,P,29,Sedang,Sedang,Sedang,61.2,183.8
+195,16,29,13,Vegetatif,K,13,Rendah,Rendah,Tidak perlu,0.0,0.0
+195,16,29,13,Pembungaan,N,16,Rendah,Rendah,Tidak perlu,0.0,0.0
+195,16,29,13,Pembungaan,P,29,Sedang,Sedang,Sedang,61.2,183.8
+195,16,29,13,Pembungaan,K,13,Rendah,Sedang,Sedang,213.8,641.2
+195,16,29,13,Pembuahan,N,16,Rendah,Sedang,Sedang,143.8,431.2
+195,16,29,13,Pembuahan,P,29,Sedang,Sedang,Sedang,61.2,183.8
+195,16,29,13,Pembuahan,K,13,Rendah,Tinggi,Tinggi,641.2,855.0
+195,16,29,13,Panen,N,16,Rendah,Rendah,Tidak perlu,0.0,0.0
+195,16,29,13,Panen,P,29,Sedang,Rendah,Tidak perlu,0.0,0.0
+195,16,29,13,Panen,K,13,Rendah,Rendah,Tidak perlu,0.0,0.0
+205,40,22,29,Pascapanen,N,40,Sedang,Sedang,Sedang,143.8,431.2
+205,40,22,29,Pascapanen,P,22,Rendah,Sedang,Sedang,61.2,183.8
+205,40,22,29,Pascapanen,K,29,Rendah,Sedang,Sedang,213.8,641.2
+205,40,22,29,Vegetatif,N,40,Sedang,Tinggi,Sedang,143.8,431.2
+205,40,22,29,Vegetatif,P,22,Rendah,Sedang,Sedang,61.2,183.8
+205,40,22,29,Vegetatif,K,29,Rendah,Rendah,Tidak perlu,0.0,0.0
+205,40,22,29,Pembungaan,N,40,Sedang,Rendah,Tidak perlu,0.0,0.0
+205,40,22,29,Pembungaan,P,22,Rendah,Sedang,Sedang,61.2,183.8
+205,40,22,29,Pembungaan,K,29,Rendah,Sedang,Sedang,213.8,641.2
+205,40,22,29,Pembuahan,N,40,Sedang,Sedang,Sedang,143.8,431.2
+205,40,22,29,Pembuahan,P,22,Rendah,Sedang,Sedang,61.2,183.8
+205,40,22,29,Pembuahan,K,29,Rendah,Tinggi,Tinggi,641.2,855.0
+205,40,22,29,Panen,N,40,Sedang,Rendah,Tidak perlu,0.0,0.0
+205,40,22,29,Panen,P,22,Rendah,Rendah,Tidak perlu,0.0,0.0
+205,40,22,29,Panen,K,29,Rendah,Rendah,Tidak perlu,0.0,0.0
+209,9,29,34,Pascapanen,N,9,Rendah,Sedang,Sedang,143.8,431.2
+209,9,29,34,Pascapanen,P,29,Sedang,Sedang,Sedang,61.2,183.8
+209,9,29,34,Pascapanen,K,34,Sedang,Sedang,Sedang,213.8,641.2
+209,9,29,34,Vegetatif,N,9,Rendah,Tinggi,Tinggi,431.2,575.0
+209,9,29,34,Vegetatif,P,29,Sedang,Sedang,Sedang,61.2,183.8
+209,9,29,34,Vegetatif,K,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+209,9,29,34,Pembungaan,N,9,Rendah,Rendah,Tidak perlu,0.0,0.0
+209,9,29,34,Pembungaan,P,29,Sedang,Sedang,Sedang,61.2,183.8
+209,9,29,34,Pembungaan,K,34,Sedang,Sedang,Sedang,213.8,641.2
+209,9,29,34,Pembuahan,N,9,Rendah,Sedang,Sedang,143.8,431.2
+209,9,29,34,Pembuahan,P,29,Sedang,Sedang,Sedang,61.2,183.8
+209,9,29,34,Pembuahan,K,34,Sedang,Tinggi,Sedang,213.8,641.2
+209,9,29,34,Panen,N,9,Rendah,Rendah,Tidak perlu,0.0,0.0
+209,9,29,34,Panen,P,29,Sedang,Rendah,Tidak perlu,0.0,0.0
+209,9,29,34,Panen,K,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+213,38,24,33,Pascapanen,N,38,Sedang,Sedang,Sedang,143.8,431.2
+213,38,24,33,Pascapanen,P,24,Sedang,Sedang,Sedang,61.2,183.8
+213,38,24,33,Pascapanen,K,33,Sedang,Sedang,Sedang,213.8,641.2
+213,38,24,33,Vegetatif,N,38,Sedang,Tinggi,Sedang,143.8,431.2
+213,38,24,33,Vegetatif,P,24,Sedang,Sedang,Sedang,61.2,183.8
+213,38,24,33,Vegetatif,K,33,Sedang,Rendah,Tidak perlu,0.0,0.0
+213,38,24,33,Pembungaan,N,38,Sedang,Rendah,Tidak perlu,0.0,0.0
+213,38,24,33,Pembungaan,P,24,Sedang,Sedang,Sedang,61.2,183.8
+213,38,24,33,Pembungaan,K,33,Sedang,Sedang,Sedang,213.8,641.2
+213,38,24,33,Pembuahan,N,38,Sedang,Sedang,Sedang,143.8,431.2
+213,38,24,33,Pembuahan,P,24,Sedang,Sedang,Sedang,61.2,183.8
+213,38,24,33,Pembuahan,K,33,Sedang,Tinggi,Sedang,213.8,641.2
+213,38,24,33,Panen,N,38,Sedang,Rendah,Tidak perlu,0.0,0.0
+213,38,24,33,Panen,P,24,Sedang,Rendah,Tidak perlu,0.0,0.0
+213,38,24,33,Panen,K,33,Sedang,Rendah,Tidak perlu,0.0,0.0
+214,31,62,52,Pascapanen,N,31,Sedang,Sedang,Sedang,143.8,431.2
+214,31,62,52,Pascapanen,P,62,Tinggi,Sedang,Tidak perlu,0.0,0.0
+214,31,62,52,Pascapanen,K,52,Tinggi,Sedang,Tidak perlu,0.0,0.0
+214,31,62,52,Vegetatif,N,31,Sedang,Tinggi,Sedang,143.8,431.2
+214,31,62,52,Vegetatif,P,62,Tinggi,Sedang,Tidak perlu,0.0,0.0
+214,31,62,52,Vegetatif,K,52,Tinggi,Rendah,Tidak perlu,0.0,0.0
+214,31,62,52,Pembungaan,N,31,Sedang,Rendah,Tidak perlu,0.0,0.0
+214,31,62,52,Pembungaan,P,62,Tinggi,Sedang,Tidak perlu,0.0,0.0
+214,31,62,52,Pembungaan,K,52,Tinggi,Sedang,Tidak perlu,0.0,0.0
+214,31,62,52,Pembuahan,N,31,Sedang,Sedang,Sedang,143.8,431.2
+214,31,62,52,Pembuahan,P,62,Tinggi,Sedang,Tidak perlu,0.0,0.0
+214,31,62,52,Pembuahan,K,52,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+214,31,62,52,Panen,N,31,Sedang,Rendah,Tidak perlu,0.0,0.0
+214,31,62,52,Panen,P,62,Tinggi,Rendah,Tidak perlu,0.0,0.0
+214,31,62,52,Panen,K,52,Tinggi,Rendah,Tidak perlu,0.0,0.0
+229,111,88,55,Pascapanen,N,111,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Pascapanen,P,88,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Pascapanen,K,55,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Vegetatif,N,111,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+229,111,88,55,Vegetatif,P,88,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Vegetatif,K,55,Tinggi,Rendah,Tidak perlu,0.0,0.0
+229,111,88,55,Pembungaan,N,111,Tinggi,Rendah,Tidak perlu,0.0,0.0
+229,111,88,55,Pembungaan,P,88,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Pembungaan,K,55,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Pembuahan,N,111,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Pembuahan,P,88,Tinggi,Sedang,Tidak perlu,0.0,0.0
+229,111,88,55,Pembuahan,K,55,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+229,111,88,55,Panen,N,111,Tinggi,Rendah,Tidak perlu,0.0,0.0
+229,111,88,55,Panen,P,88,Tinggi,Rendah,Tidak perlu,0.0,0.0
+229,111,88,55,Panen,K,55,Tinggi,Rendah,Tidak perlu,0.0,0.0
+247,94,91,51,Pascapanen,N,94,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Pascapanen,P,91,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Pascapanen,K,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Vegetatif,N,94,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+247,94,91,51,Vegetatif,P,91,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Vegetatif,K,51,Tinggi,Rendah,Tidak perlu,0.0,0.0
+247,94,91,51,Pembungaan,N,94,Tinggi,Rendah,Tidak perlu,0.0,0.0
+247,94,91,51,Pembungaan,P,91,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Pembungaan,K,51,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Pembuahan,N,94,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Pembuahan,P,91,Tinggi,Sedang,Tidak perlu,0.0,0.0
+247,94,91,51,Pembuahan,K,51,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+247,94,91,51,Panen,N,94,Tinggi,Rendah,Tidak perlu,0.0,0.0
+247,94,91,51,Panen,P,91,Tinggi,Rendah,Tidak perlu,0.0,0.0
+247,94,91,51,Panen,K,51,Tinggi,Rendah,Tidak perlu,0.0,0.0
+254,33,29,34,Pascapanen,N,33,Sedang,Sedang,Sedang,143.8,431.2
+254,33,29,34,Pascapanen,P,29,Sedang,Sedang,Sedang,61.2,183.8
+254,33,29,34,Pascapanen,K,34,Sedang,Sedang,Sedang,213.8,641.2
+254,33,29,34,Vegetatif,N,33,Sedang,Tinggi,Sedang,143.8,431.2
+254,33,29,34,Vegetatif,P,29,Sedang,Sedang,Sedang,61.2,183.8
+254,33,29,34,Vegetatif,K,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+254,33,29,34,Pembungaan,N,33,Sedang,Rendah,Tidak perlu,0.0,0.0
+254,33,29,34,Pembungaan,P,29,Sedang,Sedang,Sedang,61.2,183.8
+254,33,29,34,Pembungaan,K,34,Sedang,Sedang,Sedang,213.8,641.2
+254,33,29,34,Pembuahan,N,33,Sedang,Sedang,Sedang,143.8,431.2
+254,33,29,34,Pembuahan,P,29,Sedang,Sedang,Sedang,61.2,183.8
+254,33,29,34,Pembuahan,K,34,Sedang,Tinggi,Sedang,213.8,641.2
+254,33,29,34,Panen,N,33,Sedang,Rendah,Tidak perlu,0.0,0.0
+254,33,29,34,Panen,P,29,Sedang,Rendah,Tidak perlu,0.0,0.0
+254,33,29,34,Panen,K,34,Sedang,Rendah,Tidak perlu,0.0,0.0
+296,4,14,41,Pascapanen,N,4,Rendah,Sedang,Sedang,143.8,431.2
+296,4,14,41,Pascapanen,P,14,Rendah,Sedang,Sedang,61.2,183.8
+296,4,14,41,Pascapanen,K,41,Sedang,Sedang,Sedang,213.8,641.2
+296,4,14,41,Vegetatif,N,4,Rendah,Tinggi,Tinggi,431.2,575.0
+296,4,14,41,Vegetatif,P,14,Rendah,Sedang,Sedang,61.2,183.8
+296,4,14,41,Vegetatif,K,41,Sedang,Rendah,Tidak perlu,0.0,0.0
+296,4,14,41,Pembungaan,N,4,Rendah,Rendah,Tidak perlu,0.0,0.0
+296,4,14,41,Pembungaan,P,14,Rendah,Sedang,Sedang,61.2,183.8
+296,4,14,41,Pembungaan,K,41,Sedang,Sedang,Sedang,213.8,641.2
+296,4,14,41,Pembuahan,N,4,Rendah,Sedang,Sedang,143.8,431.2
+296,4,14,41,Pembuahan,P,14,Rendah,Sedang,Sedang,61.2,183.8
+296,4,14,41,Pembuahan,K,41,Sedang,Tinggi,Sedang,213.8,641.2
+296,4,14,41,Panen,N,4,Rendah,Rendah,Tidak perlu,0.0,0.0
+296,4,14,41,Panen,P,14,Rendah,Rendah,Tidak perlu,0.0,0.0
+296,4,14,41,Panen,K,41,Sedang,Rendah,Tidak perlu,0.0,0.0
+319,102,71,48,Pascapanen,N,102,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Pascapanen,P,71,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Pascapanen,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Vegetatif,N,102,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+319,102,71,48,Vegetatif,P,71,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Vegetatif,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+319,102,71,48,Pembungaan,N,102,Tinggi,Rendah,Tidak perlu,0.0,0.0
+319,102,71,48,Pembungaan,P,71,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Pembungaan,K,48,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Pembuahan,N,102,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Pembuahan,P,71,Tinggi,Sedang,Tidak perlu,0.0,0.0
+319,102,71,48,Pembuahan,K,48,Tinggi,Tinggi,Tidak perlu,0.0,0.0
+319,102,71,48,Panen,N,102,Tinggi,Rendah,Tidak perlu,0.0,0.0
+319,102,71,48,Panen,P,71,Tinggi,Rendah,Tidak perlu,0.0,0.0
+319,102,71,48,Panen,K,48,Tinggi,Rendah,Tidak perlu,0.0,0.0
+351,18,19,27,Pascapanen,N,18,Rendah,Sedang,Sedang,143.8,431.2
+351,18,19,27,Pascapanen,P,19,Rendah,Sedang,Sedang,61.2,183.8
+351,18,19,27,Pascapanen,K,27,Rendah,Sedang,Sedang,213.8,641.2
+351,18,19,27,Vegetatif,N,18,Rendah,Tinggi,Tinggi,431.2,575.0
+351,18,19,27,Vegetatif,P,19,Rendah,Sedang,Sedang,61.2,183.8
+351,18,19,27,Vegetatif,K,27,Rendah,Rendah,Tidak perlu,0.0,0.0
+351,18,19,27,Pembungaan,N,18,Rendah,Rendah,Tidak perlu,0.0,0.0
+351,18,19,27,Pembungaan,P,19,Rendah,Sedang,Sedang,61.2,183.8
+351,18,19,27,Pembungaan,K,27,Rendah,Sedang,Sedang,213.8,641.2
+351,18,19,27,Pembuahan,N,18,Rendah,Sedang,Sedang,143.8,431.2
+351,18,19,27,Pembuahan,P,19,Rendah,Sedang,Sedang,61.2,183.8
+351,18,19,27,Pembuahan,K,27,Rendah,Tinggi,Tinggi,641.2,855.0
+351,18,19,27,Panen,N,18,Rendah,Rendah,Tidak perlu,0.0,0.0
+351,18,19,27,Panen,P,19,Rendah,Rendah,Tidak perlu,0.0,0.0
+351,18,19,27,Panen,K,27,Rendah,Rendah,Tidak perlu,0.0,0.0

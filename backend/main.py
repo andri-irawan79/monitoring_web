@@ -44,13 +44,13 @@ def prepare_application_tables():
     inspector = inspect(engine)
     if not inspector.has_table("monitoring"):
         raise RuntimeError(
-            "Tabel 'monitoring' belum tersedia. Siapkan skema monitoring "
-            "yang digunakan aplikasi sebelum menjalankan server."
+            "Tabel 'monitoring' belum tersedia. Jalankan migrations/000_base_schema.sql "
+            "(atau docker compose up) sebelum menjalankan server."
         )
     if not inspector.has_table("rekomendasi"):
         raise RuntimeError(
-            "Tabel 'rekomendasi' belum tersedia. Siapkan skema rekomendasi "
-            "yang digunakan aplikasi sebelum menjalankan server."
+            "Tabel 'rekomendasi' belum tersedia. Jalankan migrations/000_base_schema.sql "
+            "(atau docker compose up) sebelum menjalankan server."
         )
 
     # Create the new session table if needed; all owner columns are nullable
@@ -107,6 +107,17 @@ def prepare_application_tables():
             "ALTER COLUMN dosis DROP NOT NULL, "
             "ALTER COLUMN kategori DROP NOT NULL"
         ))
+
+        # Route riwayat, terbaru, dan hapus melakukan JOIN ke tabel arsip ini. Sebelumnya tabel
+        # hanya dibuat oleh migrasi 001, sehingga instalasi baru error. Idempoten dan sama dengan 001/000.
+        connection.execute(text("""
+            CREATE TABLE IF NOT EXISTS public.rekomendasi_varietas_archive (
+                rekomendasi_id INTEGER PRIMARY KEY,
+                varietas_id_lama INTEGER,
+                nama_varietas_lama VARCHAR(150),
+                archived_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+            )
+        """))
 
         connection.execute(text(
             "ALTER TABLE simulation_sessions "

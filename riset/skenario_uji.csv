@@ -1,0 +1,56 @@
+id,kelompok,tujuan,jenis,N,P,K,ph,soil_moisture,temperature,humidity,rainfall
+SK-01,A. Batas hara,N = 0 (minimum buah); variabel lain median,valid,0,27,35,6.0,20.0,27.5,90.0,109.0
+SK-02,A. Batas hara,N = 15 (kuartil 25%); variabel lain median,valid,15,27,35,6.0,20.0,27.5,90.0,109.0
+SK-03,A. Batas hara,N = 31 (median); variabel lain median,valid,31,27,35,6.0,20.0,27.5,90.0,109.0
+SK-04,A. Batas hara,N = 49 (kuartil 75%); variabel lain median,valid,49,27,35,6.0,20.0,27.5,90.0,109.0
+SK-05,A. Batas hara,N = 108 (persentil 95%); variabel lain median,valid,108,27,35,6.0,20.0,27.5,90.0,109.0
+SK-06,A. Batas hara,N = 140 (maksimum seluruh data); variabel lain median,valid,140,27,35,6.0,20.0,27.5,90.0,109.0
+SK-07,A. Batas hara,P = 5 (minimum buah); variabel lain median,valid,31,5,35,6.0,20.0,27.5,90.0,109.0
+SK-08,A. Batas hara,P = 17 (kuartil 25%); variabel lain median,valid,31,17,35,6.0,20.0,27.5,90.0,109.0
+SK-09,A. Batas hara,P = 27 (median); variabel lain median,valid,31,27,35,6.0,20.0,27.5,90.0,109.0
+SK-10,A. Batas hara,P = 60 (kuartil 75%); variabel lain median,valid,31,60,35,6.0,20.0,27.5,90.0,109.0
+SK-11,A. Batas hara,P = 87 (persentil 95%); variabel lain median,valid,31,87,35,6.0,20.0,27.5,90.0,109.0
+SK-12,A. Batas hara,P = 145 (maksimum seluruh data); variabel lain median,valid,31,145,35,6.0,20.0,27.5,90.0,109.0
+SK-13,A. Batas hara,K = 5 (minimum buah); variabel lain median,valid,31,27,5,6.0,20.0,27.5,90.0,109.0
+SK-14,A. Batas hara,K = 27 (kuartil 25%); variabel lain median,valid,31,27,27,6.0,20.0,27.5,90.0,109.0
+SK-15,A. Batas hara,K = 35 (median); variabel lain median,valid,31,27,35,6.0,20.0,27.5,90.0,109.0
+SK-16,A. Batas hara,K = 47 (kuartil 75%); variabel lain median,valid,31,27,47,6.0,20.0,27.5,90.0,109.0
+SK-17,A. Batas hara,K = 54 (persentil 95%); variabel lain median,valid,31,27,54,6.0,20.0,27.5,90.0,109.0
+SK-18,A. Batas hara,K = 205 (maksimum seluruh data); variabel lain median,valid,31,27,205,6.0,20.0,27.5,90.0,109.0
+SK-19,B. Kombinasi hara,Semua hara rendah,valid,0,5,5,6.0,20.0,27.5,90.0,109.0
+SK-20,B. Kombinasi hara,Semua hara sedang (median),valid,31,27,35,6.0,20.0,27.5,90.0,109.0
+SK-21,B. Kombinasi hara,Semua hara tinggi,valid,108,87,54,6.0,20.0,27.5,90.0,109.0
+SK-22,B. Kombinasi hara,"N rendah, P tinggi, K sedang",valid,0,87,35,6.0,20.0,27.5,90.0,109.0
+SK-23,B. Kombinasi hara,"N tinggi, P rendah, K sedang",valid,108,5,35,6.0,20.0,27.5,90.0,109.0
+SK-24,B. Kombinasi hara,"N sedang, P sedang, K rendah",valid,31,27,5,6.0,20.0,27.5,90.0,109.0
+SK-25,C. pH,pH = 4.0; hara median,valid,31,27,35,4.0,20.0,27.5,90.0,109.0
+SK-26,C. pH,pH = 4.5; hara median,valid,31,27,35,4.5,20.0,27.5,90.0,109.0
+SK-27,C. pH,pH = 4.8; hara median,valid,31,27,35,4.8,20.0,27.5,90.0,109.0
+SK-28,C. pH,pH = 5.0; hara median,valid,31,27,35,5.0,20.0,27.5,90.0,109.0
+SK-29,C. pH,pH = 5.3; hara median,valid,31,27,35,5.3,20.0,27.5,90.0,109.0
+SK-30,C. pH,pH = 5.5; hara median,valid,31,27,35,5.5,20.0,27.5,90.0,109.0
+SK-31,C. pH,pH = 6.0; hara median,valid,31,27,35,6.0,20.0,27.5,90.0,109.0
+SK-32,C. pH,pH = 6.5; hara median,valid,31,27,35,6.5,20.0,27.5,90.0,109.0
+SK-33,C. pH,pH = 6.8; hara median,valid,31,27,35,6.8,20.0,27.5,90.0,109.0
+SK-34,C. pH,pH = 7.0; hara median,valid,31,27,35,7.0,20.0,27.5,90.0,109.0
+SK-35,C. pH,pH = 7.5; hara median,valid,31,27,35,7.5,20.0,27.5,90.0,109.0
+SK-36,C. pH,pH = 8.0; hara median,valid,31,27,35,8.0,20.0,27.5,90.0,109.0
+SK-37,C. pH,pH = 9.0; hara median,valid,31,27,35,9.0,20.0,27.5,90.0,109.0
+SK-38,D. Kelembapan tanah,Kelembapan tanah = 10%; hara median,valid,31,27,35,6.0,10.0,27.5,90.0,109.0
+SK-39,D. Kelembapan tanah,Kelembapan tanah = 12%; hara median,valid,31,27,35,6.0,12.0,27.5,90.0,109.0
+SK-40,D. Kelembapan tanah,Kelembapan tanah = 15%; hara median,valid,31,27,35,6.0,15.0,27.5,90.0,109.0
+SK-41,D. Kelembapan tanah,Kelembapan tanah = 18%; hara median,valid,31,27,35,6.0,18.0,27.5,90.0,109.0
+SK-42,D. Kelembapan tanah,Kelembapan tanah = 20%; hara median,valid,31,27,35,6.0,20.0,27.5,90.0,109.0
+SK-43,D. Kelembapan tanah,Kelembapan tanah = 25%; hara median,valid,31,27,35,6.0,25.0,27.5,90.0,109.0
+SK-44,D. Kelembapan tanah,Kelembapan tanah = 28%; hara median,valid,31,27,35,6.0,28.0,27.5,90.0,109.0
+SK-45,D. Kelembapan tanah,Kelembapan tanah = 30%; hara median,valid,31,27,35,6.0,30.0,27.5,90.0,109.0
+SK-46,E. Kombinasi kondisi,pH masam dan hara rendah,valid,0,5,5,4.8,20.0,27.5,90.0,109.0
+SK-47,E. Kombinasi kondisi,pH basa dan hara rendah,valid,0,5,5,8.0,20.0,27.5,90.0,109.0
+SK-48,E. Kombinasi kondisi,Tanah kering dan hara tinggi,valid,108,87,54,6.0,10.0,27.5,90.0,109.0
+SK-49,E. Kombinasi kondisi,Tanah basah dan pH optimal,valid,31,27,35,6.0,30.0,27.5,90.0,109.0
+SK-50,F. Lingkungan,Curah hujan tinggi (catatan pecah dosis),valid,31,27,35,6.0,20.0,27.5,90.0,250.0
+SK-51,F. Lingkungan,"Curah hujan sangat tinggi, suhu tinggi",valid,31,27,35,6.0,20.0,35.0,95.0,300.0
+SK-52,G. Tidak valid,N negatif,tidak_valid,-5,27,35,6.0,20.0,27.5,90.0,109.0
+SK-53,G. Tidak valid,pH di luar 0-14,tidak_valid,31,27,35,15.0,20.0,27.5,90.0,109.0
+SK-54,G. Tidak valid,Kelembapan tanah > 100%,tidak_valid,31,27,35,6.0,150.0,27.5,90.0,109.0
+SK-55,G. Tidak valid,Nilai kosong (P),tidak_valid,31,,35,6.0,20.0,27.5,90.0,109.0

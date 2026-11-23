@@ -1,0 +1,568 @@
+{
+ "acuan_ph": {
+  "Basa": {
+   "belerang": "Diperlukan",
+   "dolomit": "Tidak diperlukan"
+  },
+  "Masam": {
+   "belerang": "Tidak diperlukan",
+   "dolomit": "Diperlukan"
+  },
+  "Normal": {
+   "belerang": "Tidak diperlukan",
+   "dolomit": "Tidak diperlukan"
+  },
+  "batas": {
+   "Basa": "pH > 7,25",
+   "Masam": "pH <= 5,0",
+   "Normal": "5,0 < pH <= 7,25"
+  },
+  "fase_Panen": "Dolomit dan Belerang tidak ditampilkan"
+ },
+ "batas_kelas": {
+  "K": [
+   31.0,
+   41.0
+  ],
+  "N": [
+   23.0,
+   40.0
+  ],
+  "P": [
+   22.0,
+   43.5
+  ]
+ },
+ "catatan": [
+  "pH < 5,5 atau pH > 6,5",
+  "status kelembapan Kering atau Basah (derajat tertinggi)",
+  "curah hujan > 200 mm",
+  "seluruh dosis = 0"
+ ],
+ "dref_g_hara": {
+  "K": 855.0,
+  "N": 575.0,
+  "P": 245.0
+ },
+ "himpunan_abc": {
+  "K": [
+   27,
+   35,
+   47
+  ],
+  "N": [
+   15,
+   31,
+   49
+  ],
+  "P": [
+   17,
+   27,
+   60
+  ]
+ },
+ "kategori_sistem_dari_Z": {
+  "Sedang": "10 <= Z < 75",
+  "Tidak perlu": "Z < 10",
+  "Tinggi": "Z >= 75"
+ },
+ "tabel": [
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 431.2,
+   "g_hara_min": 143.8,
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 431.2,
+   "g_hara_min": 143.8,
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 641.2,
+   "g_hara_min": 213.8,
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 641.2,
+   "g_hara_min": 213.8,
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pascapanen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 575.0,
+   "g_hara_min": 431.2,
+   "hara": "N",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 75,
+   "prioritas": "Tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 431.2,
+   "g_hara_min": 143.8,
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Vegetatif",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 641.2,
+   "g_hara_min": 213.8,
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 641.2,
+   "g_hara_min": 213.8,
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembungaan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 431.2,
+   "g_hara_min": 143.8,
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 431.2,
+   "g_hara_min": 143.8,
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 183.8,
+   "g_hara_min": 61.2,
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 855.0,
+   "g_hara_min": 641.2,
+   "hara": "K",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 75,
+   "prioritas": "Tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 641.2,
+   "g_hara_min": 213.8,
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 75,
+   "persen_dref_min": 25,
+   "prioritas": "Tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembuahan",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Panen",
+   "g_hara_maks": 0.0,
+   "g_hara_min": 0.0,
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "Rendah",
+   "status": "Tinggi"
+  }
+ ],
+ "tanggal": "2026-11-19",
+ "versi": "1.0"
+}

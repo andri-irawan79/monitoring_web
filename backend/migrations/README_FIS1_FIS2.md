@@ -23,7 +23,7 @@
 
 ## Catatan batasan data
 
-Model monitoring proyek saat ini memiliki `humidity` (kelembapan udara), tetapi belum mempunyai `soil_moisture` (kelembapan tanah). Keduanya tidak boleh dipertukarkan. Karena itu, rekomendasi FIS-1/FIS-2 hanya menggunakan N, P, K, dan pH; catatan kelembapan tanah dari proyek acuan dilewati sampai tersedia kolom kelembapan tanah tersendiri. Kelembapan udara tetap disimpan sebagai konteks monitoring dan tidak dimasukkan ke fungsi kelembapan tanah.
+Model monitoring memiliki `humidity` (kelembapan udara) **dan** `soil_moisture` (kelembapan tanah, migrasi 003). Keduanya tidak boleh dipertukarkan. Mesin fuzzy memakai N, P, K, dan pH untuk dosis; `soil_moisture` hanya dipakai untuk status dan catatan (Kering atau Basah), tidak mengubah dosis (BAB III subbab 3.6.5). Bila `soil_moisture` kosong (data lama), rekomendasi tetap dihitung dan respons memuat peringatan parameter bahwa catatan kelembapan dilewati. Kelembapan udara tetap disimpan sebagai konteks monitoring dan tidak dimasukkan ke fungsi kelembapan tanah.
 
 Profil A dan B, D_ref, persentase kandungan pupuk, ambang hujan, serta bentuk fungsi keanggotaan mengikuti ZIP acuan. D_ref dan rentang dosis Dolomit/Belerang pada sumber acuan masih memerlukan verifikasi agronomi. Nilai tersebut tidak boleh ditafsirkan sebagai dosis lapangan tervalidasi sebelum sumber dan satuannya dipastikan.
 
