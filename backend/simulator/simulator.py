@@ -69,7 +69,7 @@ SAMPLE_QUOTAS = {
     "pomegranate": 60,
 }
 EXPECTED_FRUIT_ROWS = 600
-INTERVAL_SECONDS = float(os.getenv("SIMULATOR_INTERVAL_SECONDS", "2"))
+INTERVAL_SECONDS = float(os.getenv("SIMULATOR_INTERVAL_SECONDS", "5"))
 START_DATE = date.fromisoformat(
     os.getenv("SIMULATOR_START_DATE", "2026-01-01")
 )
