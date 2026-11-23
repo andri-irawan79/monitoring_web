@@ -39,7 +39,7 @@ jobs:
               psql -h localhost -U postgres -d monitoring_durian -v ON_ERROR_STOP=1 -q -f backend/migrations/$f.sql
             done
           done
-          psql -h localhost -U postgres -d monitoring_durian -v ON_ERROR_STOP=1 -q -c "DO $ BEGIN IF to_regclass('public.rekomendasi_varietas_archive') IS NULL OR to_regclass('public.rekomendasi_detail') IS NULL THEN RAISE EXCEPTION 'Migrasi wajib belum membuat tabel'; END IF; END $;"
+          psql -h localhost -U postgres -d monitoring_durian -v ON_ERROR_STOP=1 -q -c "SELECT 1 / CASE WHEN to_regclass('public.rekomendasi_varietas_archive') IS NOT NULL AND to_regclass('public.rekomendasi_detail') IS NOT NULL THEN 1 ELSE 0 END;"
 
   frontend:
     runs-on: ubuntu-latest
