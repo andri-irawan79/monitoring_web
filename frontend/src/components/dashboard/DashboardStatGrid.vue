@@ -11,9 +11,9 @@ const safeFixed = (value, digits = 2) => {
 
 <template>
   <div v-if="monitoring" class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-    <StatCard title="Nitrogen" :value="safeFixed(monitoring.nitrogen)" unit="mg/kg" :icon="Leaf" color="emerald" />
-    <StatCard title="Fosfor" :value="safeFixed(monitoring.phosphorus)" unit="mg/kg" :icon="FlaskConical" color="blue" />
-    <StatCard title="Kalium" :value="safeFixed(monitoring.potassium)" unit="mg/kg" :icon="Droplets" color="amber" />
+    <StatCard title="Nitrogen" :value="safeFixed(monitoring.nitrogen)" unit="ppm" :icon="Leaf" color="emerald" />
+    <StatCard title="Fosfor" :value="safeFixed(monitoring.phosphorus)" unit="ppm" :icon="FlaskConical" color="blue" />
+    <StatCard title="Kalium" :value="safeFixed(monitoring.potassium)" unit="ppm" :icon="Droplets" color="amber" />
     <StatCard title="pH Tanah" :value="safeFixed(monitoring.ph, 2)" unit="Skala pH" :icon="Waves" color="violet" />
     <StatCard title="Suhu" :value="safeFixed(monitoring.temperature)" unit="°C" :icon="Thermometer" color="orange" />
     <StatCard title="Kelembapan Udara" :value="safeFixed(monitoring.humidity)" unit="%" :icon="Droplets" color="cyan" />
