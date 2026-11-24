@@ -15,6 +15,7 @@ from schemas.monitoring import MonitoringCreate
 from schemas.simulation_session import SimulationSessionFinish
 from simulator_process import start_simulator_process, stop_simulator_process
 from fuzzy.membership import status_monitoring
+from services.monitoring_query import exclude_scenario_monitoring
 
 
 router = APIRouter()
@@ -26,6 +27,7 @@ SIMULATOR_SESSION_TIMEOUT_SECONDS = float(
     os.getenv("SIMULATOR_SESSION_TIMEOUT_SECONDS", "45")
 )
 SIMULATOR_RECORD_TARGET = 365
+SCENARIO_RECORD_TARGET = 51
 
 
 def _fuzzy_status(data):
@@ -76,7 +78,7 @@ def _session_payload(session):
     }
 
 
-def _create_session(db, mode, user_id):
+def _create_session(db, mode, user_id, target_count=SIMULATOR_RECORD_TARGET):
     active = (
         db.query(SimulationSession)
         .filter(
@@ -115,7 +117,7 @@ def _create_session(db, mode, user_id):
         user_id=user_id,
         mode=mode,
         status="running",
-        target_count=SIMULATOR_RECORD_TARGET,
+        target_count=target_count,
         received_count=0,
         started_at=datetime.utcnow(),
     )
@@ -138,8 +140,9 @@ def latest_monitoring(current_user: User = Depends(get_current_user)):
 
     try:
         data = (
-            db.query(Monitoring)
-            .filter(Monitoring.user_id == current_user.id)
+            exclude_scenario_monitoring(
+                db.query(Monitoring).filter(Monitoring.user_id == current_user.id)
+            )
             .order_by(Monitoring.id.desc())
             .first()
         )
@@ -172,8 +175,9 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
 
     try:
         data = (
-            db.query(Monitoring)
-            .filter(Monitoring.user_id == current_user.id)
+            exclude_scenario_monitoring(
+                db.query(Monitoring).filter(Monitoring.user_id == current_user.id)
+            )
             .order_by(Monitoring.id.desc())
             .all()
         )
@@ -211,14 +215,15 @@ def simulator_status(
 
     try:
         latest = (
-            db.query(
-                Monitoring.created_at,
-                func.extract(
-                    "epoch",
-                    func.now().cast(DateTime(timezone=False)) - Monitoring.created_at
-                ).label("age_seconds"),
+            exclude_scenario_monitoring(
+                db.query(
+                    Monitoring.created_at,
+                    func.extract(
+                        "epoch",
+                        func.now().cast(DateTime(timezone=False)) - Monitoring.created_at
+                    ).label("age_seconds"),
+                ).filter(Monitoring.user_id == current_user.id)
             )
-            .filter(Monitoring.user_id == current_user.id)
             .order_by(Monitoring.id.desc())
             .first()
         )
@@ -265,7 +270,10 @@ def simulation_session_status(
     try:
         session = (
             db.query(SimulationSession)
-            .filter(SimulationSession.user_id == current_user.id)
+            .filter(
+                SimulationSession.user_id == current_user.id,
+                SimulationSession.mode != "scenario",
+            )
             .order_by(SimulationSession.started_at.desc())
             .first()
         )
@@ -351,6 +359,27 @@ def start_terminal_simulation(
         session = _create_session(db, "terminal", current_user.id)
         return {
             "message": "Sesi simulasi Git Bash berhasil dibuat.",
+            "session": _session_payload(session),
+        }
+    finally:
+        db.close()
+
+
+@router.post("/sessions/scenario/start")
+def start_scenario_simulation(
+    current_user: User = Depends(get_current_user),
+):
+    """Create an isolated 55-scenario validation session (51 valid records)."""
+    db = SessionLocal()
+    try:
+        session = _create_session(
+            db,
+            mode="scenario",
+            user_id=current_user.id,
+            target_count=SCENARIO_RECORD_TARGET,
+        )
+        return {
+            "message": "Sesi uji 55 skenario berhasil dibuat.",
             "session": _session_payload(session),
         }
     finally:

@@ -9,7 +9,7 @@ class SimulationSession(Base):
 
     id = Column(String(36), primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
-    mode = Column(String(16), nullable=False)  # website | terminal
+    mode = Column(String(16), nullable=False)  # website | terminal | scenario
     status = Column(
         String(16),
         nullable=False,

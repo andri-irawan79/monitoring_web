@@ -41,3 +41,19 @@ beserta migrasi pada PostgreSQL sungguhan dan build frontend.
 - Parameter fuzzy ada di `backend/fuzzy/parameter.py` (profil A kuartil data buah; profil B batas pedoman uji tanah untuk uji sensitivitas).
 - Nilai Dolomit/Belerang masih indikatif (belum bersumber); lihat `parameter_warnings` pada respons rekomendasi.
 - Ganti semua nilai rahasia sebelum penerapan; gunakan HTTPS.
+
+
+## Mode uji 55 skenario API
+
+Mode ini menguji validasi endpoint monitoring menggunakan 55 kasus pada `riset/skenario_uji.csv`.
+Jalankan dari direktori root repository:
+
+```bash
+python backend/simulator/simulator.py --uji
+```
+
+Simulator meminta autentikasi akun, membuat sesi khusus dengan target 51 record, mengharapkan
+51 respons HTTP 200 dan 4 respons HTTP 422 pada field yang ditentukan. Data uji disimpan dalam
+sesi `scenario` dan dikecualikan dari ringkasan, monitoring, serta riwayat rekomendasi normal.
+Mode simulasi normal 365 record tetap dijalankan tanpa argumen `--uji`.
+Untuk jeda antar pengiriman, gunakan `--interval 0.2`; default mode uji adalah tanpa jeda.

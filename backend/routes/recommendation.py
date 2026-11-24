@@ -32,6 +32,12 @@ BASE_SELECT = """
     JOIN fase_pertumbuhan f ON r.fase_id = f.id
     LEFT JOIN public.rekomendasi_varietas_archive va ON va.rekomendasi_id = r.id
     WHERE r.user_id = :user_id
+      AND NOT EXISTS (
+          SELECT 1
+          FROM simulation_sessions ss
+          WHERE ss.id = m.simulation_session_id
+            AND ss.mode = 'scenario'
+      )
 """
 
 
