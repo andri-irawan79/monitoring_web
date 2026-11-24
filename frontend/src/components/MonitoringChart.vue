@@ -105,7 +105,7 @@ const chartOptions = {
       displayColors: true,
       usePointStyle: true,
       callbacks: {
-        label: context => ` ${context.dataset.label}: ${Number(context.parsed.y).toFixed(2)} mg/kg`
+        label: context => ` ${context.dataset.label}: ${Number(context.parsed.y).toFixed(2)} ppm`
       }
     }
   },
