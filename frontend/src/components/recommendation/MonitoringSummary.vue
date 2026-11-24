@@ -10,9 +10,9 @@ const fmt = value => {
 };
 
 const items = [
-  { key: "nitrogen", label: "Nitrogen", unit: "mg/kg", icon: Leaf, tone: "emerald" },
-  { key: "phosphorus", label: "Fosfor", unit: "mg/kg", icon: FlaskConical, tone: "blue" },
-  { key: "potassium", label: "Kalium", unit: "mg/kg", icon: Droplets, tone: "amber" },
+  { key: "nitrogen", label: "Nitrogen", unit: "ppm", icon: Leaf, tone: "emerald" },
+  { key: "phosphorus", label: "Fosfor", unit: "ppm", icon: FlaskConical, tone: "blue" },
+  { key: "potassium", label: "Kalium", unit: "ppm", icon: Droplets, tone: "amber" },
   { key: "ph", label: "pH Tanah", unit: "skala pH", icon: Waves, tone: "violet" }
 ];
 
