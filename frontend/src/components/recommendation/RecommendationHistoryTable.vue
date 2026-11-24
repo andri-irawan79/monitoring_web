@@ -136,9 +136,9 @@ function fertilizerSummary(item) {
           <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
               <th class="px-4 py-3.5">Tanggal</th>
-              <th class="px-4 py-3.5">N</th>
-              <th class="px-4 py-3.5">P</th>
-              <th class="px-4 py-3.5">K</th>
+              <th class="px-4 py-3.5">N (ppm)</th>
+              <th class="px-4 py-3.5">P (ppm)</th>
+              <th class="px-4 py-3.5">K (ppm)</th>
               <th class="px-4 py-3.5">pH</th>
               <th class="px-4 py-3.5">Kelembapan Tanah</th>
               <th class="px-4 py-3.5">Objek Tanaman</th>
