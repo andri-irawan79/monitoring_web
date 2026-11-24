@@ -30,7 +30,7 @@ const recordCount = computed(() => Math.min(props.data.length, 30));
     </div>
 
     <p class="mt-auto pt-3 text-[11px] leading-5 text-slate-400">
-      Sumbu vertikal menunjukkan konsentrasi unsur hara (mg/kg). Arah garis membantu melihat perubahan antar data simulasi.
+      Sumbu vertikal menunjukkan konsentrasi unsur hara (ppm). Arah garis membantu melihat perubahan antar data simulasi.
     </p>
   </section>
 </template>
