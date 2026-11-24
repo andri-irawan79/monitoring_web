@@ -7,9 +7,9 @@ defineProps({
 });
 
 const metrics = [
-  { key: "avg_nitrogen", label: "Rata-rata Nitrogen", short: "N", unit: "mg/kg", tone: "emerald" },
-  { key: "avg_phosphorus", label: "Rata-rata Fosfor", short: "P", unit: "mg/kg", tone: "blue" },
-  { key: "avg_potassium", label: "Rata-rata Kalium", short: "K", unit: "mg/kg", tone: "amber" },
+  { key: "avg_nitrogen", label: "Rata-rata Nitrogen", short: "N", unit: "ppm", tone: "emerald" },
+  { key: "avg_phosphorus", label: "Rata-rata Fosfor", short: "P", unit: "ppm", tone: "blue" },
+  { key: "avg_potassium", label: "Rata-rata Kalium", short: "K", unit: "ppm", tone: "amber" },
   { key: "avg_ph", label: "Rata-rata pH", short: "pH", unit: "skala pH", tone: "violet" }
 ];
 
