@@ -8,9 +8,9 @@ const props = defineProps({ monitoring: { type: Object, default: null } });
 const nutrients = computed(() => {
   if (!props.monitoring) return [];
   const items = [
-    { key: "nitrogen", label: "Nitrogen", short: "N", value: Number(props.monitoring.nitrogen), unit: "mg/kg" },
-    { key: "phosphorus", label: "Fosfor", short: "P", value: Number(props.monitoring.phosphorus), unit: "mg/kg" },
-    { key: "potassium", label: "Kalium", short: "K", value: Number(props.monitoring.potassium), unit: "mg/kg" },
+    { key: "nitrogen", label: "Nitrogen", short: "N", value: Number(props.monitoring.nitrogen), unit: "ppm" },
+    { key: "phosphorus", label: "Fosfor", short: "P", value: Number(props.monitoring.phosphorus), unit: "ppm" },
+    { key: "potassium", label: "Kalium", short: "K", value: Number(props.monitoring.potassium), unit: "ppm" },
     { key: "ph", label: "pH Tanah", short: "pH", value: Number(props.monitoring.ph), unit: "skala pH" }
   ];
   if (props.monitoring.soil_moisture !== null && props.monitoring.soil_moisture !== undefined) {
