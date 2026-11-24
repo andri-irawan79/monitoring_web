@@ -183,7 +183,7 @@ def export_csv(current_user: User = Depends(get_current_user)):
         output = io.StringIO(newline="")
         writer = csv.writer(output)
         writer.writerow([
-            "Tanggal", "Nitrogen (mg/kg)", "Fosfor (mg/kg)", "Kalium (mg/kg)", "pH",
+            "Tanggal", "Nitrogen (ppm)", "Fosfor (ppm)", "Kalium (ppm)", "pH",
             "Temperatur (°C)", "Kelembapan udara (%)", "Kelembapan tanah (%)", "Curah hujan (mm)",
             "Objek tanaman", "Fase", "Kode pupuk", "Jenis pupuk", "Dosis", "Satuan",
             "Dosis minimum (g/pohon)", "Dosis maksimum (g/pohon)", "Kategori", "Direkomendasikan", "Catatan",
