@@ -13,6 +13,7 @@ import { exportRecommendationCSV } from "../../services/recommendationService";
 
 const props = defineProps({
   recommendations: { type: Array, default: () => [] },
+  totalCount: { type: Number, default: null },
   deletingId: { type: [Number, String], default: null }
 });
 const emit = defineEmits(["delete"]);
@@ -21,17 +22,40 @@ const search = ref("");
 const currentPage = ref(1);
 const perPage = 10;
 
+function formatStoredTimestamp(value) {
+  if (!value) return "—";
+  const match = String(value).match(
+    /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/
+  );
+  if (!match) return String(value);
+  const [, year, month, day, hour, minute, second = "00"] = match;
+  const date = new Date(Number(year), Number(month) - 1, Number(day));
+  const dateLabel = new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(date);
+  return `${dateLabel}, ${hour}:${minute}:${second}`;
+}
+
 const filteredRecommendations = computed(() => {
   const term = search.value.trim().toLowerCase();
-
   return term
     ? props.recommendations.filter((item) =>
-        String(item.created_at || "").toLowerCase().includes(term)
+        [String(item.created_at || ""), formatStoredTimestamp(item.created_at)]
+          .join(" ").toLowerCase().includes(term)
       )
     : props.recommendations;
 });
 
 const totalItems = computed(() => filteredRecommendations.value.length);
+const totalStored = computed(() => {
+  if (props.totalCount === null || props.totalCount === undefined) {
+    return props.recommendations.length;
+  }
+  const count = Number(props.totalCount);
+  return Number.isFinite(count) ? Math.max(0, count) : props.recommendations.length;
+});
 const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / perPage)));
 const paginatedData = computed(() =>
   filteredRecommendations.value.slice(
@@ -123,7 +147,8 @@ function fertilizerSummary(item) {
         <span class="font-semibold text-slate-700">{{ startItem }}–{{ endItem }}</span>
         dari
         <span class="font-semibold text-slate-700">{{ totalItems }}</span>
-        data
+        {{ search ? "hasil pencarian pada 10 rekomendasi terbaru" : "rekomendasi terbaru" }}
+        <span v-if="totalStored > recommendations.length" class="ml-1 text-slate-400">· Total tersimpan: {{ totalStored }}</span>
       </p>
       <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
         10 data per halaman
@@ -135,7 +160,7 @@ function fertilizerSummary(item) {
         <table class="min-w-[1220px] w-full whitespace-nowrap text-sm">
           <thead class="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
             <tr>
-              <th class="px-4 py-3.5">Tanggal</th>
+              <th class="px-4 py-3.5">Waktu dibuat</th>
               <th class="px-4 py-3.5">N (ppm)</th>
               <th class="px-4 py-3.5">P (ppm)</th>
               <th class="px-4 py-3.5">K (ppm)</th>
@@ -154,7 +179,7 @@ function fertilizerSummary(item) {
               :key="item.id"
               class="transition-colors hover:bg-emerald-50/40"
             >
-              <td class="px-4 py-3.5 font-medium text-slate-700">{{ item.created_at }}</td>
+              <td class="px-4 py-3.5 font-medium text-slate-700">{{ formatStoredTimestamp(item.created_at) }}</td>
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.nitrogen) }}</td>
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.phosphorus) }}</td>
               <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ fmt(item.potassium) }}</td>

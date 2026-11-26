@@ -143,7 +143,7 @@ def latest_monitoring(current_user: User = Depends(get_current_user)):
             exclude_scenario_monitoring(
                 db.query(Monitoring).filter(Monitoring.user_id == current_user.id)
             )
-            .order_by(Monitoring.id.desc())
+            .order_by(Monitoring.created_at.desc().nullslast(), Monitoring.id.desc())
             .first()
         )
 
@@ -178,7 +178,7 @@ def monitoring_history(current_user: User = Depends(get_current_user)):
             exclude_scenario_monitoring(
                 db.query(Monitoring).filter(Monitoring.user_id == current_user.id)
             )
-            .order_by(Monitoring.id.desc())
+            .order_by(Monitoring.created_at.desc().nullslast(), Monitoring.id.desc())
             .all()
         )
 
@@ -224,7 +224,7 @@ def simulator_status(
                     ).label("age_seconds"),
                 ).filter(Monitoring.user_id == current_user.id)
             )
-            .order_by(Monitoring.id.desc())
+            .order_by(Monitoring.created_at.desc().nullslast(), Monitoring.id.desc())
             .first()
         )
 

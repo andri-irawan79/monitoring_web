@@ -27,13 +27,24 @@ const updateTimestamp = () => { lastUpdate.value = new Date().toLocaleTimeString
 
 const formatSimulationDate = (value) => {
   if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value);
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return String(value);
+  const [, year, month, day] = match;
   return new Intl.DateTimeFormat("id-ID", {
     day: "2-digit",
     month: "short",
     year: "numeric"
-  }).format(date);
+  }).format(new Date(Number(year), Number(month) - 1, Number(day)));
+};
+
+const formatReceivedAt = (value) => {
+  if (!value) return "";
+  const match = String(value).match(
+    /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/
+  );
+  if (!match) return String(value);
+  const [, year, month, day, hour, minute, second = "00"] = match;
+  return `${formatSimulationDate(`${year}-${month}-${day}`)}, ${hour}:${minute}:${second}`;
 };
 
 const loadAllData = async () => {
@@ -107,7 +118,7 @@ onBeforeUnmount(() => {
           <p class="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Ringkasan kondisi tanah</p>
           <h2 id="monitoring-metrics-title" class="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Parameter Monitoring</h2>
           <p class="mt-1 text-sm text-slate-500">
-            Nilai pengukuran dari data simulasi terakhir<span v-if="formatSimulationDate(monitoring.simulation_date)">: <span class="font-semibold text-slate-700">{{ formatSimulationDate(monitoring.simulation_date) }}</span></span>
+            Tanggal simulasi terakhir<span v-if="formatSimulationDate(monitoring.simulation_date)">: <span class="font-semibold text-slate-700">{{ formatSimulationDate(monitoring.simulation_date) }}</span></span><span v-if="formatReceivedAt(monitoring.created_at)"> · Diterima: <span class="font-semibold text-slate-700">{{ formatReceivedAt(monitoring.created_at) }}</span></span>
           </p>
         </div>
         <span class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-white px-3 py-1.5 text-xs font-semibold text-emerald-700 shadow-sm"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Data simulasi</span>

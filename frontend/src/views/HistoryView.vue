@@ -12,6 +12,7 @@ import {
 import MonitoringTableCard from "../components/dashboard/MonitoringTableCard.vue";
 import RecommendationHistoryTable from "../components/recommendation/RecommendationHistoryTable.vue";
 import { getMonitoringHistory } from "../services/monitoringService";
+import { getDashboardSummary } from "../services/dashboardService";
 import {
   getRecommendationHistory,
   deleteRecommendation
@@ -21,6 +22,7 @@ const route = useRoute();
 
 const monitoringHistory = ref([]);
 const recommendationHistory = ref([]);
+const totalRecommendationCount = ref(null);
 const activeTab = ref(
   route.hash === "#recommendation-history" ? "recommendations" : "monitoring"
 );
@@ -44,9 +46,10 @@ const loadHistory = async () => {
   pageLoading.value = true;
   loadWarning.value = "";
 
-  const [monitoringResult, recommendationResult] = await Promise.allSettled([
+  const [monitoringResult, recommendationResult, summaryResult] = await Promise.allSettled([
     getMonitoringHistory(),
-    getRecommendationHistory(10)
+    getRecommendationHistory(10),
+    getDashboardSummary()
   ]);
 
   const failedSources = [];
@@ -67,6 +70,14 @@ const loadHistory = async () => {
   } else {
     console.error("Gagal memuat riwayat rekomendasi:", recommendationResult.reason);
     failedSources.push("riwayat rekomendasi");
+  }
+
+  if (summaryResult.status === "fulfilled") {
+    const total = Number(summaryResult.value?.total_recommendation);
+    totalRecommendationCount.value = Number.isFinite(total) ? total : null;
+  } else {
+    totalRecommendationCount.value = null;
+    console.error("Gagal memuat jumlah total rekomendasi:", summaryResult.reason);
   }
 
   if (failedSources.length) {
@@ -119,6 +130,15 @@ const removeRecommendation = async () => {
     recommendationHistory.value = recommendationHistory.value.filter(
       (row) => row.id !== item.id
     );
+    if (totalRecommendationCount.value !== null) {
+      totalRecommendationCount.value = Math.max(0, totalRecommendationCount.value - 1);
+    }
+    try {
+      const latestRecords = await getRecommendationHistory(10);
+      recommendationHistory.value = Array.isArray(latestRecords) ? latestRecords : [];
+    } catch (refreshError) {
+      console.error("Gagal mengisi ulang 10 rekomendasi terbaru:", refreshError);
+    }
     showDeleteSuccessDialog.value = true;
   } catch (error) {
     console.error("Gagal menghapus rekomendasi:", error);
@@ -284,6 +304,7 @@ onBeforeUnmount(() => {
       <section v-show="activeTab === 'recommendations'">
         <RecommendationHistoryTable
           :recommendations="recommendationHistory"
+          :total-count="totalRecommendationCount"
           :deleting-id="deletingId"
           @delete="requestDeleteRecommendation"
         />

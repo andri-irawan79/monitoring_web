@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from fuzzy.parameter import DEFAULT, get_parameters
@@ -87,3 +89,27 @@ def test_soil_moisture_menambah_catatan_tanpa_mengubah_z_atau_dosis():
     assert "pastikan tanah cukup lembap" not in optimal["notes"]
     assert "tunda atau pecahkan dosis" not in optimal["notes"]
 
+
+
+@pytest.mark.parametrize(
+    "fase",
+    ["Vegetatif", "Pembungaan", "Pembuahan", "Panen", "Pascapanen"],
+)
+def test_sampel_monitoring_menghasilkan_keluaran_valid_di_lima_fase(fase):
+    # Nilai diambil dari record simulasi yang terlihat pada riwayat pengguna.
+    result = hitung_rekomendasi(
+        23, 6, 33, 6.03, 204.96, fase, kelembapan_tanah=14.88
+    )
+
+    assert result["phase"] == fase
+    assert result["soil_moisture_available"] is True
+    assert set(result["doses_g"]) == {"urea", "sp36", "kcl", "npk"}
+    assert all(math.isfinite(value) and 0 <= value <= 100 for value in result["z"].values())
+    assert all(isinstance(value, int) and value >= 0 for value in result["doses_g"].values())
+    assert all(0 <= row["alpha"] <= 1 for row in result["active_rules"])
+    assert any("curah hujan tinggi" in note for note in result["notes"])
+
+    if fase == "Panen":
+        assert result["corrections_g"] == {"dolomit": None, "belerang": None}
+    else:
+        assert all(result["corrections_g"][key] is not None for key in ("dolomit", "belerang"))
