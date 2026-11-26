@@ -101,15 +101,44 @@ def test_sampel_monitoring_menghasilkan_keluaran_valid_di_lima_fase(fase):
         23, 6, 33, 6.03, 204.96, fase, kelembapan_tanah=14.88
     )
 
+    expected = {
+        "Vegetatif": {
+            "z": {"n": 50.0, "p": 50.0, "k": 0.0, "dolomit": 0.0, "belerang": 0.0},
+            "doses_g": {"urea": 625, "sp36": 340, "kcl": 0, "npk": 0},
+        },
+        "Pembungaan": {
+            "z": {"n": 0.0, "p": 50.0, "k": 50.0, "dolomit": 0.0, "belerang": 0.0},
+            "doses_g": {"urea": 0, "sp36": 340, "kcl": 715, "npk": 0},
+        },
+        "Pembuahan": {
+            "z": {"n": 50.0, "p": 50.0, "k": 43.75, "dolomit": 0.0, "belerang": 0.0},
+            "doses_g": {"urea": 360, "sp36": 0, "kcl": 420, "npk": 765},
+        },
+        "Panen": {
+            "z": {"n": 0.0, "p": 0.0, "k": 0.0, "dolomit": 0.0, "belerang": 0.0},
+            "doses_g": {"urea": 0, "sp36": 0, "kcl": 0, "npk": 0},
+        },
+        "Pascapanen": {
+            "z": {"n": 50.0, "p": 50.0, "k": 50.0, "dolomit": 0.0, "belerang": 0.0},
+            "doses_g": {"urea": 360, "sp36": 0, "kcl": 510, "npk": 765},
+        },
+    }[fase]
+
     assert result["phase"] == fase
     assert result["soil_moisture_available"] is True
+    assert result["z"] == expected["z"]
+    assert result["doses_g"] == expected["doses_g"]
     assert set(result["doses_g"]) == {"urea", "sp36", "kcl", "npk"}
     assert all(math.isfinite(value) and 0 <= value <= 100 for value in result["z"].values())
     assert all(isinstance(value, int) and value >= 0 for value in result["doses_g"].values())
     assert all(0 <= row["alpha"] <= 1 for row in result["active_rules"])
-    assert any("curah hujan tinggi" in note for note in result["notes"])
+    assert "pastikan tanah cukup lembap" in result["notes"]
+    assert "pecahkan dosis (curah hujan tinggi)" in result["notes"]
 
     if fase == "Panen":
         assert result["corrections_g"] == {"dolomit": None, "belerang": None}
     else:
-        assert all(result["corrections_g"][key] is not None for key in ("dolomit", "belerang"))
+        assert result["corrections_g"] == {
+            "dolomit": [0, 0],
+            "belerang": [0, 0],
+        }
