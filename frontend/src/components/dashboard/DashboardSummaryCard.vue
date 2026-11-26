@@ -62,7 +62,7 @@ defineProps({
 
         :value="summary.avg_nitrogen"
 
-        unit="mg/kg"
+        unit="ppm"
 
         :icon="Leaf"
 
