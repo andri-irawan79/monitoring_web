@@ -1,0 +1,3 @@
+# Tabel acuan terkunci: byte harus persis sama di semua OS (sidik jari SHA-256), jangan konversi akhir baris.
+riset/tabel_acuan_v1.json -text
+riset/tabel_acuan_v1.sha256 -text

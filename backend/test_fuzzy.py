@@ -1,13 +1,7 @@
-from fuzzy.membership import *
+"""Manual smoke test membership FIS-1/FIS-2."""
+from fuzzy.membership import derajat_hara, derajat_ph
+from fuzzy.parameter import DEFAULT
 
-print("Nitrogen Rendah")
-print(n_rendah(20))
-
-print("Nitrogen Sedang")
-print(n_sedang(80))
-
-print("Nitrogen Tinggi")
-print(n_tinggi(130))
-
-print("pH Normal")
-print(ph_normal(6))
+if __name__ == "__main__":
+    print("Derajat hara N:", derajat_hara(20, DEFAULT.hara["N"]))
+    print("Derajat pH:", derajat_ph(6.0, DEFAULT))

@@ -1,119 +1,42 @@
 <script setup>
 import BaseCard from "../ui/BaseCard.vue";
-
-defineProps({
-    rules: {
-        type: Array,
-        default: () => []
-    }
-});
+defineProps({ rules: { type: Array, default: () => [] } });
+function fmt(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number.toFixed(4) : "-";
+}
 </script>
 
 <template>
-
-<BaseCard>
-
-    <h2 class="text-2xl font-bold mb-6">
-
-        Rule Aktif
-
-    </h2>
-
-    <div
-        v-if="rules.length"
-        class="overflow-x-auto"
-    >
-
-        <table class="w-full text-sm">
-
-            <thead>
-
-                <tr class="border-b">
-
-                    <th class="text-left py-3">Rule</th>
-
-                    <th class="text-left py-3">Kondisi</th>
-
-                    <th class="text-center py-3">α</th>
-
-                    <th class="text-center py-3">z</th>
-
-                    <th class="text-center py-3">Pupuk</th>
-
-                    <th class="text-center py-3">Output</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr
-                    v-for="rule in rules"
-                    :key="rule.rule_id"
-                    class="border-b hover:bg-slate-50"
-                >
-
-                    <td class="py-4">
-
-                        R{{ rule.rule_id }}
-
-                    </td>
-
-                    <td>
-
-                        <div
-                            v-for="c in rule.conditions"
-                            :key="c[0]"
-                        >
-
-                            {{ c[0] }} = {{ c[1] }}
-
-                        </div>
-
-                    </td>
-
-                    <td class="text-center">
-
-                        {{ rule.alpha }}
-
-                    </td>
-
-                    <td class="text-center">
-
-                        {{ rule.z }}
-
-                    </td>
-
-                    <td class="text-center">
-
-                        {{ rule.pupuk }}
-
-                    </td>
-
-                    <td class="text-center">
-
-                        {{ rule.output }}
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
+  <BaseCard>
+    <div class="mb-5">
+      <h2 class="text-lg font-extrabold text-slate-900">Aturan yang Aktif</h2>
+      <p class="mt-1 text-sm text-slate-500">Aturan FIS-1 dan FIS-2 dengan derajat aktivasi lebih besar dari nol.</p>
     </div>
-
-    <div
-        v-else
-        class="text-slate-400"
-    >
-
-        Tidak ada rule aktif.
-
+    <div v-if="rules.length" class="overflow-x-auto">
+      <table class="w-full min-w-[640px] text-sm">
+        <thead class="border-b border-slate-200 bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+          <tr>
+            <th class="px-3 py-3">Kode aturan</th>
+            <th class="px-3 py-3">Variabel</th>
+            <th class="px-3 py-3">Kondisi</th>
+            <th class="px-3 py-3 text-right">α</th>
+            <th class="px-3 py-3">Konsekuen</th>
+            <th class="px-3 py-3 text-right">z</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <tr v-for="rule in rules" :key="rule.rule_id">
+            <td class="px-3 py-3 font-bold text-slate-700">{{ rule.rule_id }}</td>
+            <td class="px-3 py-3">{{ rule.variable }}</td>
+            <td class="px-3 py-3">{{ rule.condition }}</td>
+            <td class="px-3 py-3 text-right tabular-nums">{{ fmt(rule.alpha) }}</td>
+            <td class="px-3 py-3 capitalize">{{ rule.consequent }}</td>
+            <td class="px-3 py-3 text-right tabular-nums">{{ fmt(rule.z) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-</BaseCard>
-
+    <p v-else class="py-6 text-center text-sm text-slate-400">Tidak ada aturan aktif.</p>
+  </BaseCard>
 </template>

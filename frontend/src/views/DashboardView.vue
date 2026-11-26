@@ -1,144 +1,151 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
-
-import {
-  getLatestMonitoring,
-  getMonitoringHistory,
-} from "../services/monitoringService";
-
+import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { useRoute } from "vue-router";
+import { getLatestMonitoring, getMonitoringHistory } from "../services/monitoringService";
+import { getDashboardSummary } from "../services/dashboardService";
 import DashboardStatGrid from "../components/dashboard/DashboardStatGrid.vue";
 import MonitoringChartCard from "../components/dashboard/MonitoringChartCard.vue";
 import NutrientStatusCard from "../components/dashboard/NutrientStatusCard.vue";
-import MonitoringTableCard from "../components/dashboard/MonitoringTableCard.vue";
 import DashboardHero from "../components/dashboard/DashboardHero.vue";
 import MonitoringInsight from "../components/dashboard/MonitoringInsight.vue";
+import PHTrendCard from "../components/dashboard/PHTrendCard.vue";
+import RecommendationAnalytics from "../components/dashboard/RecommendationAnalytics.vue";
+import { getRecommendationHistory } from "../services/recommendationService";
 
-import { getDashboardSummary } from "../services/dashboardService";
-
+const route = useRoute();
 const monitoring = ref(null);
 const history = ref([]);
+const recommendations = ref([]);
+const recommendationLoading = ref(false);
 const summary = ref({});
-
-// Menyimpan ID monitoring terakhir
 const lastMonitoringId = ref(null);
-
-// Menyimpan waktu update terakhir
 const lastUpdate = ref("");
-
 let refreshInterval = null;
+let recommendationRefreshInterval = null;
 
-// Format waktu Indonesia
-const updateTimestamp = () => {
-  lastUpdate.value = new Date().toLocaleTimeString("id-ID");
+const updateTimestamp = () => { lastUpdate.value = new Date().toLocaleTimeString("id-ID"); };
+
+const formatSimulationDate = (value) => {
+  if (!value) return "";
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return String(value);
+  const [, year, month, day] = match;
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(new Date(Number(year), Number(month) - 1, Number(day)));
 };
 
-// Load seluruh data dashboard
+const formatReceivedAt = (value) => {
+  if (!value) return "";
+  const match = String(value).match(
+    /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/
+  );
+  if (!match) return String(value);
+  const [, year, month, day, hour, minute, second = "00"] = match;
+  return `${formatSimulationDate(`${year}-${month}-${day}`)}, ${hour}:${minute}:${second}`;
+};
+
 const loadAllData = async () => {
   try {
-    monitoring.value = await getLatestMonitoring();
-    history.value = await getMonitoringHistory();
-    summary.value = await getDashboardSummary();
-
-    lastMonitoringId.value = monitoring.value?.id ?? null;
-
+    const [latest, records, totals] = await Promise.all([
+      getLatestMonitoring(), getMonitoringHistory(), getDashboardSummary()
+    ]);
+    monitoring.value = latest;
+    history.value = Array.isArray(records) ? records : [];
+    summary.value = totals || {};
+    lastMonitoringId.value = latest?.id ?? null;
     updateTimestamp();
   } catch (error) {
     console.error("Gagal memuat dashboard:", error);
   }
 };
 
-// Mengecek apakah ada data baru
+const loadRecommendationData = async () => {
+  if (recommendationLoading.value) return;
+  recommendationLoading.value = true;
+  try {
+    const records = await getRecommendationHistory();
+    recommendations.value = Array.isArray(records) ? records : [];
+  } catch (error) {
+    console.error("Gagal memperbarui analisis rekomendasi:", error);
+  } finally {
+    recommendationLoading.value = false;
+  }
+};
+
 const checkLatestMonitoring = async () => {
   try {
     const latest = await getLatestMonitoring();
-
-    if (!latest) return;
-
-    if (latest.id !== lastMonitoringId.value) {
-      console.log("📥 Data monitoring baru ditemukan");
-
-      monitoring.value = latest;
-      history.value = await getMonitoringHistory();
-      summary.value = await getDashboardSummary();
-
-      lastMonitoringId.value = latest.id;
-
-      updateTimestamp();
-    }
+    if (!latest || latest.id === lastMonitoringId.value) return;
+    const [records, totals] = await Promise.all([getMonitoringHistory(), getDashboardSummary()]);
+    monitoring.value = latest;
+    history.value = Array.isArray(records) ? records : [];
+    summary.value = totals || {};
+    lastMonitoringId.value = latest.id;
+    updateTimestamp();
   } catch (error) {
     console.error("Auto refresh gagal:", error);
   }
 };
 
+const scrollToRequestedSection = async () => {
+  if (!route.hash) return;
+  await nextTick();
+  window.setTimeout(() => document.querySelector(route.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+};
+
 onMounted(async () => {
   await loadAllData();
-
-  refreshInterval = setInterval(() => {
-    checkLatestMonitoring();
-  }, 500);
+  await loadRecommendationData();
+  await scrollToRequestedSection();
+  refreshInterval = setInterval(checkLatestMonitoring, 2000);
+  recommendationRefreshInterval = setInterval(loadRecommendationData, 10000);
 });
-
 onBeforeUnmount(() => {
-  if (refreshInterval) {
-    clearInterval(refreshInterval);
-  }
+  if (refreshInterval) clearInterval(refreshInterval);
+  if (recommendationRefreshInterval) clearInterval(recommendationRefreshInterval);
 });
 </script>
 
 <template>
-<div>
-
-    <DashboardHero
-        :summary="summary"
-    />
-
-    <DashboardStatGrid
-        v-if="monitoring"
-        :monitoring="monitoring"
-    />
-
-    <div
-        class="
-            grid
-            grid-cols-1
-            xl:grid-cols-3
-            gap-6
-            mt-8
-        "
-    >
-
-        <div class="xl:col-span-2">
-
-            <MonitoringChartCard
-                :data="history"
-            />
-
-        </div>
-
+  <div class="dashboard-page mx-auto w-full min-w-0 max-w-[1360px] space-y-7 sm:space-y-8">
+    <DashboardHero :summary="summary" :last-update="lastUpdate" />
+    <section v-if="monitoring" aria-labelledby="monitoring-metrics-title">
+      <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-
-            <NutrientStatusCard
-                v-if="monitoring"
-                :monitoring="monitoring"
-            />
-
-            <MonitoringInsight
-                v-if="monitoring"
-                :monitoring="monitoring"
-                :summary="summary"
-            />
-
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Ringkasan kondisi tanah</p>
+          <h2 id="monitoring-metrics-title" class="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Parameter Monitoring</h2>
+          <p class="mt-1 text-sm text-slate-500">
+            Tanggal simulasi terakhir<span v-if="formatSimulationDate(monitoring.simulation_date)">: <span class="font-semibold text-slate-700">{{ formatSimulationDate(monitoring.simulation_date) }}</span></span><span v-if="formatReceivedAt(monitoring.created_at)"> · Diterima: <span class="font-semibold text-slate-700">{{ formatReceivedAt(monitoring.created_at) }}</span></span>
+          </p>
         </div>
+        <span class="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-white px-3 py-1.5 text-xs font-semibold text-emerald-700 shadow-sm"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Data simulasi</span>
+      </div>
+      <DashboardStatGrid :monitoring="monitoring" />
+    </section>
 
-    </div>
+    <section class="grid grid-cols-1 items-stretch gap-5 2xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,0.8fr)]">
+      <div class="min-w-0 h-full"><MonitoringChartCard :data="history" /></div>
+      <div v-if="monitoring" class="min-w-0 h-full"><NutrientStatusCard :monitoring="monitoring" /></div>
+    </section>
 
-    <div class="mt-8">
+    <section v-if="history.length" class="min-w-0">
+      <PHTrendCard :data="history" />
+    </section>
 
-        <MonitoringTableCard
-            :data="history"
-        />
+    <section v-if="monitoring" class="min-w-0">
+      <MonitoringInsight :monitoring="monitoring" :summary="summary" />
+    </section>
 
-    </div>
+    <RecommendationAnalytics :recommendations="recommendations" />
 
-</div>
+  </div>
 </template>
+
+<style scoped>
+.dashboard-page { animation: dashboard-enter 420ms ease both; }
+@keyframes dashboard-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .dashboard-page { animation: none; } }
+</style>

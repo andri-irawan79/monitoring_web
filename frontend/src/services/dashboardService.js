@@ -1,11 +1,6 @@
-import axios from "axios";
-
-const API = "http://127.0.0.1:8000";
+import api from "./api";
 
 export async function getDashboardSummary() {
-
-    const response = await axios.get(`${API}/dashboard`);
-
-    return response.data.summary;
-
+  const response = await api.get("/dashboard");
+  return response.data.summary;
 }

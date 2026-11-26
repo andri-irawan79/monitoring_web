@@ -1,14 +1,10 @@
-from sqlalchemy import Column
-from sqlalchemy import Integer
-from sqlalchemy import Float
-from sqlalchemy import DateTime
+from sqlalchemy import Column, Date, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.sql import func
-from sqlalchemy import Date
 
 from database.base import Base
 
-class Monitoring(Base):
 
+class Monitoring(Base):
     __tablename__ = "monitoring"
 
     id = Column(Integer, primary_key=True)
@@ -21,10 +17,13 @@ class Monitoring(Base):
     humidity = Column(Float)
 
     ph = Column(Float)
+    soil_moisture = Column(Float, nullable=True)
     rainfall = Column(Float)
 
-    created_at = Column(
-        DateTime,
-        server_default=func.now()
-    )
+    created_at = Column(DateTime, server_default=func.now())
     simulation_date = Column(Date)
+
+    # Nullable for pre-existing rows; new simulator records always have an owner.
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
+    simulation_session_id = Column(String(36), nullable=True)
+    session_record_number = Column(Integer, nullable=True)

@@ -1,0 +1,3734 @@
+{
+ "keterangan": "Keluaran mesin lama (jenis_pupuk terpilih berdasar alpha terbesar; dosis = defuzzifikasi gabungan, unit kg)",
+ "ringkasan_600_baris_buah": {
+  "baris_buah": 600,
+  "kasus": 3000,
+  "tanpa_aturan_aktif": 0,
+  "kasus_defuzzifikasi_mencampur_pupuk": 2743,
+  "rekomendasi_pupuk_per_fase": {
+   "Vegetatif": {
+    "NPK": 412,
+    "Urea": 188
+   },
+   "Pembungaan": {
+    "NPK": 364,
+    "SP36": 236
+   },
+   "Pembuahan": {
+    "NPK": 441,
+    "KCl": 159
+   },
+   "Panen": {
+    "NPK": 296,
+    "SP36": 79,
+    "KCl": 225
+   },
+   "Pascapanen": {
+    "Urea": 296,
+    "SP36": 79,
+    "KCl": 225
+   }
+  },
+  "persen_baris_K_rendah_ge_0_5": 100.0,
+  "persen_baris_K_sedang_gt_0": 16.2,
+  "persen_baris_K_tinggi_gt_0": 0.0,
+  "persen_baris_N_rendah_ge_0_5": 72.3,
+  "persen_baris_P_rendah_ge_0_5": 65.2
+ },
+ "skenario": [
+  {
+   "id": "SK-01",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.92,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-01",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-01",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.92,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-01",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-01",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.38,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-02",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.92,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-02",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-02",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.92,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-02",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-02",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.38,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-03",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-03",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-03",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-03",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-03",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-04",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 3.43,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-04",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.29,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-04",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.64,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-04",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.44,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-04",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 4.78,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-05",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "rendah",
+    "dosis": 1.17,
+    "jenis_pupuk_aktif": [
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-05",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.48,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-05",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-05",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.43,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-05",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 4.97,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-06",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "rendah",
+    "dosis": 0.0,
+    "jenis_pupuk_aktif": [
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 1
+   }
+  },
+  {
+   "id": "SK-06",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.48,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-06",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-06",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-06",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 4.97,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-07",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-07",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.96,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-07",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.96,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-07",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-07",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.44,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-08",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-08",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.96,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-08",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.96,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-08",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-08",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.44,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-09",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-09",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-09",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-09",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-09",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-10",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-10",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 1
+   }
+  },
+  {
+   "id": "SK-10",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.94,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-10",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-10",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.05,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-11",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-11",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "rendah",
+    "dosis": 1.25,
+    "jenis_pupuk_aktif": [
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-11",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.94,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-11",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-11",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.05,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-12",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-12",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "rendah",
+    "dosis": 0.0,
+    "jenis_pupuk_aktif": [
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 1
+   }
+  },
+  {
+   "id": "SK-12",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.94,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-12",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-12",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.05,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-13",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-13",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-13",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-13",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-13",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-14",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-14",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-14",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-14",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-14",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-15",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-15",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-15",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-15",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-15",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-16",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-16",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-16",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-16",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-16",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-17",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-17",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-17",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-17",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.49,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-17",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-18",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.82,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-18",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.48,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-18",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "rendah",
+    "dosis": 0.87,
+    "jenis_pupuk_aktif": [
+     "KCl"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-18",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 2.43,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-18",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 4.93,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-19",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-19",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-19",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-19",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-19",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-20",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-20",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-20",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-20",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-20",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-21",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "rendah",
+    "dosis": 1.22,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-21",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "rendah",
+    "dosis": 1.3,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-21",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.74,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-21",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.23,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-21",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 4.22,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-22",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-22",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "rendah",
+    "dosis": 1.25,
+    "jenis_pupuk_aktif": [
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-22",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-22",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-22",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.12,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-23",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "rendah",
+    "dosis": 1.17,
+    "jenis_pupuk_aktif": [
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-23",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-23",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-23",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 2
+   }
+  },
+  {
+   "id": "SK-23",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.12,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-24",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-24",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-24",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-24",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-24",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-25",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-25",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-25",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-25",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-25",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-26",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-26",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-26",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-26",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-26",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-27",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.63,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-27",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.38,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-27",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.63,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-27",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-27",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.48,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-28",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.54,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-28",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.28,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-28",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.54,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-28",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-28",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-29",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.39,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-29",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 4.97,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-29",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.39,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-29",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-29",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 8
+   }
+  },
+  {
+   "id": "SK-30",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.54,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-30",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.28,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-30",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.54,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-30",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-30",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-31",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-31",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-31",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-31",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-31",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-32",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.54,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-32",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.28,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-32",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.54,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-32",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-32",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-33",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-33",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 4.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-33",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-33",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.44,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-33",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.73,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-34",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.32,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-34",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 4.99,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-34",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.32,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-34",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.38,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-34",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-35",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 4.95,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-35",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 4.68,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-35",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 4.95,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-35",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.16,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-35",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-36",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "sedang",
+    "dosis": 4.7,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-36",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 4.49,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-36",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 4.67,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-36",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 1.86,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-36",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-37",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "sedang",
+    "dosis": 4.7,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-37",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 4.49,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-37",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 4.67,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-37",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 1.86,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-37",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-38",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-38",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-38",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-38",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-38",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-39",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-39",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-39",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-39",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-39",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-40",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-40",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-40",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-40",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-40",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-41",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-41",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-41",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-41",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-41",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-42",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-42",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-42",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-42",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-42",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-43",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-43",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-43",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-43",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-43",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-44",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-44",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-44",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-44",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-44",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-45",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-45",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-45",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-45",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-45",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-46",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.77,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-46",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.77,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-46",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "tinggi",
+    "dosis": 5.77,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-46",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-46",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.63,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-47",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "sedang",
+    "dosis": 4.83,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-47",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "sedang",
+    "dosis": 4.83,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-47",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 4.83,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-47",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "NPK",
+    "kategori": "sedang",
+    "dosis": 1.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-47",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 6.0,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 6
+   }
+  },
+  {
+   "id": "SK-48",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "rendah",
+    "dosis": 1.22,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-48",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "rendah",
+    "dosis": 1.3,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-48",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.74,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-48",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.23,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-48",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 4.22,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-49",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-49",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-49",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-49",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-49",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-50",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-50",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-50",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-50",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-50",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  },
+  {
+   "id": "SK-51",
+   "fase": "Vegetatif",
+   "hasil": {
+    "jenis_pupuk": "Urea",
+    "kategori": "tinggi",
+    "dosis": 5.84,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-51",
+   "fase": "Pembungaan",
+   "hasil": {
+    "jenis_pupuk": "SP36",
+    "kategori": "tinggi",
+    "dosis": 5.57,
+    "jenis_pupuk_aktif": [
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 4
+   }
+  },
+  {
+   "id": "SK-51",
+   "fase": "Pembuahan",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.88,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-51",
+   "fase": "Panen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "sedang",
+    "dosis": 2.5,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36"
+    ],
+    "jumlah_aturan_aktif": 3
+   }
+  },
+  {
+   "id": "SK-51",
+   "fase": "Pascapanen",
+   "hasil": {
+    "jenis_pupuk": "KCl",
+    "kategori": "tinggi",
+    "dosis": 5.34,
+    "jenis_pupuk_aktif": [
+     "KCl",
+     "NPK",
+     "SP36",
+     "Urea"
+    ],
+    "jumlah_aturan_aktif": 7
+   }
+  }
+ ]
+}

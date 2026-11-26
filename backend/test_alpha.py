@@ -1,28 +1,7 @@
-from fuzzy.tsukamoto import (
-    fuzzifikasi,
-    hitung_alpha
-)
+"""Manual inspection nilai alpha FIS-1."""
+from fuzzy.tsukamoto import infer_fis1
 
-from fuzzy.rules import RULES
-
-
-fuzzy = fuzzifikasi(
-    nitrogen=68,
-    phosphorus=58,
-    potassium=38,
-    ph=6.3
-)
-
-rule = RULES[11]
-
-print(rule)
-
-alpha = hitung_alpha(
-    rule,
-    fuzzy
-)
-
-print(
-    "Alpha:",
-    alpha
-)
+if __name__ == "__main__":
+    result = infer_fis1("N", 68, "Vegetatif")
+    for rule in result["rules"]:
+        print(rule["rule_id"], "alpha=", rule["alpha"], "z=", rule["z"])
