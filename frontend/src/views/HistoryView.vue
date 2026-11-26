@@ -48,7 +48,7 @@ const loadHistory = async () => {
 
   const [monitoringResult, recommendationResult, summaryResult] = await Promise.allSettled([
     getMonitoringHistory(),
-    getRecommendationHistory(10),
+    getRecommendationHistory(),
     getDashboardSummary()
   ]);
 
@@ -134,10 +134,10 @@ const removeRecommendation = async () => {
       totalRecommendationCount.value = Math.max(0, totalRecommendationCount.value - 1);
     }
     try {
-      const latestRecords = await getRecommendationHistory(10);
+      const latestRecords = await getRecommendationHistory();
       recommendationHistory.value = Array.isArray(latestRecords) ? latestRecords : [];
     } catch (refreshError) {
-      console.error("Gagal mengisi ulang 10 rekomendasi terbaru:", refreshError);
+      console.error("Gagal memuat ulang seluruh riwayat rekomendasi:", refreshError);
     }
     showDeleteSuccessDialog.value = true;
   } catch (error) {

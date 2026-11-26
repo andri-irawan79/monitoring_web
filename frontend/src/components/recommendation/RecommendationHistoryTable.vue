@@ -146,8 +146,8 @@ function fertilizerSummary(item) {
         Menampilkan
         <span class="font-semibold text-slate-700">{{ startItem }}–{{ endItem }}</span>
         dari
-        <span class="font-semibold text-slate-700">{{ totalItems }}</span>
-        {{ search ? "hasil pencarian pada 10 rekomendasi terbaru" : "rekomendasi terbaru" }}
+        <span class="font-semibold text-slate-700">{{ search ? totalItems : totalStored }}</span>
+        {{ search ? "hasil pencarian" : "rekomendasi" }}
         <span v-if="totalStored > recommendations.length" class="ml-1 text-slate-400">· Total tersimpan: {{ totalStored }}</span>
       </p>
       <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
