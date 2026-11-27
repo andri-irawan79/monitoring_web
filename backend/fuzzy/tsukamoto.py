@@ -125,14 +125,14 @@ def hitung_rekomendasi(n: float, p: float, k: float, ph: float,
     remaining = fertilizer_result["remaining_hara_g"]
     doses = fertilizer_result["doses_g"]
 
-    corrections = {"dolomit": None, "belerang": None}
-    if fase != "Panen":
-        corrections = {
-            "dolomit": [round(z["dolomit"] / 100.0 * par.dolomite_range[0]),
-                        round(z["dolomit"] / 100.0 * par.dolomite_range[1])],
-            "belerang": [round(z["belerang"] / 100.0 * par.sulfur_range[0]),
-                         round(z["belerang"] / 100.0 * par.sulfur_range[1])],
-        }
+    # FIS-2 hanya bergantung pada pH dan dihitung pada seluruh fase.
+    # Rentang keluaran indikatif; bukan perintah aplikasi tanpa uji tanah.
+    corrections = {
+        "dolomit": [round(z["dolomit"] / 100.0 * par.dolomite_range[0]),
+                    round(z["dolomit"] / 100.0 * par.dolomite_range[1])],
+        "belerang": [round(z["belerang"] / 100.0 * par.sulfur_range[0]),
+                     round(z["belerang"] / 100.0 * par.sulfur_range[1])],
+    }
 
     notes = []
     if ph < par.ph_lower_optimal or ph > par.ph_upper_optimal:
@@ -165,7 +165,7 @@ def hitung_rekomendasi(n: float, p: float, k: float, ph: float,
         "notes": notes,
         "active_rules": active_rules,
         "parameter_warnings": [
-            "D_ref dan kadar pupuk mengikuti parameter pada ZIP acuan dan harus diverifikasi sumber agronominya.",
-            "Rentang dosis Dolomit dan Belerang masih bersifat indikatif menurut ZIP acuan.",
+            "D_ref v1.1 merupakan kalibrasi model terhadap target tahunan satu studi Monthong Thailand; bukan dosis per fase tervalidasi untuk kebun lokal.",
+            "Rentang Dolomit dan Belerang bersifat indikatif; dosis aktual memerlukan analisis tanah dan kebutuhan kapur/belerang.",
         ],
     }
