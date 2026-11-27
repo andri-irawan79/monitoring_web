@@ -35,3 +35,7 @@ Versi 1.1 mempertahankan ID fase database lama untuk menjaga foreign key, tetapi
 Matriks prioritas kualitatif v1.1 berada pada `backend/fuzzy/rules.py` dan `riset/fuzzy_tsukamoto.py`; prioritas fase tidak dinyatakan dalam persentase. D_ref v1.1 dikalibrasi terhadap target tahunan satu studi Monthong Thailand, bukan standar dosis lokal.
 
 Gunakan `python susun_acuan_v1_1.py` dari direktori riset untuk mereproduksi file acuan v1.1. File tabel v1.0 dan checksum-nya tetap dipertahankan.
+
+
+### Catatan uji monotonisitas v1.1
+Pada grid uji kadar hara dan lima fase, ditemukan 22 kenaikan lokal Z. Seluruh kenaikan per langkah masih berada dalam toleransi 5 poin persen, tetapi hasil ini berarti keluaran tidak sepenuhnya monoton turun. Jumlah kenaikan dicatat sebagai diagnostik; uji tidak boleh ditafsirkan sebagai bukti monotonisitas sempurna atau validasi agronomi.
