@@ -14,7 +14,7 @@ PRIORITAS = {
 ABC = {"N": (15, 31, 49), "P": (17, 27, 60), "K": (27, 35, 47)}
 DREF = {"N": 460, "P": 490 / 3, "K": 342}
 RANK = {"Rendah": 0, "Sedang": 1, "Tinggi": 2}
-RANGE = {"Tidak perlu": (0, 0), "Sedang": (25, 75), "Tinggi": (75, 100)}
+RANGE = {"Tidak perlu": (0, 0), "Sedang": (10, 75), "Tinggi": (75, 100)}
 DEFINISI = {
     "Pascapanen": "Setelah buah terakhir dipetik sampai muncul flush baru.",
     "Vegetatif": "Flush atau tunas baru pada pohon produktif sampai daun matang.",
@@ -41,8 +41,12 @@ def status(value, hara):
 
 
 def category(st, pr):
-    level = min(RANK[st], RANK[pr])
-    return ("Tidak perlu", "Sedang", "Tinggi")[level]
+    # Konsekuen sama persis dengan sembilan rule FIS-1.
+    if st == "Tinggi":
+        return "Tidak perlu"
+    if st == "Rendah":
+        return {"Rendah": "Tidak perlu", "Sedang": "Sedang", "Tinggi": "Tinggi"}[pr]
+    return {"Rendah": "Tidak perlu", "Sedang": "Sedang", "Tinggi": "Sedang"}[pr]
 
 
 def main():
