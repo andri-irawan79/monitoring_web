@@ -126,3 +126,14 @@ def test_sampel_monitoring_menghasilkan_keluaran_valid_di_lima_fase(fase):
     assert "pecahkan dosis (curah hujan tinggi)" in result["notes"]
     assert result["corrections_g"]["dolomit"] is not None
     assert result["corrections_g"]["belerang"] is not None
+
+
+def test_dosis_npk_nol_tidak_menghapus_koreksi_ph():
+    result = hitung_rekomendasi(
+        60, 80, 60, 4.8, 100, "Prapanen", kelembapan_tanah=20
+    )
+    assert result["doses_g"] == {"urea": 0, "sp36": 0, "kcl": 0, "npk": 0}
+    assert result["corrections_g"]["dolomit"][1] > 0
+    assert any("dosis pupuk NPK tidak dihasilkan" in note for note in result["notes"])
+    assert not any(note == "pemupukan tidak dianjurkan pada kondisi atau fase ini"
+                   for note in result["notes"])
