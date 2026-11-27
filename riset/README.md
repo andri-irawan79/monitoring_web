@@ -5,7 +5,7 @@ Folder ini adalah **bukti penelitian**, terpisah dari aplikasi. Jangan mengubah 
 | Berkas | Fungsi |
 |---|---|
 | `tabel_acuan_v1.json` / `.sha256` | **TERKUNCI.** Tabel keputusan acuan v1.0 (SHA-256 `3f9e0b81...0eaf`). Dibuat sebelum implementasi dan diuji otomatis; perubahan = versi baru dengan alasan tertulis. |
-| `kasus_uji_acuan.csv`, `kasus_uji_acuan_ph.csv` | 450 pengamatan hara dan 13 skenario pH beserta kategori acuan |
+| `kasus_uji_acuan.csv`, `kasus_uji_acuan_ph.csv` | 450 kombinasi uji hara dan 13 skenario pH beserta kategori acuan |
 | `skenario_uji.csv` | 55 skenario uji (51 valid, 4 tidak valid); dapat dijalankan melalui `python backend/simulator/simulator.py --uji` dari root repository |
 | `data_simulasi_365.csv` | Data simulasi (6 tanaman buah, seed 42); simulator menghasilkan sampel yang identik |
 | `fuzzy_tsukamoto.py` | Implementasi acuan mandiri untuk pembanding hitung manual (`python fuzzy_tsukamoto.py`) |
