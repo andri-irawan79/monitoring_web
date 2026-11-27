@@ -6,11 +6,16 @@ from fuzzy.parameter import DEFAULT
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 RISET = Path(__file__).resolve().parent.parent.parent / "riset"
-FASE = ("Pascapanen", "Vegetatif", "Pembungaan", "Pembuahan", "Panen")
+FASE = ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
 RENTANG = {"N": (0, 140), "P": (5, 145), "K": (5, 205)}
 BASIS = {"N": 31.0, "P": 27.0, "K": 35.0}
-PRIORITAS = {"Pascapanen": ("sedang",) * 3, "Vegetatif": ("tinggi", "sedang", "rendah"), "Pembungaan": ("rendah", "sedang", "sedang"),
-             "Pembuahan": ("sedang", "sedang", "tinggi"), "Panen": ("rendah",) * 3}
+PRIORITAS = {
+    "Pascapanen": ("rendah", "tinggi", "tinggi"),
+    "Vegetatif": ("tinggi", "sedang", "tinggi"),
+    "Prapembungaan": ("rendah", "tinggi", "tinggi"),
+    "Pembuahan": ("sedang", "sedang", "tinggi"),
+    "Prapanen": ("tinggi", "rendah", "tinggi"),
+}
 ATURAN = {("rendah", "tinggi"): 100, ("rendah", "sedang"): 50, ("sedang", "tinggi"): 50, ("sedang", "sedang"): 50}   # selain ini = 0
 
 
