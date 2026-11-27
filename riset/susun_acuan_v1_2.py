@@ -131,11 +131,10 @@ def build():
             "hasil_dref_g_hara": DREF,
         },
         "catatan": [
-            "Prioritas Rendah bukan sinonim Tidak perlu; status hara Rendah/Sedang menggunakan konsekuen Rendah yang positif.",
-            "Status hara Tinggi dipetakan ke konsekuen Tidak perlu.",
-            "P2O5 pada Prapanen dikecualikan dari aplikasi berdasarkan nilai nol pada tabel satu bulan sebelum panen.",
-            "D_ref merupakan kalibrasi terhadap satu target tahunan Monthong Thailand, bukan dosis per fase tervalidasi untuk kebun lokal.",
-            "Data penelitian adalah simulasi, bukan hasil analisis tanah kebun durian Monthong.",
+            "Prioritas Rendah bukan lagi sinonim tidak perlu; pada status hara Rendah/Sedang konsekuennya Rendah dengan Z positif kecil.",
+            "Status hara Tinggi dipetakan ke konsekuen Tidak perlu pada ketiga kelas prioritas biasa.",
+            "Prioritas tidak_diperlukan pada P₂O₅ fase Prapanen merupakan pengecualian deterministik berdasarkan nilai P₂O₅ nol pada tabel satu bulan sebelum panen; fase ini didefinisikan sebagai jendela sekitar satu bulan sebelum panen sampai pemetikan pertama.",
+            "D_ref merupakan kalibrasi matematis dari satu studi Monthong Thailand, bukan dosis per fase yang tervalidasi untuk kebun lokal.",
             "Keluaran Dolomit dan Belerang tetap indikatif dan memerlukan analisis tanah.",
         ],
     }
@@ -150,10 +149,13 @@ def build():
     sample = {}
     with (ROOT / "kasus_uji_acuan_v1_1.csv").open(newline="", encoding="utf-8") as source:
         for row in csv.DictReader(source):
-            sample.setdefault(row["hari"], {
-                "hari": row["hari"],
-                "N": float(row["N"]), "P": float(row["P"]), "K": float(row["K"]),
-            })
+            if row["hari"] not in sample:
+                values = {hara: float(row[hara]) for hara in ("N", "P", "K")}
+                sample[row["hari"]] = {
+                    "hari": row["hari"],
+                    **{hara: int(value) if value.is_integer() else value
+                       for hara, value in values.items()},
+                }
     with (ROOT / "kasus_uji_acuan_v1_2.csv").open("w", newline="", encoding="utf-8") as output:
         writer = csv.writer(output)
         writer.writerow(["hari", "N", "P", "K", "fase", "hara", "nilai", "status",
