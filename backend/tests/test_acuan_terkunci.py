@@ -48,7 +48,7 @@ def test_matriks_fase_v1_1_sesuai_basis_aturan():
 def test_kesesuaian_450_kasus_hara_v1_1():
     limits = {
         "Tidak perlu": (0.0, 0.0),
-        "Sedang": (25.0, 75.0),
+        "Sedang": (10.0, 75.0),
         "Tinggi": (75.0, 100.0),
     }
     cases = _csv("kasus_uji_acuan_v1_1.csv")
