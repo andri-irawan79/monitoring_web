@@ -1,85 +1,106 @@
-"""Pembanding crisp (3.8.3), uji monotonik (toleransi 5 poin persen), dan uji kewajaran dosis tahunan (3.8.2c)."""
+"""Uji pembanding crisp, perilaku monotonik lokal, dan penapisan dosis lima fase."""
 import csv
 from pathlib import Path
 
 from fuzzy.parameter import DEFAULT
+from fuzzy.rules import FIS1_RULES, PHASES, PHASE_PRIORITY
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 RISET = Path(__file__).resolve().parent.parent.parent / "riset"
-FASE = ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
 RENTANG = {"N": (0, 140), "P": (5, 145), "K": (5, 205)}
-BASIS = {"N": 31.0, "P": 27.0, "K": 35.0}
-PRIORITAS = {
-    "Pascapanen": ("rendah", "tinggi", "tinggi"),
-    "Vegetatif": ("tinggi", "sedang", "tinggi"),
-    "Prapembungaan": ("rendah", "tinggi", "tinggi"),
-    "Pembuahan": ("sedang", "sedang", "tinggi"),
-    "Prapanen": ("tinggi", "rendah", "tinggi"),
-}
-ATURAN = {("rendah", "tinggi"): 100, ("rendah", "sedang"): 50, ("sedang", "tinggi"): 50, ("sedang", "sedang"): 50}   # selain ini = 0
+SKOR = {"tidak_perlu": 0.0, "rendah": 10.6, "sedang": 50.0, "tinggi": 100.0}
 
 
 def _z(hara, x, fase):
-    v = dict(BASIS)
-    v[hara] = float(x)
-    return hitung_rekomendasi(v["N"], v["P"], v["K"], 6.0, 100, fase, kelembapan_tanah=20)["z"][hara.lower()]
+    values = {"N": 31.0, "P": 27.0, "K": 35.0}
+    values[hara] = float(x)
+    return hitung_rekomendasi(
+        values["N"], values["P"], values["K"], 6.0, 100.0, fase,
+        kelembapan_tanah=20.0,
+    )["z"][hara.lower()]
+
+
+def _crisp_z(hara, x, fase):
+    a, c, b = DEFAULT.hara[hara]
+    status = "rendah" if x <= a else "tinggi" if x >= b else "sedang"
+    consequent = FIS1_RULES[(status, PHASE_PRIORITY[fase][hara])]
+    return SKOR[consequent]
 
 
 def test_fuzzy_lebih_mulus_daripada_crisp():
-    lonc_fuzzy = lonc_crisp = 0
-    maks_fuzzy = 0.0
-    for idx, hara in enumerate("NPK"):
-        lo, hi = RENTANG[hara]
-        a, c, b = DEFAULT.hara[hara]
-        for fase in FASE:
-            pr = PRIORITAS[fase][idx]
-            zf = [_z(hara, x, fase) for x in range(lo, hi + 1)]
-            zc = [ATURAN.get(("rendah" if x <= a else "tinggi" if x >= b else "sedang", pr), 0) for x in range(lo, hi + 1)]
-            df = [abs(zf[i + 1] - zf[i]) for i in range(len(zf) - 1)]
-            dc = [abs(zc[i + 1] - zc[i]) for i in range(len(zc) - 1)]
-            lonc_fuzzy += sum(v > 25 for v in df)
-            lonc_crisp += sum(v > 25 for v in dc)
-            maks_fuzzy = max(maks_fuzzy, max(df))
-    assert lonc_fuzzy == 0 and lonc_crisp > 0 and maks_fuzzy < 25, (lonc_fuzzy, lonc_crisp, maks_fuzzy)
+    fuzzy_jumps = crisp_jumps = 0
+    max_fuzzy_jump = 0.0
+    for hara, (low, high) in RENTANG.items():
+        for phase in PHASES:
+            fuzzy_values = [_z(hara, value, phase) for value in range(low, high + 1)]
+            crisp_values = [_crisp_z(hara, value, phase) for value in range(low, high + 1)]
+            fuzzy_delta = [
+                abs(fuzzy_values[i + 1] - fuzzy_values[i])
+                for i in range(len(fuzzy_values) - 1)
+            ]
+            crisp_delta = [
+                abs(crisp_values[i + 1] - crisp_values[i])
+                for i in range(len(crisp_values) - 1)
+            ]
+            fuzzy_jumps += sum(value > 25.0 for value in fuzzy_delta)
+            crisp_jumps += sum(value > 25.0 for value in crisp_delta)
+            max_fuzzy_jump = max(max_fuzzy_jump, max(fuzzy_delta, default=0.0))
+    assert fuzzy_jumps == 0 and crisp_jumps > 0 and max_fuzzy_jump < 25.0, (
+        fuzzy_jumps, crisp_jumps, max_fuzzy_jump
+    )
 
 
 def test_kenaikan_lokal_z_dibatasi_5_poin_persen():
     total = 0
-    for hara, (lo, hi) in RENTANG.items():
-        for fase in FASE:
-            z = [_z(hara, x, fase) for x in range(lo, hi + 1)]
-            naik = [z[i + 1] - z[i] for i in range(len(z) - 1) if z[i + 1] > z[i] + 1e-3]
-            assert all(v <= 5.0 for v in naik), (hara, fase, max(naik))
-            total += len(naik)
-    # Baseline v1.1: tepat 22 kenaikan lokal pada grid uji yang ditetapkan.
-    # Nilai ini dipatok untuk mendeteksi regresi; seluruh kenaikan tetap harus <= 5 poin.
-    assert total == 22, f"jumlah kenaikan lokal berubah dari baseline 22 menjadi {total}"
+    for nutrient, (low, high) in RENTANG.items():
+        for phase in PHASES:
+            values = [_z(nutrient, value, phase) for value in range(low, high + 1)]
+            increases = [
+                values[i + 1] - values[i]
+                for i in range(len(values) - 1)
+                if values[i + 1] > values[i] + 1e-3
+            ]
+            assert all(delta <= 5.0 for delta in increases), (
+                nutrient, phase, max(increases, default=0.0)
+            )
+            total += len(increases)
+    assert total == 22, f"jumlah kenaikan lokal v1.2 berubah menjadi {total}"
 
 
-KISARAN = {"N": (649, 1800), "P": (490, 1560), "K": (717, 4000)}       # g hara per pohon per tahun (tabel bukti dosis, 3.6.8)
+KISARAN = {"N": (649, 1800), "P": (490, 1560), "K": (717, 4000)}
 KANDUNGAN = {"urea": 0.46, "sp36": 0.36, "kcl": 0.60, "npk": 0.16}
 
 
 def test_kewajaran_dosis_tahunan_10_skenario():
-    with open(RISET / "skenario_uji.csv", newline="", encoding="utf-8") as f:
-        data = {r["id"]: r for r in csv.DictReader(f)}
-    ids = ["SK-19", "SK-20", "SK-21", "SK-22", "SK-23", "SK-24", "SK-05", "SK-07", "SK-11", "SK-17"]
-    tahunan = {}
-    for i in ids:
-        r, tot = data[i], {"N": 0.0, "P": 0.0, "K": 0.0}
-        for fase in FASE:
-            d = hitung_rekomendasi(float(r["N"]), float(r["P"]), float(r["K"]), float(r["ph"]), float(r["rainfall"]), fase,
-                                   kelembapan_tanah=float(r["soil_moisture"]))["doses_g"]
-            tot["N"] += d["urea"] * KANDUNGAN["urea"] + d["npk"] * KANDUNGAN["npk"]
-            tot["P"] += d["sp36"] * KANDUNGAN["sp36"] + d["npk"] * KANDUNGAN["npk"]
-            tot["K"] += d["kcl"] * KANDUNGAN["kcl"] + d["npk"] * KANDUNGAN["npk"]
-        tahunan[i] = tot
-    wajar = 0
-    for i, tot in tahunan.items():
-        ok = all(tot[h] <= KISARAN[h][1] for h in tot)
-        if i == "SK-19":                                              # hara rendah: dalam kisaran (toleransi pembulatan 2%)
-            ok = ok and all(KISARAN[h][0] * 0.98 <= tot[h] <= KISARAN[h][1] for h in tot)
-        if i == "SK-21":                                              # hara tinggi: lebih kecil daripada hara rendah
-            ok = ok and all(tot[h] < tahunan["SK-19"][h] for h in tot)
-        wajar += ok
-    assert wajar / len(ids) >= 0.80, f"skenario wajar {wajar}/10"
+    with (RISET / "skenario_uji.csv").open(newline="", encoding="utf-8") as source:
+        data = {row["id"]: row for row in csv.DictReader(source)}
+    scenario_ids = ["SK-19", "SK-20", "SK-21", "SK-22", "SK-23",
+                    "SK-24", "SK-05", "SK-07", "SK-11", "SK-17"]
+    annual = {}
+    for scenario_id in scenario_ids:
+        row = data[scenario_id]
+        total = {"N": 0.0, "P": 0.0, "K": 0.0}
+        for phase in PHASES:
+            doses = hitung_rekomendasi(
+                float(row["N"]), float(row["P"]), float(row["K"]),
+                float(row["ph"]), float(row["rainfall"]), phase,
+                kelembapan_tanah=float(row["soil_moisture"]),
+            )["doses_g"]
+            total["N"] += doses["urea"] * KANDUNGAN["urea"] + doses["npk"] * KANDUNGAN["npk"]
+            total["P"] += doses["sp36"] * KANDUNGAN["sp36"] + doses["npk"] * KANDUNGAN["npk"]
+            total["K"] += doses["kcl"] * KANDUNGAN["kcl"] + doses["npk"] * KANDUNGAN["npk"]
+        annual[scenario_id] = total
+
+    acceptable = 0
+    for scenario_id, total in annual.items():
+        passed = all(total[nutrient] <= KISARAN[nutrient][1] for nutrient in total)
+        if scenario_id == "SK-19":
+            passed = passed and all(
+                KISARAN[nutrient][0] * 0.98 <= total[nutrient] <= KISARAN[nutrient][1]
+                for nutrient in total
+            )
+        if scenario_id == "SK-21":
+            passed = passed and all(total[nutrient] < annual["SK-19"][nutrient] for nutrient in total)
+        acceptable += passed
+
+    assert acceptable / len(scenario_ids) >= 0.80, f"skenario wajar {acceptable}/10"
