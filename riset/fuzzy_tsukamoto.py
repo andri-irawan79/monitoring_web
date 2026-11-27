@@ -148,7 +148,7 @@ def rekomendasi(N, P, K, ph, lembap, hujan, fase, profil=PROFIL_A, dref=DREF):
     if hujan > AMBANG_HUJAN:
         catatan.append("pecahkan dosis (curah hujan tinggi)")
     if not any(dosis.values()):
-        catatan.append("pemupukan tidak dianjurkan pada kondisi atau fase ini")
+        catatan.append("dosis pupuk NPK tidak dihasilkan pada kondisi masukan ini; koreksi pH dihitung terpisah")
     return {"Z": z, "Z_dolomit": z_dol, "Z_belerang": z_bel, "target": t, "dosis": dosis,
             "koreksi": koreksi, "catatan": catatan}
 
