@@ -1,0 +1,451 @@
+hari,N,P,K,fase,hara,nilai,status,prioritas,kategori_acuan,g_hara_min,g_hara_maks
+2,111,87,48,Pascapanen,N,111,Tinggi,rendah,Tidak perlu,0.00,0.00
+2,111,87,48,Pascapanen,P,87,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Pascapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Vegetatif,N,111,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Vegetatif,P,87,Tinggi,sedang,Tidak perlu,0.00,0.00
+2,111,87,48,Vegetatif,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Prapembungaan,N,111,Tinggi,rendah,Tidak perlu,0.00,0.00
+2,111,87,48,Prapembungaan,P,87,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Prapembungaan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Pembuahan,N,111,Tinggi,sedang,Tidak perlu,0.00,0.00
+2,111,87,48,Pembuahan,P,87,Tinggi,sedang,Tidak perlu,0.00,0.00
+2,111,87,48,Pembuahan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Prapanen,N,111,Tinggi,tinggi,Tidak perlu,0.00,0.00
+2,111,87,48,Prapanen,P,87,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+2,111,87,48,Prapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Pascapanen,N,34,Sedang,rendah,Rendah,44.95,87.35
+18,34,65,48,Pascapanen,P,65,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Pascapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Vegetatif,N,34,Sedang,tinggi,Sedang,0.00,212.02
+18,34,65,48,Vegetatif,P,65,Tinggi,sedang,Tidak perlu,0.00,0.00
+18,34,65,48,Vegetatif,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Prapembungaan,N,34,Sedang,rendah,Rendah,44.95,87.35
+18,34,65,48,Prapembungaan,P,65,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Prapembungaan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Pembuahan,N,34,Sedang,sedang,Sedang,0.00,212.02
+18,34,65,48,Pembuahan,P,65,Tinggi,sedang,Tidak perlu,0.00,0.00
+18,34,65,48,Pembuahan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+18,34,65,48,Prapanen,N,34,Sedang,tinggi,Sedang,0.00,212.02
+18,34,65,48,Prapanen,P,65,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+18,34,65,48,Prapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Pascapanen,N,60,Tinggi,rendah,Tidak perlu,0.00,0.00
+25,60,58,51,Pascapanen,P,58,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Pascapanen,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Vegetatif,N,60,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Vegetatif,P,58,Tinggi,sedang,Tidak perlu,0.00,0.00
+25,60,58,51,Vegetatif,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Prapembungaan,N,60,Tinggi,rendah,Tidak perlu,0.00,0.00
+25,60,58,51,Prapembungaan,P,58,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Prapembungaan,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Pembuahan,N,60,Tinggi,sedang,Tidak perlu,0.00,0.00
+25,60,58,51,Pembuahan,P,58,Tinggi,sedang,Tidak perlu,0.00,0.00
+25,60,58,51,Pembuahan,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Prapanen,N,60,Tinggi,tinggi,Tidak perlu,0.00,0.00
+25,60,58,51,Prapanen,P,58,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+25,60,58,51,Prapanen,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+36,30,25,31,Pascapanen,N,30,Sedang,rendah,Rendah,44.95,87.35
+36,30,25,31,Pascapanen,P,25,Sedang,tinggi,Sedang,0.00,81.67
+36,30,25,31,Pascapanen,K,31,Rendah,tinggi,Tinggi,171.00,342.00
+36,30,25,31,Vegetatif,N,30,Sedang,tinggi,Sedang,0.00,212.02
+36,30,25,31,Vegetatif,P,25,Sedang,sedang,Sedang,0.00,81.67
+36,30,25,31,Vegetatif,K,31,Rendah,tinggi,Tinggi,171.00,342.00
+36,30,25,31,Prapembungaan,N,30,Sedang,rendah,Rendah,44.95,87.35
+36,30,25,31,Prapembungaan,P,25,Sedang,tinggi,Sedang,0.00,81.67
+36,30,25,31,Prapembungaan,K,31,Rendah,tinggi,Tinggi,171.00,342.00
+36,30,25,31,Pembuahan,N,30,Sedang,sedang,Sedang,0.00,212.02
+36,30,25,31,Pembuahan,P,25,Sedang,sedang,Sedang,0.00,81.67
+36,30,25,31,Pembuahan,K,31,Rendah,tinggi,Tinggi,171.00,342.00
+36,30,25,31,Prapanen,N,30,Sedang,tinggi,Sedang,0.00,212.02
+36,30,25,31,Prapanen,P,25,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+36,30,25,31,Prapanen,K,31,Rendah,tinggi,Tinggi,171.00,342.00
+37,26,18,27,Pascapanen,N,26,Sedang,rendah,Rendah,44.95,87.35
+37,26,18,27,Pascapanen,P,18,Rendah,tinggi,Tinggi,81.67,163.33
+37,26,18,27,Pascapanen,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+37,26,18,27,Vegetatif,N,26,Sedang,tinggi,Sedang,0.00,212.02
+37,26,18,27,Vegetatif,P,18,Rendah,sedang,Sedang,0.00,81.67
+37,26,18,27,Vegetatif,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+37,26,18,27,Prapembungaan,N,26,Sedang,rendah,Rendah,44.95,87.35
+37,26,18,27,Prapembungaan,P,18,Rendah,tinggi,Tinggi,81.67,163.33
+37,26,18,27,Prapembungaan,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+37,26,18,27,Pembuahan,N,26,Sedang,sedang,Sedang,0.00,212.02
+37,26,18,27,Pembuahan,P,18,Rendah,sedang,Sedang,0.00,81.67
+37,26,18,27,Pembuahan,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+37,26,18,27,Prapanen,N,26,Sedang,tinggi,Sedang,0.00,212.02
+37,26,18,27,Prapanen,P,18,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+37,26,18,27,Prapanen,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+66,23,7,34,Pascapanen,N,23,Rendah,rendah,Rendah,44.95,87.35
+66,23,7,34,Pascapanen,P,7,Rendah,tinggi,Tinggi,81.67,163.33
+66,23,7,34,Pascapanen,K,34,Sedang,tinggi,Sedang,0.00,171.00
+66,23,7,34,Vegetatif,N,23,Rendah,tinggi,Tinggi,212.02,424.04
+66,23,7,34,Vegetatif,P,7,Rendah,sedang,Sedang,0.00,81.67
+66,23,7,34,Vegetatif,K,34,Sedang,tinggi,Sedang,0.00,171.00
+66,23,7,34,Prapembungaan,N,23,Rendah,rendah,Rendah,44.95,87.35
+66,23,7,34,Prapembungaan,P,7,Rendah,tinggi,Tinggi,81.67,163.33
+66,23,7,34,Prapembungaan,K,34,Sedang,tinggi,Sedang,0.00,171.00
+66,23,7,34,Pembuahan,N,23,Rendah,sedang,Sedang,0.00,212.02
+66,23,7,34,Pembuahan,P,7,Rendah,sedang,Sedang,0.00,81.67
+66,23,7,34,Pembuahan,K,34,Sedang,tinggi,Sedang,0.00,171.00
+66,23,7,34,Prapanen,N,23,Rendah,tinggi,Tinggi,212.02,424.04
+66,23,7,34,Prapanen,P,7,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+66,23,7,34,Prapanen,K,34,Sedang,tinggi,Sedang,0.00,171.00
+93,15,27,28,Pascapanen,N,15,Rendah,rendah,Rendah,44.95,87.35
+93,15,27,28,Pascapanen,P,27,Sedang,tinggi,Sedang,0.00,81.67
+93,15,27,28,Pascapanen,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+93,15,27,28,Vegetatif,N,15,Rendah,tinggi,Tinggi,212.02,424.04
+93,15,27,28,Vegetatif,P,27,Sedang,sedang,Sedang,0.00,81.67
+93,15,27,28,Vegetatif,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+93,15,27,28,Prapembungaan,N,15,Rendah,rendah,Rendah,44.95,87.35
+93,15,27,28,Prapembungaan,P,27,Sedang,tinggi,Sedang,0.00,81.67
+93,15,27,28,Prapembungaan,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+93,15,27,28,Pembuahan,N,15,Rendah,sedang,Sedang,0.00,212.02
+93,15,27,28,Pembuahan,P,27,Sedang,sedang,Sedang,0.00,81.67
+93,15,27,28,Pembuahan,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+93,15,27,28,Prapanen,N,15,Rendah,tinggi,Tinggi,212.02,424.04
+93,15,27,28,Prapanen,P,27,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+93,15,27,28,Prapanen,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+94,52,51,53,Pascapanen,N,52,Tinggi,rendah,Tidak perlu,0.00,0.00
+94,52,51,53,Pascapanen,P,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Pascapanen,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Vegetatif,N,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Vegetatif,P,51,Tinggi,sedang,Tidak perlu,0.00,0.00
+94,52,51,53,Vegetatif,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Prapembungaan,N,52,Tinggi,rendah,Tidak perlu,0.00,0.00
+94,52,51,53,Prapembungaan,P,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Prapembungaan,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Pembuahan,N,52,Tinggi,sedang,Tidak perlu,0.00,0.00
+94,52,51,53,Pembuahan,P,51,Tinggi,sedang,Tidak perlu,0.00,0.00
+94,52,51,53,Pembuahan,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Prapanen,N,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+94,52,51,53,Prapanen,P,51,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+94,52,51,53,Prapanen,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Pascapanen,N,35,Sedang,rendah,Rendah,44.95,87.35
+128,35,68,45,Pascapanen,P,68,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Pascapanen,K,45,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Vegetatif,N,35,Sedang,tinggi,Sedang,0.00,212.02
+128,35,68,45,Vegetatif,P,68,Tinggi,sedang,Tidak perlu,0.00,0.00
+128,35,68,45,Vegetatif,K,45,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Prapembungaan,N,35,Sedang,rendah,Rendah,44.95,87.35
+128,35,68,45,Prapembungaan,P,68,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Prapembungaan,K,45,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Pembuahan,N,35,Sedang,sedang,Sedang,0.00,212.02
+128,35,68,45,Pembuahan,P,68,Tinggi,sedang,Tidak perlu,0.00,0.00
+128,35,68,45,Pembuahan,K,45,Tinggi,tinggi,Tidak perlu,0.00,0.00
+128,35,68,45,Prapanen,N,35,Sedang,tinggi,Sedang,0.00,212.02
+128,35,68,45,Prapanen,P,68,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+128,35,68,45,Prapanen,K,45,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Pascapanen,N,112,Tinggi,rendah,Tidak perlu,0.00,0.00
+132,112,87,48,Pascapanen,P,87,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Pascapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Vegetatif,N,112,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Vegetatif,P,87,Tinggi,sedang,Tidak perlu,0.00,0.00
+132,112,87,48,Vegetatif,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Prapembungaan,N,112,Tinggi,rendah,Tidak perlu,0.00,0.00
+132,112,87,48,Prapembungaan,P,87,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Prapembungaan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Pembuahan,N,112,Tinggi,sedang,Tidak perlu,0.00,0.00
+132,112,87,48,Pembuahan,P,87,Tinggi,sedang,Tidak perlu,0.00,0.00
+132,112,87,48,Pembuahan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Prapanen,N,112,Tinggi,tinggi,Tidak perlu,0.00,0.00
+132,112,87,48,Prapanen,P,87,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+132,112,87,48,Prapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Pascapanen,N,54,Tinggi,rendah,Tidak perlu,0.00,0.00
+137,54,65,47,Pascapanen,P,65,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Pascapanen,K,47,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Vegetatif,N,54,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Vegetatif,P,65,Tinggi,sedang,Tidak perlu,0.00,0.00
+137,54,65,47,Vegetatif,K,47,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Prapembungaan,N,54,Tinggi,rendah,Tidak perlu,0.00,0.00
+137,54,65,47,Prapembungaan,P,65,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Prapembungaan,K,47,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Pembuahan,N,54,Tinggi,sedang,Tidak perlu,0.00,0.00
+137,54,65,47,Pembuahan,P,65,Tinggi,sedang,Tidak perlu,0.00,0.00
+137,54,65,47,Pembuahan,K,47,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Prapanen,N,54,Tinggi,tinggi,Tidak perlu,0.00,0.00
+137,54,65,47,Prapanen,P,65,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+137,54,65,47,Prapanen,K,47,Tinggi,tinggi,Tidak perlu,0.00,0.00
+141,29,8,28,Pascapanen,N,29,Sedang,rendah,Rendah,44.95,87.35
+141,29,8,28,Pascapanen,P,8,Rendah,tinggi,Tinggi,81.67,163.33
+141,29,8,28,Pascapanen,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+141,29,8,28,Vegetatif,N,29,Sedang,tinggi,Sedang,0.00,212.02
+141,29,8,28,Vegetatif,P,8,Rendah,sedang,Sedang,0.00,81.67
+141,29,8,28,Vegetatif,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+141,29,8,28,Prapembungaan,N,29,Sedang,rendah,Rendah,44.95,87.35
+141,29,8,28,Prapembungaan,P,8,Rendah,tinggi,Tinggi,81.67,163.33
+141,29,8,28,Prapembungaan,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+141,29,8,28,Pembuahan,N,29,Sedang,sedang,Sedang,0.00,212.02
+141,29,8,28,Pembuahan,P,8,Rendah,sedang,Sedang,0.00,81.67
+141,29,8,28,Pembuahan,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+141,29,8,28,Prapanen,N,29,Sedang,tinggi,Sedang,0.00,212.02
+141,29,8,28,Prapanen,P,8,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+141,29,8,28,Prapanen,K,28,Rendah,tinggi,Tinggi,171.00,342.00
+147,40,16,35,Pascapanen,N,40,Sedang,rendah,Rendah,44.95,87.35
+147,40,16,35,Pascapanen,P,16,Rendah,tinggi,Tinggi,81.67,163.33
+147,40,16,35,Pascapanen,K,35,Sedang,tinggi,Sedang,0.00,171.00
+147,40,16,35,Vegetatif,N,40,Sedang,tinggi,Sedang,0.00,212.02
+147,40,16,35,Vegetatif,P,16,Rendah,sedang,Sedang,0.00,81.67
+147,40,16,35,Vegetatif,K,35,Sedang,tinggi,Sedang,0.00,171.00
+147,40,16,35,Prapembungaan,N,40,Sedang,rendah,Rendah,44.95,87.35
+147,40,16,35,Prapembungaan,P,16,Rendah,tinggi,Tinggi,81.67,163.33
+147,40,16,35,Prapembungaan,K,35,Sedang,tinggi,Sedang,0.00,171.00
+147,40,16,35,Pembuahan,N,40,Sedang,sedang,Sedang,0.00,212.02
+147,40,16,35,Pembuahan,P,16,Rendah,sedang,Sedang,0.00,81.67
+147,40,16,35,Pembuahan,K,35,Sedang,tinggi,Sedang,0.00,171.00
+147,40,16,35,Prapanen,N,40,Sedang,tinggi,Sedang,0.00,212.02
+147,40,16,35,Prapanen,P,16,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+147,40,16,35,Prapanen,K,35,Sedang,tinggi,Sedang,0.00,171.00
+151,49,54,50,Pascapanen,N,49,Tinggi,rendah,Tidak perlu,0.00,0.00
+151,49,54,50,Pascapanen,P,54,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Pascapanen,K,50,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Vegetatif,N,49,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Vegetatif,P,54,Tinggi,sedang,Tidak perlu,0.00,0.00
+151,49,54,50,Vegetatif,K,50,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Prapembungaan,N,49,Tinggi,rendah,Tidak perlu,0.00,0.00
+151,49,54,50,Prapembungaan,P,54,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Prapembungaan,K,50,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Pembuahan,N,49,Tinggi,sedang,Tidak perlu,0.00,0.00
+151,49,54,50,Pembuahan,P,54,Tinggi,sedang,Tidak perlu,0.00,0.00
+151,49,54,50,Pembuahan,K,50,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Prapanen,N,49,Tinggi,tinggi,Tidak perlu,0.00,0.00
+151,49,54,50,Prapanen,P,54,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+151,49,54,50,Prapanen,K,50,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Pascapanen,N,108,Tinggi,rendah,Tidak perlu,0.00,0.00
+158,108,89,53,Pascapanen,P,89,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Pascapanen,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Vegetatif,N,108,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Vegetatif,P,89,Tinggi,sedang,Tidak perlu,0.00,0.00
+158,108,89,53,Vegetatif,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Prapembungaan,N,108,Tinggi,rendah,Tidak perlu,0.00,0.00
+158,108,89,53,Prapembungaan,P,89,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Prapembungaan,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Pembuahan,N,108,Tinggi,sedang,Tidak perlu,0.00,0.00
+158,108,89,53,Pembuahan,P,89,Tinggi,sedang,Tidak perlu,0.00,0.00
+158,108,89,53,Pembuahan,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Prapanen,N,108,Tinggi,tinggi,Tidak perlu,0.00,0.00
+158,108,89,53,Prapanen,P,89,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+158,108,89,53,Prapanen,K,53,Tinggi,tinggi,Tidak perlu,0.00,0.00
+169,22,23,44,Pascapanen,N,22,Rendah,rendah,Rendah,44.95,87.35
+169,22,23,44,Pascapanen,P,23,Sedang,tinggi,Sedang,0.00,81.67
+169,22,23,44,Pascapanen,K,44,Tinggi,tinggi,Tidak perlu,0.00,0.00
+169,22,23,44,Vegetatif,N,22,Rendah,tinggi,Tinggi,212.02,424.04
+169,22,23,44,Vegetatif,P,23,Sedang,sedang,Sedang,0.00,81.67
+169,22,23,44,Vegetatif,K,44,Tinggi,tinggi,Tidak perlu,0.00,0.00
+169,22,23,44,Prapembungaan,N,22,Rendah,rendah,Rendah,44.95,87.35
+169,22,23,44,Prapembungaan,P,23,Sedang,tinggi,Sedang,0.00,81.67
+169,22,23,44,Prapembungaan,K,44,Tinggi,tinggi,Tidak perlu,0.00,0.00
+169,22,23,44,Pembuahan,N,22,Rendah,sedang,Sedang,0.00,212.02
+169,22,23,44,Pembuahan,P,23,Sedang,sedang,Sedang,0.00,81.67
+169,22,23,44,Pembuahan,K,44,Tinggi,tinggi,Tidak perlu,0.00,0.00
+169,22,23,44,Prapanen,N,22,Rendah,tinggi,Tinggi,212.02,424.04
+169,22,23,44,Prapanen,P,23,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+169,22,23,44,Prapanen,K,44,Tinggi,tinggi,Tidak perlu,0.00,0.00
+177,18,9,40,Pascapanen,N,18,Rendah,rendah,Rendah,44.95,87.35
+177,18,9,40,Pascapanen,P,9,Rendah,tinggi,Tinggi,81.67,163.33
+177,18,9,40,Pascapanen,K,40,Sedang,tinggi,Sedang,0.00,171.00
+177,18,9,40,Vegetatif,N,18,Rendah,tinggi,Tinggi,212.02,424.04
+177,18,9,40,Vegetatif,P,9,Rendah,sedang,Sedang,0.00,81.67
+177,18,9,40,Vegetatif,K,40,Sedang,tinggi,Sedang,0.00,171.00
+177,18,9,40,Prapembungaan,N,18,Rendah,rendah,Rendah,44.95,87.35
+177,18,9,40,Prapembungaan,P,9,Rendah,tinggi,Tinggi,81.67,163.33
+177,18,9,40,Prapembungaan,K,40,Sedang,tinggi,Sedang,0.00,171.00
+177,18,9,40,Pembuahan,N,18,Rendah,sedang,Sedang,0.00,212.02
+177,18,9,40,Pembuahan,P,9,Rendah,sedang,Sedang,0.00,81.67
+177,18,9,40,Pembuahan,K,40,Sedang,tinggi,Sedang,0.00,171.00
+177,18,9,40,Prapanen,N,18,Rendah,tinggi,Tinggi,212.02,424.04
+177,18,9,40,Prapanen,P,9,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+177,18,9,40,Prapanen,K,40,Sedang,tinggi,Sedang,0.00,171.00
+190,5,21,38,Pascapanen,N,5,Rendah,rendah,Rendah,44.95,87.35
+190,5,21,38,Pascapanen,P,21,Rendah,tinggi,Tinggi,81.67,163.33
+190,5,21,38,Pascapanen,K,38,Sedang,tinggi,Sedang,0.00,171.00
+190,5,21,38,Vegetatif,N,5,Rendah,tinggi,Tinggi,212.02,424.04
+190,5,21,38,Vegetatif,P,21,Rendah,sedang,Sedang,0.00,81.67
+190,5,21,38,Vegetatif,K,38,Sedang,tinggi,Sedang,0.00,171.00
+190,5,21,38,Prapembungaan,N,5,Rendah,rendah,Rendah,44.95,87.35
+190,5,21,38,Prapembungaan,P,21,Rendah,tinggi,Tinggi,81.67,163.33
+190,5,21,38,Prapembungaan,K,38,Sedang,tinggi,Sedang,0.00,171.00
+190,5,21,38,Pembuahan,N,5,Rendah,sedang,Sedang,0.00,212.02
+190,5,21,38,Pembuahan,P,21,Rendah,sedang,Sedang,0.00,81.67
+190,5,21,38,Pembuahan,K,38,Sedang,tinggi,Sedang,0.00,171.00
+190,5,21,38,Prapanen,N,5,Rendah,tinggi,Tinggi,212.02,424.04
+190,5,21,38,Prapanen,P,21,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+190,5,21,38,Prapanen,K,38,Sedang,tinggi,Sedang,0.00,171.00
+193,4,20,41,Pascapanen,N,4,Rendah,rendah,Rendah,44.95,87.35
+193,4,20,41,Pascapanen,P,20,Rendah,tinggi,Tinggi,81.67,163.33
+193,4,20,41,Pascapanen,K,41,Sedang,tinggi,Sedang,0.00,171.00
+193,4,20,41,Vegetatif,N,4,Rendah,tinggi,Tinggi,212.02,424.04
+193,4,20,41,Vegetatif,P,20,Rendah,sedang,Sedang,0.00,81.67
+193,4,20,41,Vegetatif,K,41,Sedang,tinggi,Sedang,0.00,171.00
+193,4,20,41,Prapembungaan,N,4,Rendah,rendah,Rendah,44.95,87.35
+193,4,20,41,Prapembungaan,P,20,Rendah,tinggi,Tinggi,81.67,163.33
+193,4,20,41,Prapembungaan,K,41,Sedang,tinggi,Sedang,0.00,171.00
+193,4,20,41,Pembuahan,N,4,Rendah,sedang,Sedang,0.00,212.02
+193,4,20,41,Pembuahan,P,20,Rendah,sedang,Sedang,0.00,81.67
+193,4,20,41,Pembuahan,K,41,Sedang,tinggi,Sedang,0.00,171.00
+193,4,20,41,Prapanen,N,4,Rendah,tinggi,Tinggi,212.02,424.04
+193,4,20,41,Prapanen,P,20,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+193,4,20,41,Prapanen,K,41,Sedang,tinggi,Sedang,0.00,171.00
+195,16,29,13,Pascapanen,N,16,Rendah,rendah,Rendah,44.95,87.35
+195,16,29,13,Pascapanen,P,29,Sedang,tinggi,Sedang,0.00,81.67
+195,16,29,13,Pascapanen,K,13,Rendah,tinggi,Tinggi,171.00,342.00
+195,16,29,13,Vegetatif,N,16,Rendah,tinggi,Tinggi,212.02,424.04
+195,16,29,13,Vegetatif,P,29,Sedang,sedang,Sedang,0.00,81.67
+195,16,29,13,Vegetatif,K,13,Rendah,tinggi,Tinggi,171.00,342.00
+195,16,29,13,Prapembungaan,N,16,Rendah,rendah,Rendah,44.95,87.35
+195,16,29,13,Prapembungaan,P,29,Sedang,tinggi,Sedang,0.00,81.67
+195,16,29,13,Prapembungaan,K,13,Rendah,tinggi,Tinggi,171.00,342.00
+195,16,29,13,Pembuahan,N,16,Rendah,sedang,Sedang,0.00,212.02
+195,16,29,13,Pembuahan,P,29,Sedang,sedang,Sedang,0.00,81.67
+195,16,29,13,Pembuahan,K,13,Rendah,tinggi,Tinggi,171.00,342.00
+195,16,29,13,Prapanen,N,16,Rendah,tinggi,Tinggi,212.02,424.04
+195,16,29,13,Prapanen,P,29,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+195,16,29,13,Prapanen,K,13,Rendah,tinggi,Tinggi,171.00,342.00
+205,40,22,29,Pascapanen,N,40,Sedang,rendah,Rendah,44.95,87.35
+205,40,22,29,Pascapanen,P,22,Rendah,tinggi,Tinggi,81.67,163.33
+205,40,22,29,Pascapanen,K,29,Rendah,tinggi,Tinggi,171.00,342.00
+205,40,22,29,Vegetatif,N,40,Sedang,tinggi,Sedang,0.00,212.02
+205,40,22,29,Vegetatif,P,22,Rendah,sedang,Sedang,0.00,81.67
+205,40,22,29,Vegetatif,K,29,Rendah,tinggi,Tinggi,171.00,342.00
+205,40,22,29,Prapembungaan,N,40,Sedang,rendah,Rendah,44.95,87.35
+205,40,22,29,Prapembungaan,P,22,Rendah,tinggi,Tinggi,81.67,163.33
+205,40,22,29,Prapembungaan,K,29,Rendah,tinggi,Tinggi,171.00,342.00
+205,40,22,29,Pembuahan,N,40,Sedang,sedang,Sedang,0.00,212.02
+205,40,22,29,Pembuahan,P,22,Rendah,sedang,Sedang,0.00,81.67
+205,40,22,29,Pembuahan,K,29,Rendah,tinggi,Tinggi,171.00,342.00
+205,40,22,29,Prapanen,N,40,Sedang,tinggi,Sedang,0.00,212.02
+205,40,22,29,Prapanen,P,22,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+205,40,22,29,Prapanen,K,29,Rendah,tinggi,Tinggi,171.00,342.00
+209,9,29,34,Pascapanen,N,9,Rendah,rendah,Rendah,44.95,87.35
+209,9,29,34,Pascapanen,P,29,Sedang,tinggi,Sedang,0.00,81.67
+209,9,29,34,Pascapanen,K,34,Sedang,tinggi,Sedang,0.00,171.00
+209,9,29,34,Vegetatif,N,9,Rendah,tinggi,Tinggi,212.02,424.04
+209,9,29,34,Vegetatif,P,29,Sedang,sedang,Sedang,0.00,81.67
+209,9,29,34,Vegetatif,K,34,Sedang,tinggi,Sedang,0.00,171.00
+209,9,29,34,Prapembungaan,N,9,Rendah,rendah,Rendah,44.95,87.35
+209,9,29,34,Prapembungaan,P,29,Sedang,tinggi,Sedang,0.00,81.67
+209,9,29,34,Prapembungaan,K,34,Sedang,tinggi,Sedang,0.00,171.00
+209,9,29,34,Pembuahan,N,9,Rendah,sedang,Sedang,0.00,212.02
+209,9,29,34,Pembuahan,P,29,Sedang,sedang,Sedang,0.00,81.67
+209,9,29,34,Pembuahan,K,34,Sedang,tinggi,Sedang,0.00,171.00
+209,9,29,34,Prapanen,N,9,Rendah,tinggi,Tinggi,212.02,424.04
+209,9,29,34,Prapanen,P,29,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+209,9,29,34,Prapanen,K,34,Sedang,tinggi,Sedang,0.00,171.00
+213,38,24,33,Pascapanen,N,38,Sedang,rendah,Rendah,44.95,87.35
+213,38,24,33,Pascapanen,P,24,Sedang,tinggi,Sedang,0.00,81.67
+213,38,24,33,Pascapanen,K,33,Sedang,tinggi,Sedang,0.00,171.00
+213,38,24,33,Vegetatif,N,38,Sedang,tinggi,Sedang,0.00,212.02
+213,38,24,33,Vegetatif,P,24,Sedang,sedang,Sedang,0.00,81.67
+213,38,24,33,Vegetatif,K,33,Sedang,tinggi,Sedang,0.00,171.00
+213,38,24,33,Prapembungaan,N,38,Sedang,rendah,Rendah,44.95,87.35
+213,38,24,33,Prapembungaan,P,24,Sedang,tinggi,Sedang,0.00,81.67
+213,38,24,33,Prapembungaan,K,33,Sedang,tinggi,Sedang,0.00,171.00
+213,38,24,33,Pembuahan,N,38,Sedang,sedang,Sedang,0.00,212.02
+213,38,24,33,Pembuahan,P,24,Sedang,sedang,Sedang,0.00,81.67
+213,38,24,33,Pembuahan,K,33,Sedang,tinggi,Sedang,0.00,171.00
+213,38,24,33,Prapanen,N,38,Sedang,tinggi,Sedang,0.00,212.02
+213,38,24,33,Prapanen,P,24,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+213,38,24,33,Prapanen,K,33,Sedang,tinggi,Sedang,0.00,171.00
+214,31,62,52,Pascapanen,N,31,Sedang,rendah,Rendah,44.95,87.35
+214,31,62,52,Pascapanen,P,62,Tinggi,tinggi,Tidak perlu,0.00,0.00
+214,31,62,52,Pascapanen,K,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+214,31,62,52,Vegetatif,N,31,Sedang,tinggi,Sedang,0.00,212.02
+214,31,62,52,Vegetatif,P,62,Tinggi,sedang,Tidak perlu,0.00,0.00
+214,31,62,52,Vegetatif,K,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+214,31,62,52,Prapembungaan,N,31,Sedang,rendah,Rendah,44.95,87.35
+214,31,62,52,Prapembungaan,P,62,Tinggi,tinggi,Tidak perlu,0.00,0.00
+214,31,62,52,Prapembungaan,K,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+214,31,62,52,Pembuahan,N,31,Sedang,sedang,Sedang,0.00,212.02
+214,31,62,52,Pembuahan,P,62,Tinggi,sedang,Tidak perlu,0.00,0.00
+214,31,62,52,Pembuahan,K,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+214,31,62,52,Prapanen,N,31,Sedang,tinggi,Sedang,0.00,212.02
+214,31,62,52,Prapanen,P,62,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+214,31,62,52,Prapanen,K,52,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Pascapanen,N,111,Tinggi,rendah,Tidak perlu,0.00,0.00
+229,111,88,55,Pascapanen,P,88,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Pascapanen,K,55,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Vegetatif,N,111,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Vegetatif,P,88,Tinggi,sedang,Tidak perlu,0.00,0.00
+229,111,88,55,Vegetatif,K,55,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Prapembungaan,N,111,Tinggi,rendah,Tidak perlu,0.00,0.00
+229,111,88,55,Prapembungaan,P,88,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Prapembungaan,K,55,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Pembuahan,N,111,Tinggi,sedang,Tidak perlu,0.00,0.00
+229,111,88,55,Pembuahan,P,88,Tinggi,sedang,Tidak perlu,0.00,0.00
+229,111,88,55,Pembuahan,K,55,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Prapanen,N,111,Tinggi,tinggi,Tidak perlu,0.00,0.00
+229,111,88,55,Prapanen,P,88,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+229,111,88,55,Prapanen,K,55,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Pascapanen,N,94,Tinggi,rendah,Tidak perlu,0.00,0.00
+247,94,91,51,Pascapanen,P,91,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Pascapanen,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Vegetatif,N,94,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Vegetatif,P,91,Tinggi,sedang,Tidak perlu,0.00,0.00
+247,94,91,51,Vegetatif,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Prapembungaan,N,94,Tinggi,rendah,Tidak perlu,0.00,0.00
+247,94,91,51,Prapembungaan,P,91,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Prapembungaan,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Pembuahan,N,94,Tinggi,sedang,Tidak perlu,0.00,0.00
+247,94,91,51,Pembuahan,P,91,Tinggi,sedang,Tidak perlu,0.00,0.00
+247,94,91,51,Pembuahan,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Prapanen,N,94,Tinggi,tinggi,Tidak perlu,0.00,0.00
+247,94,91,51,Prapanen,P,91,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+247,94,91,51,Prapanen,K,51,Tinggi,tinggi,Tidak perlu,0.00,0.00
+254,33,29,34,Pascapanen,N,33,Sedang,rendah,Rendah,44.95,87.35
+254,33,29,34,Pascapanen,P,29,Sedang,tinggi,Sedang,0.00,81.67
+254,33,29,34,Pascapanen,K,34,Sedang,tinggi,Sedang,0.00,171.00
+254,33,29,34,Vegetatif,N,33,Sedang,tinggi,Sedang,0.00,212.02
+254,33,29,34,Vegetatif,P,29,Sedang,sedang,Sedang,0.00,81.67
+254,33,29,34,Vegetatif,K,34,Sedang,tinggi,Sedang,0.00,171.00
+254,33,29,34,Prapembungaan,N,33,Sedang,rendah,Rendah,44.95,87.35
+254,33,29,34,Prapembungaan,P,29,Sedang,tinggi,Sedang,0.00,81.67
+254,33,29,34,Prapembungaan,K,34,Sedang,tinggi,Sedang,0.00,171.00
+254,33,29,34,Pembuahan,N,33,Sedang,sedang,Sedang,0.00,212.02
+254,33,29,34,Pembuahan,P,29,Sedang,sedang,Sedang,0.00,81.67
+254,33,29,34,Pembuahan,K,34,Sedang,tinggi,Sedang,0.00,171.00
+254,33,29,34,Prapanen,N,33,Sedang,tinggi,Sedang,0.00,212.02
+254,33,29,34,Prapanen,P,29,Sedang,tidak_diperlukan,Tidak perlu,0.00,0.00
+254,33,29,34,Prapanen,K,34,Sedang,tinggi,Sedang,0.00,171.00
+296,4,14,41,Pascapanen,N,4,Rendah,rendah,Rendah,44.95,87.35
+296,4,14,41,Pascapanen,P,14,Rendah,tinggi,Tinggi,81.67,163.33
+296,4,14,41,Pascapanen,K,41,Sedang,tinggi,Sedang,0.00,171.00
+296,4,14,41,Vegetatif,N,4,Rendah,tinggi,Tinggi,212.02,424.04
+296,4,14,41,Vegetatif,P,14,Rendah,sedang,Sedang,0.00,81.67
+296,4,14,41,Vegetatif,K,41,Sedang,tinggi,Sedang,0.00,171.00
+296,4,14,41,Prapembungaan,N,4,Rendah,rendah,Rendah,44.95,87.35
+296,4,14,41,Prapembungaan,P,14,Rendah,tinggi,Tinggi,81.67,163.33
+296,4,14,41,Prapembungaan,K,41,Sedang,tinggi,Sedang,0.00,171.00
+296,4,14,41,Pembuahan,N,4,Rendah,sedang,Sedang,0.00,212.02
+296,4,14,41,Pembuahan,P,14,Rendah,sedang,Sedang,0.00,81.67
+296,4,14,41,Pembuahan,K,41,Sedang,tinggi,Sedang,0.00,171.00
+296,4,14,41,Prapanen,N,4,Rendah,tinggi,Tinggi,212.02,424.04
+296,4,14,41,Prapanen,P,14,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+296,4,14,41,Prapanen,K,41,Sedang,tinggi,Sedang,0.00,171.00
+319,102,71,48,Pascapanen,N,102,Tinggi,rendah,Tidak perlu,0.00,0.00
+319,102,71,48,Pascapanen,P,71,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Pascapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Vegetatif,N,102,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Vegetatif,P,71,Tinggi,sedang,Tidak perlu,0.00,0.00
+319,102,71,48,Vegetatif,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Prapembungaan,N,102,Tinggi,rendah,Tidak perlu,0.00,0.00
+319,102,71,48,Prapembungaan,P,71,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Prapembungaan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Pembuahan,N,102,Tinggi,sedang,Tidak perlu,0.00,0.00
+319,102,71,48,Pembuahan,P,71,Tinggi,sedang,Tidak perlu,0.00,0.00
+319,102,71,48,Pembuahan,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Prapanen,N,102,Tinggi,tinggi,Tidak perlu,0.00,0.00
+319,102,71,48,Prapanen,P,71,Tinggi,tidak_diperlukan,Tidak perlu,0.00,0.00
+319,102,71,48,Prapanen,K,48,Tinggi,tinggi,Tidak perlu,0.00,0.00
+351,18,19,27,Pascapanen,N,18,Rendah,rendah,Rendah,44.95,87.35
+351,18,19,27,Pascapanen,P,19,Rendah,tinggi,Tinggi,81.67,163.33
+351,18,19,27,Pascapanen,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+351,18,19,27,Vegetatif,N,18,Rendah,tinggi,Tinggi,212.02,424.04
+351,18,19,27,Vegetatif,P,19,Rendah,sedang,Sedang,0.00,81.67
+351,18,19,27,Vegetatif,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+351,18,19,27,Prapembungaan,N,18,Rendah,rendah,Rendah,44.95,87.35
+351,18,19,27,Prapembungaan,P,19,Rendah,tinggi,Tinggi,81.67,163.33
+351,18,19,27,Prapembungaan,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+351,18,19,27,Pembuahan,N,18,Rendah,sedang,Sedang,0.00,212.02
+351,18,19,27,Pembuahan,P,19,Rendah,sedang,Sedang,0.00,81.67
+351,18,19,27,Pembuahan,K,27,Rendah,tinggi,Tinggi,171.00,342.00
+351,18,19,27,Prapanen,N,18,Rendah,tinggi,Tinggi,212.02,424.04
+351,18,19,27,Prapanen,P,19,Rendah,tidak_diperlukan,Tidak perlu,0.00,0.00
+351,18,19,27,Prapanen,K,27,Rendah,tinggi,Tinggi,171.00,342.00
