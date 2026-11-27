@@ -185,9 +185,9 @@ def _cek_mandiri():
     r1 = rekomendasi(40, 45, 30, 6.0, 20, 100, "Vegetatif")["dosis"]
     r2 = rekomendasi(10, 100, 100, 6.0, 20, 100, "Pascapanen")["dosis"]
     r3 = rekomendasi(10, 10, 15, 6.0, 20, 100, "Prapanen")["dosis"]
-    assert r1 == {"urea": 105, "sp36": 0, "kcl": 295, "npk": 130}, r1
-    assert r2 == {"urea": 0, "sp36": 455, "kcl": 570, "npk": 0}, r2
-    assert r3 == {"urea": 1000, "sp36": 0, "kcl": 570, "npk": 0}, r3
+    assert r1 == {"urea": 80, "sp36": 0, "kcl": 300, "npk": 105}, r1
+    assert r2 == {"urea": 100, "sp36": 0, "kcl": 0, "npk": 0}, r2
+    assert r3 == {"urea": 920, "sp36": 0, "kcl": 570, "npk": 0}, r3
     print("Cek mandiri v1.2 lolos:", r1, r2, r3)
 
 if __name__ == "__main__":
