@@ -1,4 +1,4 @@
-"""Uji kewajaran dosis tahunan (subbab 3.8.2c).
+"""Uji kewajaran dosis tahunan versi FIS-1 v1.2 (subbab 3.8.2c).
 
 Untuk tiap skenario, sistem dijalankan pada lima fase (satu siklus tahunan), dosis pupuk dikonversi ke
 gram hara, lalu dijumlahkan dan dibandingkan dengan kisaran gabungan lima sumber (Tabel bukti dosis, 3.6.8).
