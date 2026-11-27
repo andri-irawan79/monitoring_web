@@ -14,6 +14,8 @@ class Rekomendasi(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
     monitoring_id = Column(Integer, nullable=False)
     fase_id = Column(Integer, nullable=False)
+    # Snapshot menjaga label historis ketika nama master fase berubah.
+    fase_nama_snapshot = Column(String(50), nullable=True)
 
     # Kolom lama dipertahankan untuk membaca riwayat rekomendasi satu-pupuk.
     jenis_pupuk = Column(String, nullable=True)
