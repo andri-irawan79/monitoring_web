@@ -88,6 +88,17 @@ def prepare_application_tables():
             "ADD COLUMN IF NOT EXISTS user_id INTEGER "
             "REFERENCES users(id) ON DELETE CASCADE"
         ))
+        connection.execute(text(
+            "ALTER TABLE rekomendasi "
+            "ADD COLUMN IF NOT EXISTS fase_nama_snapshot VARCHAR(50)"
+        ))
+        connection.execute(text("""
+            UPDATE rekomendasi r
+            SET fase_nama_snapshot = f.nama
+            FROM fase_pertumbuhan f
+            WHERE r.fase_id = f.id
+              AND r.fase_nama_snapshot IS NULL
+        """))
 
         # FIS-1/FIS-2: keep legacy recommendation fields readable while allowing
         # one recommendation header to contain multiple fertilizer details.
