@@ -26,3 +26,12 @@ sesuai hanya jika 51 kasus menghasilkan HTTP 200 dan 4 kasus menghasilkan HTTP 4
 pada field yang sudah ditentukan. Data sesi skenario tidak ditampilkan pada monitoring
 dan riwayat rekomendasi normal. Pengujian ini menilai validasi/penerimaan API, bukan
 akurasi rekomendasi fuzzy.
+
+
+## Revisi fase dan matriks prioritas v1.1
+
+Versi 1.1 mempertahankan ID fase database lama untuk menjaga foreign key, tetapi mengubah label ID 2 menjadi **Prapembungaan** dan ID 4 menjadi **Prapanen**. Label historis disimpan pada kolom `fase_nama_snapshot` agar perubahan master tidak mengubah tampilan rekomendasi lama. Urutan fase pada endpoint diatur sesuai siklus operasional.
+
+Matriks prioritas kualitatif v1.1 berada pada `backend/fuzzy/rules.py` dan `riset/fuzzy_tsukamoto.py`; prioritas fase tidak dinyatakan dalam persentase. D_ref v1.1 dikalibrasi terhadap target tahunan satu studi Monthong Thailand, bukan standar dosis lokal.
+
+Gunakan `python susun_acuan_v1_1.py` dari direktori riset untuk mereproduksi file acuan v1.1. File tabel v1.0 dan checksum-nya tetap dipertahankan.
