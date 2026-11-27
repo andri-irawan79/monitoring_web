@@ -14,13 +14,14 @@ CREATE TABLE IF NOT EXISTS public.users (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS ix_users_email ON public.users (email);
 
--- Urutan id mengikuti pemetaan historis (rekomendasi lama menyimpan fase_id).
+-- ID mengikuti pemetaan historis database lama agar fase_id pada data rekomendasi konsisten.
+-- Urutan tampilan tidak bergantung pada ID; routes/fase.py mengurutkan berdasarkan nama fase.
 CREATE TABLE IF NOT EXISTS public.fase_pertumbuhan (
     id   INTEGER PRIMARY KEY,
     nama VARCHAR(50) NOT NULL UNIQUE
 );
 INSERT INTO public.fase_pertumbuhan (id, nama) VALUES
-    (1, 'Vegetatif'), (2, 'Prapembungaan'), (3, 'Pembuahan'), (4, 'Prapanen'), (5, 'Pascapanen')
+    (1, 'Vegetatif'), (2, 'Prapanen'), (3, 'Prapembungaan'), (4, 'Pascapanen'), (5, 'Pembuahan')
 ON CONFLICT DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS public.monitoring (
