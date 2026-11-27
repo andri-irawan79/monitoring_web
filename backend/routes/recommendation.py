@@ -26,7 +26,7 @@ BASE_SELECT = """
         m.temperature, m.humidity, m.soil_moisture, m.rainfall,
         COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas) AS varietas,
         CONCAT('Durian ', COALESCE(NULLIF(BTRIM(va.nama_varietas_lama), ''), :varietas)) AS objek_tanaman,
-        f.nama AS fase
+        COALESCE(NULLIF(BTRIM(r.fase_nama_snapshot), ''), f.nama) AS fase
     FROM rekomendasi r
     JOIN monitoring m ON r.monitoring_id = m.id AND m.user_id = :user_id
     JOIN fase_pertumbuhan f ON r.fase_id = f.id
