@@ -1,6 +1,6 @@
 """Pembanding berbatas tegas (crisp) terhadap fuzzy Tsukamoto (subbab 3.8.3).
 
-Pada matriks fase v1.1, beberapa kombinasi menunjukkan kenaikan lokal Z yang kecil
+Pada matriks fase v1.2, beberapa kombinasi menunjukkan kenaikan lokal Z yang kecil
 ketika kadar hara naik. Uji monotonik melaporkan jumlahnya; batas yang diterapkan
 adalah maksimum kenaikan satu langkah, bukan klaim bahwa kurva selalu menurun.
 
@@ -11,7 +11,7 @@ sehingga loncatan Z sama dengan loncatan dosis sebagai persen D_ref.
 Pembanding crisp:
   'kuartil' : kelas dari ambang kuartil (Rendah <= a, Tinggi >= b, selain itu Sedang), seperti rumusan 3.8.3
   'argmax'  : kelas dengan derajat keanggotaan tertinggi (versi crisp yang lebih kuat)
-Dosis kategori: kebutuhan Rendah = 0, Sedang = 50, Tinggi = 100 (% D_ref).
+Dosis pembanding kategori: Tidak perlu = 0, Rendah = 10,6, Sedang = 50, Tinggi = 100 (% D_ref).
 
 Pemakaian: python uji_pembanding_crisp.py   ->  hasil_pembanding_crisp.csv dan ringkasan di layar
 """
@@ -19,7 +19,7 @@ import csv
 from fuzzy_tsukamoto import ATURAN1, FASE, PRIORITAS, PROFIL_A, status_hara, z_fis1
 
 RENTANG = {"N": (0, 140), "P": (5, 145), "K": (5, 205)}     # min-maks seluruh data (subbab 3.3.4)
-SKOR = {"rendah": 0.0, "sedang": 50.0, "tinggi": 100.0}
+SKOR = {"tidak_perlu": 0.0, "rendah": 10.6, "sedang": 50.0, "tinggi": 100.0}
 BATAS_LONCATAN = 25.0                                         # % D_ref (subbab 3.8.3)
 
 def z_crisp(x, hara, fase, varian, profil=PROFIL_A):
