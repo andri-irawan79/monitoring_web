@@ -28,7 +28,7 @@ RULES = {
     ("tinggi", "tidak_diperlukan"): "tidak_perlu",
 }
 ABC = {"N": (15, 31, 49), "P": (17, 27, 60), "K": (27, 35, 47)}
-DREF = {"N": 1150 / 2.712, "P": 490 / 3, "K": 1710 / 5}
+DREF = {"N": 1150 / 2.712, "P": 490 / 3, "K": 342}
 OUTPUT_RANGE = {
     "tidak_perlu": (0, 0),
     "rendah": (10.6, 20.6),
@@ -53,7 +53,7 @@ PH_ACUAN = {
     "Masam": {"dolomit": "Diperlukan", "belerang": "Tidak diperlukan"},
     "Normal": {"dolomit": "Tidak diperlukan", "belerang": "Tidak diperlukan"},
     "Basa": {"dolomit": "Tidak diperlukan", "belerang": "Diperlukan"},
-    "cakupan_fase": "FIS-2 tetap memakai fungsi keluaran dan ambang v1.1; dihitung pada seluruh fase dan hanya bergantung pada pH.",
+    "cakupan_fase": "FIS-2 tetap seperti v1.1, dihitung pada seluruh fase dan hanya bergantung pada pH.",
 }
 
 
@@ -101,7 +101,7 @@ def build():
         "batas_kelas": {"N": [23, 40], "P": [22, 43.5], "K": [31, 41]},
         "dref_g_hara": DREF,
         "fungsi_keluaran_fis1": {
-            "Tidak perlu": "Z = 0 untuk semua alpha aktif; konsekuen monoton non-increasing berbentuk langkah.",
+            "TidakPerlu": "Z = 0 untuk semua alpha aktif; konsekuen monoton non-increasing berbentuk langkah.",
             "Rendah": "z = 20,6 - 10 alpha; rentang invers 10,6-20,6% D_ref.",
             "Sedang": "z = 50 alpha; rentang invers 0-50% D_ref.",
             "Tinggi": "z = 50 + 50 alpha; rentang invers 50-100% D_ref.",
