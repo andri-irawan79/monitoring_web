@@ -146,7 +146,7 @@ def hitung_rekomendasi(n: float, p: float, k: float, ph: float,
     if hujan > par.high_rainfall_mm:
         notes.append("pecahkan dosis (curah hujan tinggi)")
     if not any(doses.values()):
-        notes.append("pemupukan tidak dianjurkan pada kondisi atau fase ini")
+        notes.append("dosis pupuk NPK tidak dihasilkan pada kondisi masukan ini; koreksi pH dihitung terpisah")
 
     active_rules = [row for result in fis1.values() for row in result["rules"] if row["active"]]
     active_rules.extend(row for row in fis2["rules"] if row["active"])
