@@ -8,7 +8,7 @@ Cek mandiri contoh perhitungan Lampiran 5:  python fuzzy_tsukamoto.py
 """
 import math
 
-FASE = ["Pascapanen", "Vegetatif", "Pembungaan", "Pembuahan", "Panen"]
+FASE = ["Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen"]
 
 # ---------- parameter (subbab 3.6.2, profil A = kuartil data buah) ----------
 # (a, c, b): bahu turun 1 pada <= a dan 0 pada >= c; segitiga (a, c, b); bahu naik 0 pada <= c dan 1 pada >= b
@@ -19,11 +19,11 @@ KELEMBAPAN = (15, 20, 25)          # Kering / Optimal / Basah
 
 # prioritas fase (subbab 3.6.4)
 PRIORITAS = {
-    "Pascapanen": {"N": "sedang", "P": "sedang", "K": "sedang"},
-    "Vegetatif":  {"N": "tinggi", "P": "sedang", "K": "rendah"},
-    "Pembungaan": {"N": "rendah", "P": "sedang", "K": "sedang"},
-    "Pembuahan":  {"N": "sedang", "P": "sedang", "K": "tinggi"},
-    "Panen":      {"N": "rendah", "P": "rendah", "K": "rendah"},
+    "Pascapanen": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
+    "Vegetatif": {"N": "tinggi", "P": "sedang", "K": "tinggi"},
+    "Prapembungaan": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
+    "Pembuahan": {"N": "sedang", "P": "sedang", "K": "tinggi"},
+    "Prapanen": {"N": "tinggi", "P": "rendah", "K": "tinggi"},
 }
 # aturan FIS-1: (status hara, prioritas fase) -> kebutuhan (R1-R9)
 ATURAN1 = {
@@ -35,7 +35,7 @@ ATURAN1 = {
 ATURAN2 = {"masam": ("tinggi", "rendah"), "normal": ("rendah", "rendah"), "basa": ("rendah", "tinggi")}
 
 # D_ref (g hara per aplikasi acuan, subbab 3.6.8) dan kandungan pupuk
-DREF = {"N": 575.0, "P": 245.0, "K": 855.0}
+DREF = {"N": 460.0, "P": 163.33333333333334, "K": 342.0}
 KANDUNGAN = {"urea": 0.46, "sp36": 0.36, "kcl": 0.60, "npk": 0.16}
 DOLOMIT = (1000, 3000)     # g/pohon, indikatif (tabel 3.6.6, masih placeholder)
 BELERANG = (350, 700)      # g/pohon, indikatif
@@ -133,10 +133,9 @@ def rekomendasi(N, P, K, ph, lembap, hujan, fase, profil=PROFIL_A, dref=DREF):
         "kcl": bulat(sisa["K"] / KANDUNGAN["kcl"]),
         "npk": bulat(npk),
     }
-    koreksi = {}
-    if fase != "Panen":
-        koreksi = {"dolomit": tuple(round(z_dol / 100 * v) for v in DOLOMIT),
-                   "belerang": tuple(round(z_bel / 100 * v) for v in BELERANG)}
+    # FIS-2 hanya bergantung pada pH, sehingga dihitung pada seluruh fase.
+    koreksi = {"dolomit": tuple(round(z_dol / 100 * v) for v in DOLOMIT),
+               "belerang": tuple(round(z_bel / 100 * v) for v in BELERANG)}
     catatan = []
     if ph < 5.5 or ph > 6.5:
         catatan.append("pH di luar kisaran optimal; koreksi pH lebih dahulu")
@@ -165,11 +164,11 @@ def _cek_mandiri():
     """Contoh 1 dan 2 pada Lampiran 5 (hitung manual) harus sama dengan keluaran program."""
     r1 = rekomendasi(40, 45, 30, 6.0, 20, 100, "Vegetatif")["dosis"]
     r2 = rekomendasi(10, 10, 15, 6.0, 20, 100, "Pascapanen")["dosis"]
-    assert r1 == {"urea": 190, "sp36": 85, "kcl": 0, "npk": 0}, r1
-    assert r2 == {"urea": 360, "sp36": 0, "kcl": 510, "npk": 765}, r2
-    for h in ("N", "P", "K"):
-        assert rekomendasi(30, 30, 30, 6.0, 20, 100, "Panen")["Z"][h] == 0.0
-    print("Cek mandiri lolos: Contoh 1 =", r1, "| Contoh 2 =", r2)
+    r3 = rekomendasi(10, 10, 15, 6.0, 20, 100, "Prapanen")["dosis"]
+    assert r1 == {"urea": 105, "sp36": 0, "kcl": 295, "npk": 130}, r1
+    assert r2 == {"urea": 0, "sp36": 455, "kcl": 570, "npk": 0}, r2
+    assert r3 == {"urea": 1000, "sp36": 0, "kcl": 570, "npk": 0}, r3
+    print("Cek mandiri v1.1 lolos:", r1, r2, r3)
 
 if __name__ == "__main__":
     _cek_mandiri()
