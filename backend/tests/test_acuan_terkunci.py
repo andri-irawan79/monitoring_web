@@ -9,7 +9,7 @@ from fuzzy.tsukamoto import hitung_rekomendasi
 
 RISET = Path(__file__).resolve().parent.parent.parent / "riset"
 SHA_V1_0 = "3f9e0b81a57f3f17ca2acd7ee9e0972669fd05b28c6ec899ed1f6612d6420eaf"
-SHA_V1_1 = "771348531c65e881b3504bc96b86b02f3dfbe00fb02342d6528a3c24eb564e9f"
+SHA_V1_1 = "9678404016a3b996bb03ddd62bdf03d1cc8a2c114b52505c08a0f9191e080f74"
 
 
 def _csv(name):
