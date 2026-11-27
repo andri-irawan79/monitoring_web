@@ -1,5 +1,9 @@
 """Pembanding berbatas tegas (crisp) terhadap fuzzy Tsukamoto (subbab 3.8.3).
 
+Pada matriks fase v1.1, beberapa kombinasi menunjukkan kenaikan lokal Z yang kecil
+ketika kadar hara naik. Uji monotonik melaporkan jumlahnya; batas yang diterapkan
+adalah maksimum kenaikan satu langkah, bukan klaim bahwa kurva selalu menurun.
+
 Nilai satu hara digeser bertahap sebesar 1 unit pada seluruh rentang data; hara lain tidak ikut dihitung
 karena Z tiap hara berdiri sendiri (FIS-1). Yang dibandingkan adalah tingkat kebutuhan Z (% dari D_ref),
 sehingga loncatan Z sama dengan loncatan dosis sebagai persen D_ref.
