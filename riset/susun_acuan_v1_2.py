@@ -157,7 +157,7 @@ def build():
                        for hara, value in values.items()},
                 }
     with (ROOT / "kasus_uji_acuan_v1_2.csv").open("w", newline="", encoding="utf-8") as output:
-        writer = csv.writer(output)
+        writer = csv.writer(output, lineterminator="\\n")
         writer.writerow(["hari", "N", "P", "K", "fase", "hara", "nilai", "status",
                          "prioritas", "kategori_acuan", "g_hara_min", "g_hara_maks"])
         for row in list(sample.values())[:30]:
