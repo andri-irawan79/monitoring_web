@@ -51,10 +51,9 @@ def test_kenaikan_lokal_z_dibatasi_5_poin_persen():
             naik = [z[i + 1] - z[i] for i in range(len(z) - 1) if z[i + 1] > z[i] + 1e-3]
             assert all(v <= 5.0 for v in naik), (hara, fase, max(naik))
             total += len(naik)
-    # Matriks v1.1 memperluas jumlah kombinasi prioritas Tinggi, sehingga jumlah
-    # kenaikan lokal tidak dibandingkan dengan batas absolut versi terdahulu.
-    # Syarat yang diuji adalah tidak ada kenaikan satu langkah yang melampaui 5 poin.
-    assert total >= 0
+    # Baseline v1.1: tepat 22 kenaikan lokal pada grid uji yang ditetapkan.
+    # Nilai ini dipatok untuk mendeteksi regresi; seluruh kenaikan tetap harus <= 5 poin.
+    assert total == 22, f"jumlah kenaikan lokal berubah dari baseline 22 menjadi {total}"
 
 
 KISARAN = {"N": (649, 1800), "P": (490, 1560), "K": (717, 4000)}       # g hara per pohon per tahun (tabel bukti dosis, 3.6.8)
