@@ -22,7 +22,14 @@ def get_fase(current_user: User = Depends(get_current_user)):
             text("""
                 SELECT id,nama
                 FROM fase_pertumbuhan
-                ORDER BY id
+                ORDER BY CASE id
+                    WHEN 5 THEN 1  -- Pascapanen
+                    WHEN 1 THEN 2  -- Vegetatif
+                    WHEN 2 THEN 3  -- Prapembungaan
+                    WHEN 3 THEN 4  -- Pembuahan
+                    WHEN 4 THEN 5  -- Prapanen
+                    ELSE 99
+                END, id
             """)
         )
 
