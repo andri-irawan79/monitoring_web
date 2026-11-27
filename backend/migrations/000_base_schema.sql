@@ -1,5 +1,6 @@
 -- 000_base_schema.sql : skema dasar untuk INSTALASI BARU (basis data kosong). Idempoten: aman dijalankan ulang.
--- Urutan instalasi baru:  000 -> 002 -> 003   (001 hanya untuk basis data lama yang masih memiliki master varietas).
+-- Urutan instalasi baru: 000 -> 002 -> 003 -> 004.
+-- Migrasi 001 hanya untuk basis data lama yang masih memiliki master varietas.
 -- Tabel simulation_sessions dibuat oleh aplikasi saat startup (models/simulation_session.py).
 BEGIN;
 
