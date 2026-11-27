@@ -10,7 +10,24 @@ from .parameter import DEFAULT, FuzzyParameters
 from .rules import FIS1_RULES, FIS2_RULES, PHASES, PHASE_PRIORITY
 from .fertilizer import konversi_kebutuhan_hara
 
+def z_keluaran_fis1(kelas: str, alpha: float) -> float:
+    """Invers konsekuen FIS-1; Rendah positif, Tidak perlu tepat nol."""
+    if not 0.0 <= alpha <= 1.0:
+        raise ValueError("Alpha harus berada pada rentang 0 sampai 1")
+    if kelas == "tidak_perlu":
+        return 0.0
+    if kelas == "rendah":
+        # Pada alpha=1, Z=10,6% D_ref (sekitar 45 g N pada D_ref v1.2).
+        return 20.6 - 10.0 * alpha
+    if kelas == "sedang":
+        return 50.0 * alpha
+    if kelas == "tinggi":
+        return 50.0 + 50.0 * alpha
+    raise ValueError(f"Kelas keluaran FIS-1 tidak dikenal: {kelas}")
+
+
 def z_keluaran(kelas: str, alpha: float) -> float:
+    """Invers keluaran FIS-2; dipertahankan agar inferensi pH tidak berubah."""
     if not 0.0 <= alpha <= 1.0:
         raise ValueError("Alpha harus berada pada rentang 0 sampai 1")
     if kelas == "rendah":
@@ -19,9 +36,14 @@ def z_keluaran(kelas: str, alpha: float) -> float:
         return 50.0 * alpha
     if kelas == "tinggi":
         return 50.0 + 50.0 * alpha
-    raise ValueError(f"Kelas keluaran tidak dikenal: {kelas}")
+    raise ValueError(f"Kelas keluaran FIS-2 tidak dikenal: {kelas}")
 
-def tsukamoto(active_rules: list[tuple[float, str]], minimum_z: float = 10.0) -> dict[str, Any]:
+
+def tsukamoto(
+    active_rules: list[tuple[float, str]],
+    minimum_z: float = 10.0,
+    output_function=z_keluaran,
+) -> dict[str, Any]:
     """Gabungkan alpha per konsekuen (jumlah dibatasi 1), lalu defuzzifikasi."""
     grouped: dict[str, float] = {}
     for alpha, consequent in active_rules:
@@ -32,7 +54,7 @@ def tsukamoto(active_rules: list[tuple[float, str]], minimum_z: float = 10.0) ->
     numerator = denominator = 0.0
     grouped_rows = []
     for consequent, alpha in grouped.items():
-        z = z_keluaran(consequent, alpha)
+        z = output_function(consequent, alpha)
         numerator += alpha * z
         denominator += alpha
         grouped_rows.append({"consequent": consequent, "alpha": alpha,
@@ -62,13 +84,13 @@ def infer_fis1(variable: str, value: float, phase: str,
             "prioritas_fase": priority,
             "consequent": consequent,
             "alpha": alpha,
-            "z": z_keluaran(consequent, alpha) if alpha > 0 else None,
+            "z": z_keluaran_fis1(consequent, alpha) if alpha > 0 else None,
             "active": alpha > 0,
         })
         active.append((alpha, consequent))
     return {"variable": variable, "input": value, "priority": priority,
             "membership": membership, "rules": rule_rows,
-            **tsukamoto(active, par.minimum_z)}
+            **tsukamoto(active, minimum_z=0.0, output_function=z_keluaran_fis1)}
 
 def infer_fis2(ph: float, par: FuzzyParameters = DEFAULT) -> dict[str, Any]:
     membership = derajat_ph(ph, par)
@@ -165,7 +187,7 @@ def hitung_rekomendasi(n: float, p: float, k: float, ph: float,
         "notes": notes,
         "active_rules": active_rules,
         "parameter_warnings": [
-            "D_ref v1.1 merupakan kalibrasi model terhadap target tahunan satu studi Monthong Thailand; bukan dosis per fase tervalidasi untuk kebun lokal.",
+            "D_ref v1.2 merupakan kalibrasi model terhadap target tahunan satu studi Monthong Thailand; bukan dosis per fase tervalidasi untuk kebun lokal.",
             "Rentang Dolomit dan Belerang bersifat indikatif; dosis aktual memerlukan analisis tanah dan kebutuhan kapur/belerang.",
         ],
     }
