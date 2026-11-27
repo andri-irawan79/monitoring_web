@@ -4,36 +4,106 @@ import pytest
 
 from fuzzy.parameter import DEFAULT, get_parameters
 from fuzzy.membership import derajat_hara, derajat_ph, derajat_kelembapan, status_monitoring
-from fuzzy.rules import PHASES, PHASE_PRIORITY
-from fuzzy.tsukamoto import hitung_rekomendasi
+from fuzzy.rules import FIS1_RULES, PHASES, PHASE_PRIORITY
+from fuzzy.tsukamoto import (
+    hitung_rekomendasi,
+    infer_fis1,
+    z_keluaran_fis1,
+)
 
 
-def test_lima_fase_dan_matriks_prioritas_v1_1():
+def test_lima_fase_dan_matriks_prioritas_v1_2():
     assert PHASES == ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
     assert PHASE_PRIORITY == {
         "Pascapanen": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
         "Vegetatif": {"N": "tinggi", "P": "sedang", "K": "tinggi"},
         "Prapembungaan": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
         "Pembuahan": {"N": "sedang", "P": "sedang", "K": "tinggi"},
-        "Prapanen": {"N": "tinggi", "P": "rendah", "K": "tinggi"},
+        "Prapanen": {"N": "tinggi", "P": "tidak_diperlukan", "K": "tinggi"},
     }
 
 
-def test_dref_v1_1_terkalibrasi_dari_target_tahunan():
-    assert DEFAULT.dref["N"] == 460.0
+def test_konsekuen_rendah_terpisah_dari_tidak_perlu():
+    assert z_keluaran_fis1("tidak_perlu", 1.0) == 0.0
+    assert z_keluaran_fis1("rendah", 1.0) == pytest.approx(10.6)
+    assert z_keluaran_fis1("rendah", 0.0) == pytest.approx(20.6)
+    assert z_keluaran_fis1("sedang", 1.0) == 50.0
+    assert z_keluaran_fis1("tinggi", 1.0) == 100.0
+
+
+def test_prioritas_rendah_n_postharvest_menghasilkan_z_positif():
+    result = infer_fis1("N", 0.0, "Pascapanen")
+    assert result["priority"] == "rendah"
+    assert result["z"] == pytest.approx(10.6)
+    assert result["grouped"][0]["consequent"] == "rendah"
+
+
+def test_prioritas_rendah_n_prapembungaan_menghasilkan_z_positif():
+    result = infer_fis1("N", 0.0, "Prapembungaan")
+    assert result["priority"] == "rendah"
+    assert result["z"] == pytest.approx(10.6)
+
+
+def test_kebutuhan_n_rendah_tetap_menghasilkan_urea_nonzero():
+    # P dan K tinggi sehingga NPK tidak dipilih; kebutuhan kecil N terlihat
+    # sebagai produk Urea dan tidak tertutup oleh pencampuran NPK.
+    result = hitung_rekomendasi(0, 100, 100, 6.0, 0, "Pascapanen")
+    assert result["z"]["n"] == pytest.approx(10.6)
+    assert result["target_hara_g"]["N"] == pytest.approx(45.0, abs=0.1)
+    assert result["doses_g"]["urea"] == 100
+    assert result["doses_g"]["sp36"] == 0
+    assert result["doses_g"]["kcl"] == 0
+    assert result["doses_g"]["npk"] == 0
+
+
+def test_prioritas_tidak_diperlukan_menghasilkan_z_nol_pada_semua_status():
+    for value in (0.0, 27.0, 100.0):
+        result = infer_fis1("P", value, "Prapanen")
+        assert result["priority"] == "tidak_diperlukan"
+        assert result["z"] == 0.0
+        assert all(row["consequent"] == "tidak_perlu" for row in result["rules"])
+
+
+def test_status_hara_tinggi_dipetakan_ke_tidak_perlu():
+    for phase in PHASES:
+        for hara in ("N", "P", "K"):
+            # Nilai tinggi berada di atas bahu naik masing-masing profil A.
+            high_value = {"N": 100.0, "P": 100.0, "K": 100.0}[hara]
+            result = infer_fis1(hara, high_value, phase)
+            assert result["z"] == 0.0
+
+
+def test_matriks_fis1_mencakup_sembilan_rule_dan_tiga_eksepsi_prapanen():
+    assert len(FIS1_RULES) == 12
+    assert FIS1_RULES[("tinggi", "rendah")] == "tidak_perlu"
+    assert FIS1_RULES[("rendah", "tidak_diperlukan")] == "tidak_perlu"
+
+
+def test_dref_v1_2_mereproduksi_target_tahunan_pada_skenario_dasar():
+    expected_n = 1150 / 2.712
+    assert DEFAULT.dref["N"] == pytest.approx(expected_n)
     assert DEFAULT.dref["P"] == pytest.approx(490 / 3)
-    assert DEFAULT.dref["K"] == 342.0
+    assert DEFAULT.dref["K"] == pytest.approx(342.0)
+
+    z_cycle = {
+        "N": [10.6, 100.0, 10.6, 50.0, 100.0],
+        "P": [100.0, 50.0, 100.0, 50.0, 0.0],
+        "K": [100.0, 100.0, 100.0, 100.0, 100.0],
+    }
+    assert sum(z_cycle["N"]) / 100 * DEFAULT.dref["N"] == pytest.approx(1150.0)
+    assert sum(z_cycle["P"]) / 100 * DEFAULT.dref["P"] == pytest.approx(490.0)
+    assert sum(z_cycle["K"]) / 100 * DEFAULT.dref["K"] == pytest.approx(1710.0)
 
 
-def test_contoh_manual_vegetatif_v1_1():
+def test_contoh_manual_vegetatif_v1_2():
     result = hitung_rekomendasi(40, 45, 30, 6.0, 100, "Vegetatif", kelembapan_tanah=20)
-    assert result["z"]["n"] == pytest.approx(15.0)
-    assert result["z"]["p"] == pytest.approx(12.8099, abs=1e-3)
+    assert result["z"]["n"] == pytest.approx(12.5)
+    assert result["z"]["p"] == pytest.approx(10.3306, abs=1e-3)
     assert result["z"]["k"] == pytest.approx(57.8125)
-    assert result["doses_g"] == {"urea": 105, "sp36": 0, "kcl": 295, "npk": 130}
+    assert result["doses_g"] == {"urea": 80, "sp36": 0, "kcl": 300, "npk": 105}
 
 
-def test_fis2_berlaku_pada_seluruh_fase():
+def test_fis2_tidak_berubah_dan_berlaku_pada_seluruh_fase():
     results = {
         phase: hitung_rekomendasi(35, 30, 35, 4.8, 100, phase)["corrections_g"]
         for phase in PHASES
@@ -43,13 +113,18 @@ def test_fis2_berlaku_pada_seluruh_fase():
     assert all(results[p]["dolomit"][1] > 0 for p in PHASES)
     assert all(results[p]["belerang"] == [0, 0] for p in PHASES)
 
+    normal = hitung_rekomendasi(35, 30, 35, 6.0, 100, "Pascapanen")
+    assert normal["corrections_g"] == {"dolomit": [0, 0], "belerang": [0, 0]}
 
-def test_pra_panen_bukan_kondisi_nol_otomatis():
-    result = hitung_rekomendasi(0, 5, 5, 6.0, 100, "Prapanen")
-    assert result["z"]["n"] == 100
-    assert result["z"]["p"] == 0
-    assert result["z"]["k"] == 100
-    assert any(result["doses_g"].values())
+
+def test_pra_panen_tidak_menghapus_rekomendasi_n_dan_k():
+    result = hitung_rekomendasi(0, 0, 0, 6.0, 100, "Prapanen")
+    assert result["z"]["n"] == pytest.approx(100.0)
+    assert result["z"]["p"] == 0.0
+    assert result["z"]["k"] == pytest.approx(100.0)
+    assert result["doses_g"]["urea"] > 0
+    assert result["doses_g"]["kcl"] > 0
+    assert result["doses_g"]["sp36"] == 0
 
 
 def test_fis2_merekomendasikan_dolomit_untuk_ph_masam():
@@ -135,5 +210,3 @@ def test_dosis_npk_nol_tidak_menghapus_koreksi_ph():
     assert result["doses_g"] == {"urea": 0, "sp36": 0, "kcl": 0, "npk": 0}
     assert result["corrections_g"]["dolomit"][1] > 0
     assert any("dosis pupuk NPK tidak dihasilkan" in note for note in result["notes"])
-    assert not any(note == "pemupukan tidak dianjurkan pada kondisi atau fase ini"
-                   for note in result["notes"])
