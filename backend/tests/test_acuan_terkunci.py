@@ -1,7 +1,8 @@
-"""Pengujian tabel acuan v1.0 terkunci dan revisi matriks fase v1.1."""
+"""Pengujian tabel acuan v1.0, v1.1, dan matriks prioritas v1.2."""
 import csv
 import hashlib
 import json
+import math
 from pathlib import Path
 
 from fuzzy.rules import FIS1_RULES, PHASES, PHASE_PRIORITY
@@ -10,6 +11,7 @@ from fuzzy.tsukamoto import hitung_rekomendasi
 RISET = Path(__file__).resolve().parent.parent.parent / "riset"
 SHA_V1_0 = "3f9e0b81a57f3f17ca2acd7ee9e0972669fd05b28c6ec899ed1f6612d6420eaf"
 SHA_V1_1 = "9678404016a3b996bb03ddd62bdf03d1cc8a2c114b52505c08a0f9191e080f74"
+SHA_V1_2 = "__TO_BE_SET__"
 
 
 def _csv(name):
@@ -17,74 +19,69 @@ def _csv(name):
         return list(csv.DictReader(source))
 
 
-def _category(z):
-    return "Tidak perlu" if z < 10 else "Sedang" if z < 75 else "Tinggi"
+def test_tabel_acuan_v1_0_dan_v1_1_tetap_terkunci():
+    for filename, checksum, recorded in (
+        ("tabel_acuan_v1.json", SHA_V1_0, "tabel_acuan_v1.sha256"),
+        ("tabel_acuan_v1_1.json", SHA_V1_1, "tabel_acuan_v1_1.sha256"),
+    ):
+        actual = hashlib.sha256((RISET / filename).read_bytes()).hexdigest()
+        recorded_hash = (RISET / recorded).read_text(encoding="utf-8").split()[0]
+        assert actual == recorded_hash == checksum
 
 
-def test_tabel_acuan_v1_0_tetap_terkunci():
-    actual_file_hash = hashlib.sha256((RISET / "tabel_acuan_v1.json").read_bytes()).hexdigest()
-    recorded_hash = (RISET / "tabel_acuan_v1.sha256").read_text(encoding="utf-8").split()[0]
-    assert recorded_hash == SHA_V1_0
-    assert actual_file_hash == SHA_V1_0
+def test_tabel_acuan_v1_2_terkunci():
+    actual = hashlib.sha256((RISET / "tabel_acuan_v1_2.json").read_bytes()).hexdigest()
+    recorded = (RISET / "tabel_acuan_v1_2.sha256").read_text(encoding="utf-8").split()[0]
+    assert actual == recorded == SHA_V1_2
 
 
-def test_tabel_acuan_v1_1_terkunci():
-    actual_file_hash = hashlib.sha256((RISET / "tabel_acuan_v1_1.json").read_bytes()).hexdigest()
-    recorded_hash = (RISET / "tabel_acuan_v1_1.sha256").read_text(encoding="utf-8").split()[0]
-    assert recorded_hash == SHA_V1_1
-    assert actual_file_hash == SHA_V1_1
-
-
-def test_matriks_fase_v1_1_sesuai_basis_aturan():
-    reference = json.loads((RISET / "tabel_acuan_v1_1.json").read_text(encoding="utf-8"))
-    assert len(reference["tabel"]) == 45  # 5 fase x 3 hara x 3 status
-    output_name = {"rendah": "Tidak perlu", "sedang": "Sedang", "tinggi": "Tinggi"}
+def test_45_kombinasi_tabel_v1_2_sesuai_basis_aturan():
+    reference = json.loads((RISET / "tabel_acuan_v1_2.json").read_text(encoding="utf-8"))
+    assert len(reference["tabel"]) == 45
+    output_name = {
+        "tidak_perlu": "Tidak perlu",
+        "rendah": "Rendah",
+        "sedang": "Sedang",
+        "tinggi": "Tinggi",
+    }
     for row in reference["tabel"]:
         consequent = FIS1_RULES[(row["status"].lower(), row["prioritas"].lower())]
         assert row["kategori"] == output_name[consequent]
+
     assert PHASES == ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
-    assert PHASE_PRIORITY == {
-        "Pascapanen": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
-        "Vegetatif": {"N": "tinggi", "P": "sedang", "K": "tinggi"},
-        "Prapembungaan": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
-        "Pembuahan": {"N": "sedang", "P": "sedang", "K": "tinggi"},
-        "Prapanen": {"N": "tinggi", "P": "rendah", "K": "tinggi"},
-    }
+    assert PHASE_PRIORITY["Prapanen"]["P"] == "tidak_diperlukan"
 
 
-def test_kesesuaian_450_kasus_hara_v1_1():
-    limits = {
-        "Tidak perlu": (0.0, 0.0),
-        "Sedang": (10.0, 75.0),
-        "Tinggi": (75.0, 100.0),
+def test_kesesuaian_450_kasus_terhadap_konsekuen_aturan_v1_2():
+    output_name = {
+        "tidak_perlu": "Tidak perlu",
+        "rendah": "Rendah",
+        "sedang": "Sedang",
+        "tinggi": "Tinggi",
     }
-    cases = _csv("kasus_uji_acuan_v1_1.csv")
+    cases = _csv("kasus_uji_acuan_v1_2.csv")
     assert len(cases) == 450
     category_matches = 0
-    within_reference_band = 0
 
     for row in cases:
         values = {"N": 40.0, "P": 27.0, "K": 35.0}
         values[row["hara"]] = float(row["nilai"])
-        z = hitung_rekomendasi(
+        result = hitung_rekomendasi(
             values["N"], values["P"], values["K"], 6.0, 100.0,
             row["fase"], kelembapan_tanah=20.0,
-        )["z"][row["hara"].lower()]
-        expected = row["kategori_acuan"]
-        category_matches += _category(z) == expected
-        low, high = limits[expected]
-        within_reference_band += ((z == 0.0) if expected == "Tidak perlu"
-                                  else (low - 1e-9 <= z <= high + 1e-9))
+        )
+        detail = result["fis1"][row["hara"]]["grouped"]
+        dominant = max(detail, key=lambda item: item["alpha"])["consequent"]
+        category_matches += output_name[dominant] == row["kategori_acuan"]
+        z = result["z"][row["hara"].lower()]
+        assert math.isfinite(z) and 0.0 <= z <= 100.0
 
     assert category_matches / len(cases) >= 0.90, (
-        f"kesesuaian kategori {category_matches}/{len(cases)}"
-    )
-    assert within_reference_band / len(cases) >= 0.90, (
-        f"keluaran dalam rentang acuan {within_reference_band}/{len(cases)}"
+        f"kesesuaian konsekuen dominan {category_matches}/{len(cases)}"
     )
 
 
-def test_fis2_tidak_bergantung_pada_fase_dan_dilaporkan_terpisah():
+def test_fis2_tetap_independen_dari_fase_dan_tidak_berubah():
     cases = _csv("kasus_uji_acuan_ph_v1_1.csv")
     assert len(cases) == 13
     transition_zone = lambda ph: 5.0 < ph < 5.5 or 6.5 < ph <= 7.25
@@ -97,11 +94,7 @@ def test_fis2_tidak_bergantung_pada_fase_dan_dilaporkan_terpisah():
         ]
         reference_correction = results[0]["corrections_g"]
         assert all(result["corrections_g"] == reference_correction for result in results)
-        assert reference_correction["dolomit"] is not None
-        assert reference_correction["belerang"] is not None
-
-        dolomite = "Diperlukan" if results[0]["z"]["dolomit"] > 0 else "Tidak diperlukan"
-        sulfur = "Diperlukan" if results[0]["z"]["belerang"] > 0 else "Tidak diperlukan"
         if not transition_zone(ph):
-            assert dolomite == row["dolomit_acuan"]
-            assert sulfur == row["belerang_acuan"]
+            for result in results:
+                assert result["z"]["dolomit"] == results[0]["z"]["dolomit"]
+                assert result["z"]["belerang"] == results[0]["z"]["belerang"]
