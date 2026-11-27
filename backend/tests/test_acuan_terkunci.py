@@ -1,9 +1,10 @@
 """Pengujian tabel acuan v1.0 terkunci dan revisi matriks fase v1.1."""
 import csv
 import hashlib
+import json
 from pathlib import Path
 
-from fuzzy.rules import PHASES, PHASE_PRIORITY
+from fuzzy.rules import FIS1_RULES, PHASES, PHASE_PRIORITY
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 RISET = Path(__file__).resolve().parent.parent.parent / "riset"
@@ -35,6 +36,12 @@ def test_tabel_acuan_v1_1_terkunci():
 
 
 def test_matriks_fase_v1_1_sesuai_basis_aturan():
+    reference = json.loads((RISET / "tabel_acuan_v1_1.json").read_text(encoding="utf-8"))
+    assert len(reference["tabel"]) == 45  # 5 fase x 3 hara x 3 status
+    output_name = {"rendah": "Tidak perlu", "sedang": "Sedang", "tinggi": "Tinggi"}
+    for row in reference["tabel"]:
+        consequent = FIS1_RULES[(row["status"].lower(), row["prioritas"].lower())]
+        assert row["kategori"] == output_name[consequent]
     assert PHASES == ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
     assert PHASE_PRIORITY == {
         "Pascapanen": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
