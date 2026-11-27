@@ -1,6 +1,6 @@
 """Parameter FIS dari ZIP acuan skripsi-durian.
 Profil A/B, D_ref, kadar pupuk dan batas lain mengikuti riset/fuzzy_tsukamoto.py.
-D_ref v1.1 adalah kalibrasi model dari satu studi Monthong Thailand; bukan dosis lapangan tervalidasi. Rentang Dolomit/Belerang tetap indikatif.
+D_ref v1.2 memisahkan konsekuen Tidak perlu dan Rendah; nilainya dikalibrasi dari satu studi Monthong Thailand, bukan dosis lapangan tervalidasi. Rentang Dolomit/Belerang tetap indikatif.
 """
 from dataclasses import dataclass
 from typing import Mapping
@@ -36,7 +36,7 @@ def get_parameters(profile: str = "A") -> FuzzyParameters:
         hara=_PROFILE_HARA[normalized],
         moisture=(15.0, 20.0, 25.0),
         ph={"masam": (4.5, 5.5), "normal": (4.5, 5.5, 6.5, 8.0), "basa": (6.5, 8.0)},
-        dref={"N": 460.0, "P": 163.33333333333334, "K": 342.0},
+        dref={"N": 424.0412979351032, "P": 163.33333333333334, "K": 342.0},
         fertilizer_content={"urea": 0.46, "sp36": 0.36, "kcl": 0.60, "npk": 0.16},
     )
 
