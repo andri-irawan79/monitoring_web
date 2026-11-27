@@ -35,3 +35,15 @@ def test_tabel_arsip_varietas_dibuat_saat_startup_dan_di_skema_dasar():
     dasar = (MIGRASI / "000_base_schema.sql").read_text(encoding="utf-8")
     assert "CREATE TABLE IF NOT EXISTS public.rekomendasi_varietas_archive" in main
     assert "CREATE TABLE IF NOT EXISTS public.rekomendasi_varietas_archive" in dasar
+
+
+def test_snapshot_nama_fase_ada_di_model_main_migrasi_dan_skema_dasar():
+    main = (BACKEND / "main.py").read_text(encoding="utf-8")
+    dasar = (MIGRASI / "000_base_schema.sql").read_text(encoding="utf-8")
+    revisi = (MIGRASI / "004_growth_phase_matrix_v1_1.sql").read_text(encoding="utf-8")
+    model = (BACKEND / "models" / "rekomendasi.py").read_text(encoding="utf-8")
+    assert "fase_nama_snapshot" in main
+    assert "fase_nama_snapshot" in dasar
+    assert "fase_nama_snapshot" in revisi
+    assert "fase_nama_snapshot" in model
+    assert "Prapembungaan" in revisi and "Prapanen" in revisi
