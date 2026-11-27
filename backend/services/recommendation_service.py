@@ -12,11 +12,13 @@ from fuzzy.tsukamoto import hitung_rekomendasi
 # Nama fase untuk mesin fuzzy dibuat kanonis, tetapi label yang ditampilkan
 # tetap diambil dari master fase_pertumbuhan agar sama persis dengan dropdown.
 FASE_CANONICAL = {
-    "vegetatif": "Vegetatif",
-    "pembungaan": "Pembungaan",
-    "pembuahan": "Pembuahan",
-    "panen": "Panen",
     "pascapanen": "Pascapanen",
+    "vegetatif": "Vegetatif",
+    "prapembungaan": "Prapembungaan",
+    "pembungaan": "Prapembungaan",  # alias nama master sebelum revisi
+    "pembuahan": "Pembuahan",
+    "prapanen": "Prapanen",
+    "panen": "Prapanen",             # alias nama master sebelum revisi
 }
 
 
@@ -60,7 +62,7 @@ FERTILIZER_META = {
 }
 
 
-def _detail_rows(result, fase_nama):
+def _detail_rows(result):
     rows = []
     for key in ("urea", "sp36", "kcl", "npk"):
         code, name, category = FERTILIZER_META[key]
@@ -77,30 +79,30 @@ def _detail_rows(result, fase_nama):
             "catatan": None if dose > 0 else "Tidak diperlukan berdasarkan hasil perhitungan",
         })
 
-    # Sesuai ZIP acuan, koreksi pH tidak diberikan pada fase Panen.
-    if fase_nama != "Panen":
-        corrections = result["corrections_g"]
-        for key, code, name in (
-            ("dolomit", "DOLOMIT", "Kapur Dolomit"),
-            ("belerang", "SULFUR", "Belerang"),
-        ):
-            dose_range = corrections[key] or [0, 0]
-            low, high = int(dose_range[0]), int(dose_range[1])
-            rows.append({
-                "kode_pupuk": code,
-                "nama_pupuk": name,
-                "dosis_g": None,
-                "dosis_min_g": low,
-                "dosis_maks_g": high,
-                "satuan": "g/pohon",
-                "kategori": "Koreksi pH",
-                "direkomendasikan": high > 0,
-                "catatan": (
-                    "Rentang dosis indikatif; verifikasi kebutuhan tanah sebelum aplikasi"
-                    if high > 0 else
-                    "Tidak diperlukan berdasarkan hasil perhitungan"
-                ),
-            })
+    # FIS-2 bergantung pada pH dan dihitung pada seluruh fase.
+    # Rentang koreksi bersifat indikatif dan tidak menggantikan uji tanah.
+    corrections = result["corrections_g"]
+    for key, code, name in (
+        ("dolomit", "DOLOMIT", "Kapur Dolomit"),
+        ("belerang", "SULFUR", "Belerang"),
+    ):
+        dose_range = corrections[key] or [0, 0]
+        low, high = int(dose_range[0]), int(dose_range[1])
+        rows.append({
+            "kode_pupuk": code,
+            "nama_pupuk": name,
+            "dosis_g": None,
+            "dosis_min_g": low,
+            "dosis_maks_g": high,
+            "satuan": "g/pohon",
+            "kategori": "Koreksi pH",
+            "direkomendasikan": high > 0,
+            "catatan": (
+                "Rentang dosis indikatif; verifikasi analisis tanah dan kebutuhan kapur/belerang sebelum aplikasi"
+                if high > 0 else
+                "Tidak diperlukan berdasarkan hasil perhitungan pH"
+            ),
+        })
     return rows
 
 
@@ -160,11 +162,12 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
             user_id=user_id,
             monitoring_id=monitoring_id,
             fase_id=resolved_fase_id,
+            fase_nama_snapshot=fase_display,
             # Field lama dibuat NULL untuk header yang berisi beberapa produk.
             jenis_pupuk=None,
             dosis=None,
             kategori=None,
-            algorithm_version="FIS1-FIS2-v1",
+            algorithm_version="FIS1-FIS2-phase-v1.2",
             fuzzy_trace=calculation,
             z_n=z["n"],
             z_p=z["p"],
@@ -175,7 +178,7 @@ def generate_recommendation(monitoring_id, fase_id, user_id, profile="A"):
         db.add(recommendation)
         db.flush()
 
-        detail_payloads = _detail_rows(calculation, fase_nama)
+        detail_payloads = _detail_rows(calculation)
         for item in detail_payloads:
             db.add(RekomendasiDetail(rekomendasi_id=recommendation.id, **item))
 

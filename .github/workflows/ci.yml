@@ -32,10 +32,14 @@ jobs:
       - name: Uji (paritas, acuan terkunci, crisp, monotonik, kewajaran, validasi, konsistensi migrasi)
         working-directory: backend
         run: pytest -q
-      - name: Migrasi instalasi baru (000 -> 002 -> 003) dan idempotensi
+      - name: Reproduksi tabel acuan terkunci v1.2
+        run: |
+          python riset/susun_acuan_v1_2.py
+          git diff --exit-code -- riset/tabel_acuan_v1_2.json riset/tabel_acuan_v1_2.sha256 riset/kasus_uji_acuan_v1_2.csv riset/kasus_uji_acuan_ph_v1_2.csv
+      - name: Migrasi instalasi baru (000 -> 002 -> 003 -> 004) dan idempotensi
         run: |
           for kali in 1 2; do
-            for f in 000_base_schema 002_fis1_fis2_multi_fertilizer 003_add_soil_moisture; do
+            for f in 000_base_schema 002_fis1_fis2_multi_fertilizer 003_add_soil_moisture 004_growth_phase_matrix_v1_1; do
               psql -h localhost -U postgres -d monitoring_durian -v ON_ERROR_STOP=1 -q -f backend/migrations/$f.sql
             done
           done

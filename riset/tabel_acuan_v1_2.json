@@ -1,0 +1,590 @@
+{
+ "acuan_ph": {
+  "Basa": {
+   "belerang": "Diperlukan",
+   "dolomit": "Tidak diperlukan"
+  },
+  "Masam": {
+   "belerang": "Tidak diperlukan",
+   "dolomit": "Diperlukan"
+  },
+  "Normal": {
+   "belerang": "Tidak diperlukan",
+   "dolomit": "Tidak diperlukan"
+  },
+  "batas": {
+   "Basa": "pH > 7,25",
+   "Masam": "pH <= 5,0",
+   "Normal": "5,0 < pH <= 7,25"
+  },
+  "cakupan_fase": "FIS-2 tetap seperti v1.1, dihitung pada seluruh fase dan hanya bergantung pada pH."
+ },
+ "aturan_fis1": {
+  "rendah": {
+   "rendah": "rendah",
+   "sedang": "sedang",
+   "tidak_diperlukan": "tidak_perlu",
+   "tinggi": "tinggi"
+  },
+  "sedang": {
+   "rendah": "rendah",
+   "sedang": "sedang",
+   "tidak_diperlukan": "tidak_perlu",
+   "tinggi": "sedang"
+  },
+  "tinggi": {
+   "rendah": "tidak_perlu",
+   "sedang": "tidak_perlu",
+   "tidak_diperlukan": "tidak_perlu",
+   "tinggi": "tidak_perlu"
+  }
+ },
+ "batas_kelas": {
+  "K": [
+   31,
+   41
+  ],
+  "N": [
+   23,
+   40
+  ],
+  "P": [
+   22,
+   43.5
+  ]
+ },
+ "catatan": [
+  "Prioritas Rendah bukan lagi sinonim tidak perlu; pada status hara Rendah/Sedang konsekuennya Rendah dengan Z positif kecil.",
+  "Status hara Tinggi dipetakan ke konsekuen Tidak perlu pada ketiga kelas prioritas biasa.",
+  "Prioritas tidak_diperlukan pada P₂O₅ fase Prapanen merupakan pengecualian deterministik berdasarkan nilai P₂O₅ nol pada tabel satu bulan sebelum panen; fase ini didefinisikan sebagai jendela sekitar satu bulan sebelum panen sampai pemetikan pertama.",
+  "D_ref merupakan kalibrasi matematis dari satu studi Monthong Thailand, bukan dosis per fase yang tervalidasi untuk kebun lokal.",
+  "Keluaran Dolomit dan Belerang tetap indikatif dan memerlukan analisis tanah."
+ ],
+ "definisi_fase": {
+  "Pascapanen": "Setelah buah terakhir dipetik sampai muncul flush baru.",
+  "Pembuahan": "Kategori generatif operasional: bunga mekar, pembentukan pentil, dan pembesaran buah sampai jendela prapanen.",
+  "Prapanen": "Kira-kira satu bulan sebelum perkiraan panen sampai pemetikan pertama; panen aktif tidak dimodelkan tersendiri.",
+  "Prapembungaan": "Setelah flush matang sampai sebelum bunga pertama mekar; acuan literatur 1–2 bulan sebelum berbunga.",
+  "Vegetatif": "Flush atau tunas baru pada pohon produktif sampai daun matang."
+ },
+ "dref_g_hara": {
+  "K": 342,
+  "N": 424.0412979351032,
+  "P": 163.33333333333334
+ },
+ "fase": [
+  "Pascapanen",
+  "Vegetatif",
+  "Prapembungaan",
+  "Pembuahan",
+  "Prapanen"
+ ],
+ "fungsi_keluaran_fis1": {
+  "Rendah": "z = 20,6 - 10 alpha; rentang invers 10,6-20,6% D_ref.",
+  "Sedang": "z = 50 alpha; rentang invers 0-50% D_ref.",
+  "TidakPerlu": "Z = 0 untuk semua alpha aktif; konsekuen monoton non-increasing berbentuk langkah.",
+  "Tinggi": "z = 50 + 50 alpha; rentang invers 50-100% D_ref."
+ },
+ "himpunan_abc": {
+  "K": [
+   27,
+   35,
+   47
+  ],
+  "N": [
+   15,
+   31,
+   49
+  ],
+  "P": [
+   17,
+   27,
+   60
+  ]
+ },
+ "kalibrasi_dref": {
+  "dasar_status_hara": "Rendah pada kelima fase",
+  "dref_rumus": "D_ref,x = target_tahunan_x / (jumlah_Z_x / 100)",
+  "hasil_dref_g_hara": {
+   "K": 342,
+   "N": 424.0412979351032,
+   "P": 163.33333333333334
+  },
+  "jumlah_z_persen": {
+   "K": 500,
+   "N": 271.2,
+   "P": 300
+  },
+  "target_tahunan_g": {
+   "K": 1710,
+   "N": 1150,
+   "P": 490
+  },
+  "z_lima_fase": {
+   "K": [
+    100,
+    100,
+    100,
+    100,
+    100
+   ],
+   "N": [
+    10.6,
+    100,
+    10.6,
+    50,
+    100
+   ],
+   "P": [
+    100,
+    50,
+    100,
+    50,
+    0
+   ]
+  }
+ },
+ "matriks_prioritas": {
+  "Pascapanen": {
+   "K": "tinggi",
+   "N": "rendah",
+   "P": "tinggi"
+  },
+  "Pembuahan": {
+   "K": "tinggi",
+   "N": "sedang",
+   "P": "sedang"
+  },
+  "Prapanen": {
+   "K": "tinggi",
+   "N": "tinggi",
+   "P": "tidak_diperlukan"
+  },
+  "Prapembungaan": {
+   "K": "tinggi",
+   "N": "rendah",
+   "P": "tinggi"
+  },
+  "Vegetatif": {
+   "K": "tinggi",
+   "N": "tinggi",
+   "P": "sedang"
+  }
+ },
+ "perubahan_utama": [
+  "Konsekuen Tidak perlu dipisahkan dari Rendah pada FIS-1.",
+  "Prioritas Rendah menghasilkan kebutuhan kecil nonnol untuk status hara Rendah/Sedang; status hara Tinggi tetap Tidak perlu.",
+  "P2O5 pada Prapanen ditetapkan Tidak diperlukan sebagai pengecualian operasional berbasis nilai 0 pada Tabel 7 satu bulan sebelum panen.",
+  "FIS-2 tetap memakai fungsi keluaran dan ambang v1.1."
+ ],
+ "sumber_basis": "Direktorat Buah dan Florikultura (2021), Buku Lapang Budidaya Durian, Tabel 7; sumber tabel: Haifa Thailand.",
+ "tabel": [
+  {
+   "fase": "Pascapanen",
+   "hara": "N",
+   "kategori": "Rendah",
+   "persen_dref_maks": 20.6,
+   "persen_dref_min": 10.6,
+   "prioritas": "rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "N",
+   "kategori": "Rendah",
+   "persen_dref_maks": 20.6,
+   "persen_dref_min": 10.6,
+   "prioritas": "rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "rendah",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "P",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "K",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pascapanen",
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "N",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "K",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Vegetatif",
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "N",
+   "kategori": "Rendah",
+   "persen_dref_maks": 20.6,
+   "persen_dref_min": 10.6,
+   "prioritas": "rendah",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "N",
+   "kategori": "Rendah",
+   "persen_dref_maks": 20.6,
+   "persen_dref_min": 10.6,
+   "prioritas": "rendah",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "rendah",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "P",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "K",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Prapembungaan",
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "P",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "sedang",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "K",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Pembuahan",
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "N",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "N",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "N",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tidak_diperlukan",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tidak_diperlukan",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "P",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tidak_diperlukan",
+   "status": "Tinggi"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "K",
+   "kategori": "Tinggi",
+   "persen_dref_maks": 100,
+   "persen_dref_min": 50,
+   "prioritas": "tinggi",
+   "status": "Rendah"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "K",
+   "kategori": "Sedang",
+   "persen_dref_maks": 50,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Sedang"
+  },
+  {
+   "fase": "Prapanen",
+   "hara": "K",
+   "kategori": "Tidak perlu",
+   "persen_dref_maks": 0,
+   "persen_dref_min": 0,
+   "prioritas": "tinggi",
+   "status": "Tinggi"
+  }
+ ],
+ "tanggal": "2026-11-27",
+ "versi": "1.2"
+}

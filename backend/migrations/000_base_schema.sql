@@ -1,5 +1,6 @@
 -- 000_base_schema.sql : skema dasar untuk INSTALASI BARU (basis data kosong). Idempoten: aman dijalankan ulang.
--- Urutan instalasi baru:  000 -> 002 -> 003   (001 hanya untuk basis data lama yang masih memiliki master varietas).
+-- Urutan instalasi baru: 000 -> 002 -> 003 -> 004.
+-- Migrasi 001 hanya untuk basis data lama yang masih memiliki master varietas.
 -- Tabel simulation_sessions dibuat oleh aplikasi saat startup (models/simulation_session.py).
 BEGIN;
 
@@ -14,13 +15,14 @@ CREATE TABLE IF NOT EXISTS public.users (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS ix_users_email ON public.users (email);
 
--- Urutan id mengikuti pemetaan historis (rekomendasi lama menyimpan fase_id).
+-- ID mengikuti pemetaan historis database lama agar fase_id pada data rekomendasi konsisten.
+-- Urutan tampilan tidak bergantung pada ID; routes/fase.py mengurutkan berdasarkan nama fase.
 CREATE TABLE IF NOT EXISTS public.fase_pertumbuhan (
     id   INTEGER PRIMARY KEY,
     nama VARCHAR(50) NOT NULL UNIQUE
 );
 INSERT INTO public.fase_pertumbuhan (id, nama) VALUES
-    (1, 'Vegetatif'), (2, 'Pembungaan'), (3, 'Pembuahan'), (4, 'Panen'), (5, 'Pascapanen')
+    (1, 'Vegetatif'), (2, 'Prapanen'), (3, 'Prapembungaan'), (4, 'Pascapanen'), (5, 'Pembuahan')
 ON CONFLICT DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS public.monitoring (
@@ -45,6 +47,7 @@ CREATE TABLE IF NOT EXISTS public.rekomendasi (
     user_id       INTEGER REFERENCES public.users(id) ON DELETE CASCADE,
     monitoring_id INTEGER NOT NULL,
     fase_id       INTEGER NOT NULL REFERENCES public.fase_pertumbuhan(id),
+    fase_nama_snapshot VARCHAR(50),
     jenis_pupuk   VARCHAR,
     dosis         DOUBLE PRECISION,
     kategori      VARCHAR,

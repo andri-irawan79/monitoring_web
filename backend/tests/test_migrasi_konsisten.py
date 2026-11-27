@@ -35,3 +35,48 @@ def test_tabel_arsip_varietas_dibuat_saat_startup_dan_di_skema_dasar():
     dasar = (MIGRASI / "000_base_schema.sql").read_text(encoding="utf-8")
     assert "CREATE TABLE IF NOT EXISTS public.rekomendasi_varietas_archive" in main
     assert "CREATE TABLE IF NOT EXISTS public.rekomendasi_varietas_archive" in dasar
+
+
+def test_snapshot_nama_fase_ada_di_model_main_migrasi_dan_skema_dasar():
+    main = (BACKEND / "main.py").read_text(encoding="utf-8")
+    dasar = (MIGRASI / "000_base_schema.sql").read_text(encoding="utf-8")
+    revisi = (MIGRASI / "004_growth_phase_matrix_v1_1.sql").read_text(encoding="utf-8")
+    model = (BACKEND / "models" / "rekomendasi.py").read_text(encoding="utf-8")
+    assert "fase_nama_snapshot" in main
+    assert "fase_nama_snapshot" in dasar
+    assert "fase_nama_snapshot" in revisi
+    assert "fase_nama_snapshot" in model
+    assert "Prapembungaan" in revisi and "Prapanen" in revisi
+
+def test_seed_fase_mempertahankan_pemetaan_id_historis():
+    dasar = (MIGRASI / "000_base_schema.sql").read_text(encoding="utf-8")
+    pemetaan = (
+        "(1, 'Vegetatif'), (2, 'Prapanen'), "
+        "(3, 'Prapembungaan'), (4, 'Pascapanen'), (5, 'Pembuahan')"
+    )
+    assert pemetaan in dasar
+
+
+def test_migrasi_fase_mengubah_nama_tanpa_mengasumsikan_id():
+    revisi = (MIGRASI / "004_growth_phase_matrix_v1_1.sql").read_text(encoding="utf-8")
+    assert "WHEN 'panen' THEN 'Prapanen'" in revisi
+    assert "WHEN 'pembungaan' THEN 'Prapembungaan'" in revisi
+    assert "WHERE LOWER(BTRIM(nama)) IN ('panen', 'pembungaan')" in revisi
+    assert "WHERE id = 2" not in revisi
+    assert "WHERE id = 3" not in revisi
+    assert "fase_nama_snapshot IS NULL" in revisi
+
+
+def test_endpoint_fase_mengurutkan_berdasarkan_nama_bukan_id():
+    route = (BACKEND / "routes" / "fase.py").read_text(encoding="utf-8")
+    assert "ORDER BY CASE LOWER(BTRIM(nama))" in route
+    urutan = (
+        "WHEN 'pascapanen' THEN 1",
+        "WHEN 'vegetatif' THEN 2",
+        "WHEN 'prapembungaan' THEN 3",
+        "WHEN 'pembuahan' THEN 4",
+        "WHEN 'prapanen' THEN 5",
+    )
+    posisi = [route.index(item) for item in urutan]
+    assert posisi == sorted(posisi)
+    assert "ORDER BY CASE id" not in route

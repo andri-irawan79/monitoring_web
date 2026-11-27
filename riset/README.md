@@ -5,7 +5,7 @@ Folder ini adalah **bukti penelitian**, terpisah dari aplikasi. Jangan mengubah 
 | Berkas | Fungsi |
 |---|---|
 | `tabel_acuan_v1.json` / `.sha256` | **TERKUNCI.** Tabel keputusan acuan v1.0 (SHA-256 `3f9e0b81...0eaf`). Dibuat sebelum implementasi dan diuji otomatis; perubahan = versi baru dengan alasan tertulis. |
-| `kasus_uji_acuan.csv`, `kasus_uji_acuan_ph.csv` | 450 pengamatan hara dan 13 skenario pH beserta kategori acuan |
+| `kasus_uji_acuan.csv`, `kasus_uji_acuan_ph.csv` | 450 kombinasi uji hara dan 13 skenario pH beserta kategori acuan |
 | `skenario_uji.csv` | 55 skenario uji (51 valid, 4 tidak valid); dapat dijalankan melalui `python backend/simulator/simulator.py --uji` dari root repository |
 | `data_simulasi_365.csv` | Data simulasi (6 tanaman buah, seed 42); simulator menghasilkan sampel yang identik |
 | `fuzzy_tsukamoto.py` | Implementasi acuan mandiri untuk pembanding hitung manual (`python fuzzy_tsukamoto.py`) |
@@ -26,3 +26,25 @@ sesuai hanya jika 51 kasus menghasilkan HTTP 200 dan 4 kasus menghasilkan HTTP 4
 pada field yang sudah ditentukan. Data sesi skenario tidak ditampilkan pada monitoring
 dan riwayat rekomendasi normal. Pengujian ini menilai validasi/penerimaan API, bukan
 akurasi rekomendasi fuzzy.
+
+
+## Revisi fase dan matriks prioritas v1.1
+
+Versi 1.1 mempertahankan ID fase database lama untuk menjaga foreign key, tetapi mengubah label ID 2 menjadi **Prapembungaan** dan ID 4 menjadi **Prapanen**. Label historis disimpan pada kolom `fase_nama_snapshot` agar perubahan master tidak mengubah tampilan rekomendasi lama. Urutan fase pada endpoint diatur sesuai siklus operasional.
+
+Matriks prioritas kualitatif v1.1 berada pada `backend/fuzzy/rules.py` dan `riset/fuzzy_tsukamoto.py`; prioritas fase tidak dinyatakan dalam persentase. D_ref v1.1 dikalibrasi terhadap target tahunan satu studi Monthong Thailand, bukan standar dosis lokal.
+
+Gunakan `python susun_acuan_v1_1.py` dari direktori riset untuk mereproduksi file acuan v1.1. File tabel v1.0 dan checksum-nya tetap dipertahankan.
+
+
+### Catatan uji monotonisitas v1.1
+Pada grid uji kadar hara dan lima fase, ditemukan 22 kenaikan lokal Z. Seluruh kenaikan per langkah masih berada dalam toleransi 5 poin persen, tetapi hasil ini berarti keluaran tidak sepenuhnya monoton turun. Jumlah kenaikan dicatat sebagai diagnostik; uji tidak boleh ditafsirkan sebagai bukti monotonisitas sempurna atau validasi agronomi.
+
+
+## Revisi konsekuen keluaran FIS-1 v1.2
+
+Versi 1.2 memisahkan konsekuen **Tidak perlu** dari **Rendah**. Prioritas Rendah tidak lagi otomatis menghasilkan Z=0; kebutuhan rendah menjadi positif pada status hara Rendah/Sedang, sedangkan status hara Tinggi memetakan ke Tidak perlu. P₂O₅ pada Prapanen mendapat pengecualian prioritas `tidak_diperlukan` berdasarkan nilai P₂O₅ nol pada tabel satu bulan sebelum panen.
+
+FIS-2 tidak diubah: fungsi keluaran rendah dan ambang Z minimum 10% tetap seperti v1.1. D_ref N v1.2 menjadi 424,04 g; P₂O₅ 163,33 g; K₂O 342 g. Tabel v1.0, v1.1, dan checksum keduanya tetap dipertahankan.
+
+Jalankan `python susun_acuan_v1_2.py` dari folder `riset` untuk membangun tabel dan 450 kombinasi uji v1.2. Pengujian konsistensi 450 kombinasi adalah uji kesesuaian terhadap aturan internal, bukan validasi agronomis independen.

@@ -1,8 +1,12 @@
-"""Basis aturan FIS-1 dan FIS-2 dari proyek ZIP acuan."""
+"""Basis aturan FIS-1/FIS-2 dan prioritas fase versi 1.2."""
 
-PHASES = ("Pascapanen", "Vegetatif", "Pembungaan", "Pembuahan", "Panen")
+# Urutan siklus operasional.
+PHASES = ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
 
-# (status hara, prioritas fase) -> tingkat kebutuhan hara
+# Konsekuen FIS-1 dibedakan menjadi:
+# - tidak_perlu: keluaran deterministik Z=0;
+# - rendah: kebutuhan kecil tetapi tetap positif;
+# - sedang dan tinggi: kebutuhan meningkat.
 FIS1_RULES = {
     ("rendah", "tinggi"): "tinggi",
     ("rendah", "sedang"): "sedang",
@@ -10,20 +14,26 @@ FIS1_RULES = {
     ("sedang", "tinggi"): "sedang",
     ("sedang", "sedang"): "sedang",
     ("sedang", "rendah"): "rendah",
-    ("tinggi", "tinggi"): "rendah",
-    ("tinggi", "sedang"): "rendah",
-    ("tinggi", "rendah"): "rendah",
+    ("tinggi", "tinggi"): "tidak_perlu",
+    ("tinggi", "sedang"): "tidak_perlu",
+    ("tinggi", "rendah"): "tidak_perlu",
+    # Prapanen: P2O5 tidak diberikan pada basis Tabel 7 (satu bulan sebelum panen).
+    ("rendah", "tidak_diperlukan"): "tidak_perlu",
+    ("sedang", "tidak_diperlukan"): "tidak_perlu",
+    ("tinggi", "tidak_diperlukan"): "tidak_perlu",
 }
 
+# Prioritas bersifat kualitatif, bukan persentase dosis. "tidak_diperlukan"
+# adalah pengecualian operasional untuk P2O5 pada fase Prapanen.
 PHASE_PRIORITY = {
-    "Pascapanen": {"N": "sedang", "P": "sedang", "K": "sedang"},
-    "Vegetatif": {"N": "tinggi", "P": "sedang", "K": "rendah"},
-    "Pembungaan": {"N": "rendah", "P": "sedang", "K": "sedang"},
+    "Pascapanen": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
+    "Vegetatif": {"N": "tinggi", "P": "sedang", "K": "tinggi"},
+    "Prapembungaan": {"N": "rendah", "P": "tinggi", "K": "tinggi"},
     "Pembuahan": {"N": "sedang", "P": "sedang", "K": "tinggi"},
-    "Panen": {"N": "rendah", "P": "rendah", "K": "rendah"},
+    "Prapanen": {"N": "tinggi", "P": "tidak_diperlukan", "K": "tinggi"},
 }
 
-# status pH -> (kebutuhan Dolomit, kebutuhan Belerang)
+# FIS-2 tetap menggunakan tiga kategori keluaran lama, hanya berdasarkan pH.
 FIS2_RULES = {
     "masam": ("tinggi", "rendah"),
     "normal": ("rendah", "rendah"),

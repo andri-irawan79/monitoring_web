@@ -63,7 +63,7 @@ const emit = defineEmits(["generate", "update:selectedFase"]);
             </select>
             <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">⌄</span>
           </div>
-          <p class="mt-2 text-xs leading-5 text-slate-400">Pilih fase yang sesuai dengan perkembangan tanaman: vegetatif, pembungaan, pembuahan, panen, atau pascapanen.</p>
+          <p class="mt-2 text-xs leading-5 text-slate-400">Pilih fase yang sesuai dengan kondisi tanaman: pascapanen, vegetatif, prapembungaan, pembuahan, atau prapanen.</p>
         </div>
       </div>
 
