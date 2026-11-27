@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS public.fase_pertumbuhan (
     nama VARCHAR(50) NOT NULL UNIQUE
 );
 INSERT INTO public.fase_pertumbuhan (id, nama) VALUES
-    (1, 'Vegetatif'), (2, 'Pembungaan'), (3, 'Pembuahan'), (4, 'Panen'), (5, 'Pascapanen')
+    (1, 'Vegetatif'), (2, 'Prapembungaan'), (3, 'Pembuahan'), (4, 'Prapanen'), (5, 'Pascapanen')
 ON CONFLICT DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS public.monitoring (
@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS public.rekomendasi (
     user_id       INTEGER REFERENCES public.users(id) ON DELETE CASCADE,
     monitoring_id INTEGER NOT NULL,
     fase_id       INTEGER NOT NULL REFERENCES public.fase_pertumbuhan(id),
+    fase_nama_snapshot VARCHAR(50),
     jenis_pupuk   VARCHAR,
     dosis         DOUBLE PRECISION,
     kategori      VARCHAR,
