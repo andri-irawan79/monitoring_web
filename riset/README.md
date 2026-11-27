@@ -39,3 +39,12 @@ Gunakan `python susun_acuan_v1_1.py` dari direktori riset untuk mereproduksi fil
 
 ### Catatan uji monotonisitas v1.1
 Pada grid uji kadar hara dan lima fase, ditemukan 22 kenaikan lokal Z. Seluruh kenaikan per langkah masih berada dalam toleransi 5 poin persen, tetapi hasil ini berarti keluaran tidak sepenuhnya monoton turun. Jumlah kenaikan dicatat sebagai diagnostik; uji tidak boleh ditafsirkan sebagai bukti monotonisitas sempurna atau validasi agronomi.
+
+
+## Revisi konsekuen keluaran FIS-1 v1.2
+
+Versi 1.2 memisahkan konsekuen **Tidak perlu** dari **Rendah**. Prioritas Rendah tidak lagi otomatis menghasilkan Z=0; kebutuhan rendah menjadi positif pada status hara Rendah/Sedang, sedangkan status hara Tinggi memetakan ke Tidak perlu. P₂O₅ pada Prapanen mendapat pengecualian prioritas `tidak_diperlukan` berdasarkan nilai P₂O₅ nol pada tabel satu bulan sebelum panen.
+
+FIS-2 tidak diubah: fungsi keluaran rendah dan ambang Z minimum 10% tetap seperti v1.1. D_ref N v1.2 menjadi 424,04 g; P₂O₅ 163,33 g; K₂O 342 g. Tabel v1.0, v1.1, dan checksum keduanya tetap dipertahankan.
+
+Jalankan `python susun_acuan_v1_2.py` dari folder `riset` untuk membangun tabel dan 450 kombinasi uji v1.2. Pengujian konsistensi 450 kombinasi adalah uji kesesuaian terhadap aturan internal, bukan validasi agronomis independen.
