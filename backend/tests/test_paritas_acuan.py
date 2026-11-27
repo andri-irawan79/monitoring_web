@@ -8,7 +8,7 @@ from fuzzy.parameter import get_parameters
 from fuzzy.tsukamoto import hitung_rekomendasi
 
 REPO = Path(__file__).resolve().parent.parent.parent
-FASE = ("Pascapanen", "Vegetatif", "Pembungaan", "Pembuahan", "Panen")
+FASE = ("Pascapanen", "Vegetatif", "Prapembungaan", "Pembuahan", "Prapanen")
 BUAH = ["banana", "coconut", "mango", "orange", "papaya", "pomegranate"]
 
 pytestmark = pytest.mark.skipif(not (REPO / "Crop_recommendationV2.csv").exists(), reason="dataset tidak ada di akar repo")
@@ -34,9 +34,8 @@ def test_paritas_600_baris_x_5_fase(profil):
             ok = a["dosis"] == b["doses_g"] and a["catatan"] == b["notes"]
             for h in "NPK":
                 ok = ok and abs(a["Z"][h] - b["z"][h.lower()]) < 1e-3           # mesin aplikasi membulatkan Z ke 4 desimal
-            if fase != "Panen":
-                ok = ok and list(a["koreksi"]["dolomit"]) == b["corrections_g"]["dolomit"]
-                ok = ok and list(a["koreksi"]["belerang"]) == b["corrections_g"]["belerang"]
+            ok = ok and list(a["koreksi"]["dolomit"]) == b["corrections_g"]["dolomit"]
+            ok = ok and list(a["koreksi"]["belerang"]) == b["corrections_g"]["belerang"]
             if not ok:
                 beda.append((profil, fase, r.N, r.P, r.K))
     assert not beda, f"{len(beda)} kasus berbeda, contoh: {beda[:3]}"
